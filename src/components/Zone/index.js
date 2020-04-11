@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -16,12 +16,16 @@ const Zone = ({ currentZone, onPropertySelected }) => {
     const zoneData = state.zones[currentZone - 1];
     console.log('+++++++zoneData++++++++');
     console.log(currentZone);
-    // const enviData = zoneData.environmentalData;
-    // const isIrregular = (property) => {
-    //     zoneData.irregularEnv.includes(property);
-    // };
+    const enviData = zoneData && zoneData.environmentalData;
+    const isIrregular = (property) => {
+        zoneData.irregularEnv.includes(property);
+    };
 
-    const data = [
+    useEffect(() => {
+        console.log(state.zones[currentZone - 1]);
+    }, [state.zones]);
+
+    const dataFormat = enviData && [
         {
             result: 3,
             property: 'temperature',
@@ -68,6 +72,15 @@ const Zone = ({ currentZone, onPropertySelected }) => {
         },
     ];
 
+    const data = dataFormat
+        ? dataFormat.map((d) => {
+              return {
+                  ...d,
+                  result: enviData[d.property],
+              };
+          })
+        : [];
+
     return (
         <div>
             <Container className={`${styles.bgLightBlue} mt-4`}>
@@ -79,13 +92,14 @@ const Zone = ({ currentZone, onPropertySelected }) => {
                             className="d-flex flex-column p-2"
                             onClick={() => {
                                 onPropertySelected(data.property);
+                                console.log(data.property);
                             }}
                         >
                             <div
                                 className={`${styles.bgCard} d-flex flex-column`}
                             >
                                 <div className="d-flex flex-column text-center flex-grow-1 h-100">
-                                    {/* <p
+                                    <p
                                         className={`m-0 ${
                                             isIrregular(data.property)
                                                 ? `${styles.textIrregular}`
@@ -93,7 +107,7 @@ const Zone = ({ currentZone, onPropertySelected }) => {
                                         }`}
                                     >
                                         {data.result}
-                                    </p> */}
+                                    </p>
                                     <p className={`${styles.textUnit} m-0`}>
                                         {data.unit}
                                     </p>

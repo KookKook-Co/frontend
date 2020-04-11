@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import LeftArr from '../../static/icon/left_arr.svg';
+import { Link } from 'react-router-dom';
 import RightArr from '../../static/icon/right_arr.svg';
 import moment from 'moment';
 import styles from './index.module.scss';
@@ -23,7 +24,7 @@ const customTooltips = (tooltip) => {
     tooltip.displayColors = false;
 };
 
-const WeeklyChart = () => {
+const WeeklyChart = ({ property }) => {
     const [day, setDay] = useState(moment());
     const weeklyLabel = ['S', 'M', 'T', 'W', 'TH', 'F', 'S'];
     const dailyLabel = ['00', '06', '12', '18', '24'];
@@ -72,10 +73,15 @@ const WeeklyChart = () => {
         <Container>
             <div className="d-flex mx-3 mb-3">
                 <div className="d-flex flex-column">
-                    <div className={`${styles.textEnviTitle}`}>TEMPERATURE</div>
+                    <div className={`${styles.textEnviTitle}`}>
+                        {property.toUpperCase()}
+                    </div>
                     <p className={`${styles.textFullDate}`}>
                         {day.format('dddd')} {day.format('DD MMM YYYY')}
                     </p>
+                    <Link to="/dashboard">
+                        <small>Change</small>
+                    </Link>
                     <div className="d-flex">
                         <div className="d-flex flex-column">
                             <div className={`${styles.textValue}`}>26 C</div>
