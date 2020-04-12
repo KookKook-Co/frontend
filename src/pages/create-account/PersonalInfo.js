@@ -1,19 +1,64 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
+import { Context } from '../../Store';
 import Form from 'react-bootstrap/Form';
 import Upload from '../../static/icon/upload.svg';
+import axios from 'axios';
 import bsCustomFileInput from 'bs-custom-file-input';
 import styles from './index.module.scss';
 
 const PersonalInfo = () => {
-    const [firstName, setFirstName] = useState();
-    const [lastName, setLastName] = useState();
-    const [email, setEmail] = useState();
-    const [lineId, setLineId] = useState();
-    const [profilePic, setProfilePic] = useState();
+    const { state, dispatch } = useContext(Context);
+    const [firstName, setFirstName] = useState(
+        (state.registration && state.registrationData.firstName) || '',
+    );
+    const [lastName, setLastName] = useState(
+        (state.registration && state.registrationData.lastName) || '',
+    );
+    const [email, setEmail] = useState(
+        (state.registration && state.registrationData.email) || '',
+    );
+    const [lineId, setLineId] = useState(
+        (state.registration && state.registrationData.lineId) || '',
+    );
     const [fileUpload, setFileUpload] = useState();
+    const fileRef = useRef(null);
+
+    const createAccount = async () => {
+        dispatch({
+            type: 'update-registrationData',
+            payload: { firstName, lastName, email, lineId },
+        });
+        console.log('+++++++++regisdata2');
+        console.log(state.registrationData);
+        const user = {
+            username: state.registrationData.username,
+            password: state.registrationData.password,
+            firstName: state.registrationData.firstName,
+            lastName: state.registrationData.lastName,
+            role: state.registrationData.role,
+            imageUrl: fileRef.current.files[0],
+            lineID: state.registrationData.lineId,
+        };
+        const data = new FormData();
+        console.log('+++++++++data');
+        console.log(data);
+        data.append('user', user);
+        data.append('hno', state.registrationData.hno);
+        try {
+            const res = await axios.post('/users', data, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+            console.log('++++res++++');
+            console.log(res);
+        } catch (error) {
+            console.log('++++++Error++++++');
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
         bsCustomFileInput.init();
     }, []);
@@ -80,16 +125,15 @@ const PersonalInfo = () => {
                         Upload profile picture
                     </Form.Label>
 
-                    <Form.Control
+                    <input
                         type="file"
-                        onChange={(e) => setProfilePic(e.target.value)}
-                        value={profilePic}
-                        ref={(fileInput) => setFileUpload(fileInput)}
+                        onChange={(e) => setFileUpload(e.target.files[0])}
+                        ref={fileRef}
                         hidden
                     />
                     <div
                         className={styles.containerUpload}
-                        onClick={() => fileUpload.click()}
+                        onClick={() => fileRef.current.click()}
                     >
                         <div
                             className={`d-flex flex-column ${styles.positionUpload}`}
@@ -108,6 +152,7 @@ const PersonalInfo = () => {
                     variant="createAcct"
                     type="create"
                     className={`w-100 ${styles.btnCreate}`}
+                    onClick={() => createAccount()}
                 >
                     Create Account
                 </Button>

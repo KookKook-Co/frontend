@@ -2,7 +2,11 @@ import React, { createContext, useReducer } from 'react';
 
 import Reducer from './Reducer';
 
-const initialState = { user: null, img: 'blue', zones: [] };
+const initialState = {
+    user: {},
+    zones: [],
+    registrationoData: {},
+};
 
 const Store = ({ children }) => {
     const [state, dispatch] = useReducer(Reducer, initialState);

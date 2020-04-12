@@ -38,6 +38,7 @@ const Dashboard = () => {
     const [currentZone, setCurrentZone] = useState(1);
     const [currentProperty, setCurrentProperty] = useState('temperature');
     const history = useHistory();
+    const zoneData = state.zones[currentZone - 1];
 
     useEffect(() => {
         socket.on('pipeRealTimeData', (result) => {
@@ -69,7 +70,9 @@ const Dashboard = () => {
                     <div
                         className={`${styles.bgHouse} d-flex p-1 justify-content-center`}
                     >
-                        <div className={`${styles.textHouse}`}>HOUSE A</div>
+                        <div className={`${styles.textHouse}`}>
+                            HOUSE {state.user.hno}
+                        </div>
                     </div>
                 </div>
 
@@ -88,11 +91,10 @@ const Dashboard = () => {
                                     zone={zone}
                                     onSelectZone={setCurrentZone}
                                     isSelect={zone === currentZone}
-                                    // isIrregular={
-                                    //     state.zones.find(
-                                    //         (item) => item.sid === zone,
-                                    //     ).irregularEnv.length > 0
-                                    // }
+                                    isIrregular={
+                                        zoneData &&
+                                        zoneData.irregularEnv.length > 0
+                                    }
                                 />
                             ))}
                         </div>

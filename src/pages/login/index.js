@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
+import { Context } from '../../Store';
 import Form from 'react-bootstrap/Form';
 import KookKookLogo from '../../static/logo/kookkook_logo.svg';
 import axios from 'axios';
@@ -12,14 +13,26 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const history = useHistory();
+    const { state, dispatch } = useContext(Context);
 
     const login = async () => {
-        const response = await axios.post(
-            'http://kookkook-backend-dev-ingress.default.202.28.193.100.xip.io/auth/login',
-            { username, password },
-        );
-        localStorage.setItem('token', response.data.access_token);
-        history.push('/dashbaord');
+        await axios
+            .post('/auth/login', {
+                username,
+                password,
+            })
+            .then((res) => {
+                localStorage.setItem('token', res.data.access_token);
+                console.log(res.data);
+                dispatch({
+                    type: 'update-user',
+                    payload: res.data,
+                });
+                console.log(res.data.access_token);
+                console.log('++++++++USER++++');
+                console.log(state.user);
+                history.push('/dashboard');
+            });
     };
 
     return (
@@ -37,7 +50,7 @@ const Login = () => {
                         </Form.Label>
                         <Form.Control
                             type="text"
-                            onChange={e => setUsername(e.target.value)}
+                            onChange={(e) => setUsername(e.target.value)}
                             value={username}
                             placeholder="Enter Username"
                         />
@@ -49,7 +62,7 @@ const Login = () => {
                         </Form.Label>
                         <Form.Control
                             type="password"
-                            onChange={e => setPassword(e.target.value)}
+                            onChange={(e) => setPassword(e.target.value)}
                             value={password}
                             placeholder="Enter Password"
                         />

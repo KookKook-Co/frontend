@@ -1,30 +1,39 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
+import { Context } from '../../Store';
 import Form from 'react-bootstrap/Form';
-import PersonalInfo from './PersonalInfo';
 import styles from './index.module.scss';
 import { useHistory } from 'react-router-dom';
 
 const CreateAccount = () => {
+    const { state, dispatch } = useContext(Context);
     const history = useHistory();
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
-    const [passwordConfirm, setPasswordConfirm] = useState();
-    const [house, setHouse] = useState();
-    const houseNum = [
-        'House 1',
-        'House 2',
-        'House 3',
-        'House 4',
-        'House 5',
-        'House 6',
-        'House 7',
-        'House 8',
-        'House 9',
-        'House 10',
-    ];
+    const [username, setUsername] = useState(
+        (state.registration && state.registrationData.username) || '',
+    );
+    const [password, setPassword] = useState(
+        (state.registration && state.registrationData.password) || '',
+    );
+    const [passwordConfirm, setPasswordConfirm] = useState(
+        (state.registration && state.registrationData.passwordConfirm) || '',
+    );
+    const [hno, setHno] = useState(
+        (state.registration && state.registrationData.hno) || '',
+    );
+    const [role, setRole] = useState(
+        (state.registration && state.registrationData.role) || '',
+    );
+    const proceed = () => {
+        dispatch({
+            type: 'update-registrationData',
+            payload: { username, password, passwordConfirm, hno, role },
+        });
+        console.log('+++++++++regisdata1');
+        console.log(state.registrationData);
+        history.push(`/personal-info`);
+    };
 
     return (
         <Container className={`${styles.bgLightBlue} pt-4 vh-100`}>
@@ -35,7 +44,7 @@ const CreateAccount = () => {
                     </Form.Label>
                     <Form.Control
                         type="text"
-                        onChange={e => setUsername(e.target.value)}
+                        onChange={(e) => setUsername(e.target.value)}
                         value={username}
                         placeholder="Enter Username"
                     />
@@ -47,7 +56,7 @@ const CreateAccount = () => {
                     </Form.Label>
                     <Form.Control
                         type="password"
-                        onChange={e => setPassword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                         value={password}
                         placeholder="Enter Password"
                     />
@@ -59,7 +68,7 @@ const CreateAccount = () => {
                     </Form.Label>
                     <Form.Control
                         type="password"
-                        onChange={e => setPasswordConfirm(e.target.value)}
+                        onChange={(e) => setPasswordConfirm(e.target.value)}
                         value={passwordConfirm}
                         placeholder="Enter Password"
                     />
@@ -71,17 +80,35 @@ const CreateAccount = () => {
                     </Form.Label>
                     <Form.Control
                         as="select"
-                        onSelect={e => setHouse(e.target.value)}
-                        value={house}
+                        onSelect={(e) => setHno(e.target.value.split(' ')[1])}
+                        value={hno}
                         custom
                         required
                     >
                         <option disabled selected hidden>
                             Select House
                         </option>
-                        {houseNum.map(item => (
-                            <option>{item}</option>
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+                            <option>House {item}</option>
                         ))}
+                    </Form.Control>
+                </Form.Group>
+                <Form.Group controlId="form.SelectRole">
+                    <Form.Label className={styles.textFormLabel}>
+                        Role
+                    </Form.Label>
+                    <Form.Control
+                        as="select"
+                        onSelect={(e) => setRole(e.target.value)}
+                        value={role}
+                        custom
+                        required
+                    >
+                        <option disabled selected hidden>
+                            Select Role
+                        </option>
+                        <option>OWNER</option>
+                        <option>WORKER</option>
                     </Form.Control>
                 </Form.Group>
             </Form>
@@ -92,7 +119,7 @@ const CreateAccount = () => {
                     type="create"
                     className={`w-100 ${styles.btnCreate}`}
                     onClick={() => {
-                        history.push(`/personal-info`);
+                        proceed();
                     }}
                 >
                     Next >

@@ -18,7 +18,7 @@ const Zone = ({ currentZone, onPropertySelected }) => {
     console.log(currentZone);
     const enviData = zoneData && zoneData.environmentalData;
     const isIrregular = (property) => {
-        zoneData.irregularEnv.includes(property);
+        return zoneData.irregularEnv.includes(property);
     };
 
     useEffect(() => {

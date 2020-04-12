@@ -1,4 +1,7 @@
+import React, { useContext } from 'react';
+
 import BackBtn from '../../static/icon/backBtn.svg';
+import { Context } from '../../Store';
 import CreateAccountLogo from '../../static/icon/createaccount.svg';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
@@ -9,14 +12,15 @@ import ManageChickenLogo from '../../static/icon/managechicken.svg';
 import { slide as Menu } from 'react-burger-menu';
 import Navbar from 'react-bootstrap/Navbar';
 import ProfilePic from '../../static/icon/profile_pic.svg';
-import React from 'react';
 import SettingLogo from '../../static/icon/settings.svg';
 import TermLogo from '../../static/icon/term.svg';
 import styles from './index.module.scss';
+import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 const Nav = () => {
     const history = useHistory();
+    const { state, dispatch } = useContext(Context);
 
     const getTitle = () => {
         switch (history.location.pathname) {
@@ -58,11 +62,12 @@ const Nav = () => {
                 >
                     <div className="d-flex flex-column align-items-end mb-4">
                         <img
-                            src={ProfilePic}
+                            src={state.user.imageUrl}
                             alt="profile_pic"
-                            className="mb-2"
+                            className={`mb-2 ${styles.imgProfile}`}
                         />
                         <div className={styles.textName}>Worker Name</div>
+                        <div>{state.user.hno}</div>
                         <DropdownButton id={styles.btnDropdown} title="House A">
                             <Dropdown.Item href="#/action-1">
                                 Action
