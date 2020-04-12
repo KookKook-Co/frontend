@@ -21,6 +21,61 @@ import { useHistory } from 'react-router-dom';
 const Nav = () => {
     const history = useHistory();
     const { state, dispatch } = useContext(Context);
+    const showHouse = () => {
+        if (state.user.role === 'OWNER') {
+            return (
+                <DropdownButton id={styles.btnDropdown} title="House A">
+                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-2">
+                        Another action
+                    </Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">
+                        Something else
+                    </Dropdown.Item>
+                </DropdownButton>
+            );
+        } else {
+            return (
+                <div
+                    className={`${styles.bgHouse} d-flex p-1 justify-content-center`}
+                >
+                    <div className={`${styles.textHouse}`}>
+                        HOUSE {state.user.hno}
+                    </div>
+                </div>
+            );
+        }
+    };
+    const showManage = () => {
+        if (state.user.role === 'OWNER') {
+            return (
+                <div>
+                    <div className="my-4">
+                        <img src={CreateAccountLogo} alt="create_logo" />
+                        <a
+                            id="contact"
+                            className={`menu-item ${styles.textMenu} ml-3`}
+                            href="/"
+                        >
+                            Create Account
+                        </a>
+                    </div>
+                    <div className="my-4">
+                        <img src={ManageChickenLogo} alt="manage_logo" />
+                        <a
+                            id="contact"
+                            className={`menu-item ${styles.textMenu} ml-3`}
+                            href="/manage-chicken"
+                        >
+                            Manage Chicken
+                        </a>
+                    </div>
+                </div>
+            );
+        } else {
+            return <div></div>;
+        }
+    };
 
     const getTitle = () => {
         switch (history.location.pathname) {
@@ -67,18 +122,7 @@ const Nav = () => {
                             className={`mb-2 ${styles.imgProfile}`}
                         />
                         <div className={styles.textName}>Worker Name</div>
-                        <div>{state.user.hno}</div>
-                        <DropdownButton id={styles.btnDropdown} title="House A">
-                            <Dropdown.Item href="#/action-1">
-                                Action
-                            </Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">
-                                Another action
-                            </Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">
-                                Something else
-                            </Dropdown.Item>
-                        </DropdownButton>
+                        <div>{showHouse()}</div>
                     </div>
                     <div className={styles.borderLine}></div>
                     <div className="my-4">
@@ -111,26 +155,7 @@ const Nav = () => {
                             Help
                         </a>
                     </div>
-                    <div className="my-4">
-                        <img src={CreateAccountLogo} alt="create_logo" />
-                        <a
-                            id="contact"
-                            className={`menu-item ${styles.textMenu} ml-3`}
-                            href="/"
-                        >
-                            Create Account
-                        </a>
-                    </div>
-                    <div className="my-4">
-                        <img src={ManageChickenLogo} alt="manage_logo" />
-                        <a
-                            id="contact"
-                            className={`menu-item ${styles.textMenu} ml-3`}
-                            href="/manage-chicken"
-                        >
-                            Manage Chicken
-                        </a>
-                    </div>
+                    <div className="my-4">{showManage()}</div>
                     <div className="my-4">
                         <img src={LogoutLogo} alt="logout_logo" />
                         <a
