@@ -80,7 +80,7 @@ const CreateAccount = () => {
                     </Form.Label>
                     <Form.Control
                         as="select"
-                        onSelect={(e) => setHno(e.target.value.split(' ')[1])}
+                        onClick={(e) => setHno(e.target.value.split(' ')[1])}
                         value={hno}
                         custom
                         required
@@ -99,7 +99,7 @@ const CreateAccount = () => {
                     </Form.Label>
                     <Form.Control
                         as="select"
-                        onSelect={(e) => setRole(e.target.value)}
+                        onClick={(e) => setRole(e.target.value)}
                         value={role}
                         custom
                         required

@@ -21,17 +21,40 @@ import { useHistory } from 'react-router-dom';
 const Nav = () => {
     const history = useHistory();
     const { state, dispatch } = useContext(Context);
+    const logout = () => {
+        localStorage.removeItem('token');
+        dispatch({
+            type: 'clear-user',
+        });
+        dispatch({
+            type: 'clear-selectedHno',
+        });
+        history.push('/login');
+    };
+    const selectedHouse = (item) => {
+        dispatch({
+            type: 'update-hno',
+            payload: item,
+        });
+    };
     const showHouse = () => {
         if (state.user.role === 'OWNER') {
             return (
-                <DropdownButton id={styles.btnDropdown} title="House A">
-                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">
-                        Another action
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">
-                        Something else
-                    </Dropdown.Item>
+                <DropdownButton
+                    alignRight
+                    id={styles.btnDropdown}
+                    title={`House ${state.selectedHno}`}
+                >
+                    {state.user.hno.map((item) => {
+                        return (
+                            <Dropdown.Item
+                                href="#/action-1"
+                                onClick={() => selectedHouse(item)}
+                            >
+                                House {item}
+                            </Dropdown.Item>
+                        );
+                    })}
                 </DropdownButton>
             );
         } else {
@@ -156,15 +179,15 @@ const Nav = () => {
                         </a>
                     </div>
                     <div className="my-4">{showManage()}</div>
-                    <div className="my-4">
+                    <div className="my-4 d-flex">
                         <img src={LogoutLogo} alt="logout_logo" />
-                        <a
+                        <p
                             id="contact"
-                            className={`menu-item ${styles.textMenu} ml-3`}
-                            href="/"
+                            className={`menu-item ${styles.textMenu} ml-3 mb-0`}
+                            onClick={() => logout()}
                         >
                             Logout
-                        </a>
+                        </p>
                     </div>
                 </Menu>
             )}

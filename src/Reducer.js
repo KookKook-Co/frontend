@@ -17,6 +17,21 @@ const Reducer = (state, action) => {
                 ...state,
                 user: action.payload,
             };
+        case 'update-hno':
+            return {
+                ...state,
+                selectedHno: action.payload,
+            };
+        case 'clear-selectedHno':
+            return {
+                ...state,
+                selectedHno: 1,
+            };
+        case 'clear-user':
+            return {
+                ...state,
+                user: {},
+            };
         default:
             return { state };
     }

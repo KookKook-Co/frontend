@@ -60,6 +60,14 @@ const Dashboard = () => {
         socket.emit('getRealTimeData');
     }, []);
 
+    const showHno = () => {
+        if (state.user.role === 'OWNER') {
+            return `HOUSE ${state.selectedHno}`;
+        } else {
+            return `HOUSE ${state.user.hno}`;
+        }
+    };
+
     return (
         <Container>
             <div className="mt-3 d-flex">
@@ -70,9 +78,7 @@ const Dashboard = () => {
                     <div
                         className={`${styles.bgHouse} d-flex p-1 justify-content-center`}
                     >
-                        <div className={`${styles.textHouse}`}>
-                            HOUSE {state.user.hno}
-                        </div>
+                        <div className={`${styles.textHouse}`}>{showHno()}</div>
                     </div>
                 </div>
 

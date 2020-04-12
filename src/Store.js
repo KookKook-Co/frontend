@@ -6,6 +6,7 @@ const initialState = {
     user: {},
     zones: [],
     registrationoData: {},
+    selectedHno: 1,
 };
 
 const Store = ({ children }) => {
