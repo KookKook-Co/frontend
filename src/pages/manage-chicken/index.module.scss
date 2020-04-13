@@ -6,7 +6,7 @@
 
 .bgCard {
     background-color: white;
-    width: 332px;
+    width: 340px;
 }
 
 .textFlockGen {
@@ -31,6 +31,8 @@
 .containerGender {
     background-color: #307fff;
     border-radius: 4px;
+    height: 1rem;
+    width: 3rem;
 }
 
 .containerType {
@@ -67,4 +69,35 @@ a.dropdownItem {
         min-width: 0;
         padding-top: 0;
     }
+}
+
+.columnLeft {
+    margin-left: 1rem;
+    margin-right: 0.5rem;
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
+}
+
+.columnMiddleLeft {
+    width: 5rem;
+    margin-left: 1.5rem;
+}
+
+.columnMiddleRight {
+    width: 5rem;
+    margin-left: 1.5rem;
+}
+
+.columnRight {
+    width: 1rem;
+}
+
+.chickNum{
+    margin-right: 1rem;
+    width: 5rem;
+}
+
+.chickAge{
+    margin-left: 1rem;
+    width: 5rem;
 }

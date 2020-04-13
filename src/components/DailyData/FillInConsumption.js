@@ -4,8 +4,8 @@ import Button from 'react-bootstrap/Button';
 import { FillInMedicine } from './FillInMedicine';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import addMedicineBtn from '../../components/DailyData/addCircleBtn.svg';
-import deleteMedicineBtn from '../../components/DailyData/trashBtn.svg';
+import addMedicineBtn from '../../static/icon/addCircleBtn.svg';
+import deleteMedicineBtn from '../../static/icon/trashBtn.svg';
 import styles from './index.module.scss';
 
 const vaccineType = ['NDIB', 'IBD'];

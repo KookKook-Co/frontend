@@ -44,7 +44,7 @@ const MainTabs = () => {
                             y2="55"
                             className={
                                 history.location.pathname.split('/')[1] ===
-                                'dashboard'
+                                    'dashboard'
                                     ? `${styles.lineHover}`
                                     : `${styles.line}`
                             }

@@ -11,27 +11,6 @@ h4{
     color: #828282;
 }
 
-.btnViewHistory{
-    border: 2px solid $theme-yellow-color;
-    color: $theme-yellow-color;
-    width: 130px;
-    height: 38px;
-}
-
-.btnSend{
-    background-color: $theme-yellow-color;
-    width: 100px;
-    height: 38px;
-    color: white;
-}
-
-.btnSave{
-    border: 2px solid $theme-yellow-color;
-    color: $theme-yellow-color;
-    width: 100px;
-    height: 38px;
-}
-
 .button{
     display: flex;
     justify-content: space-evenly;
@@ -94,4 +73,18 @@ hr.solid {
 
 .numSickChicken.formLabel{
     color: #828282
+}
+
+//Fill in confirmation
+
+.greenTick{
+    margin-top: 4rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.congratTxt{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
 }
