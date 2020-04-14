@@ -30,24 +30,44 @@ export const FillInConsumption = () => {
     const [waterV2, setWaterV2] = useState();
 
     const [show, setShow] = useState(false);
-    const handleShow = () => setShow(true);
     const handleClose = () => {
         setShow(false);
-        setChosenMedicine(old => {
+        setChosenMedicine((old) => {
             const cVac = Object.keys(vaccine)
-                .filter(each => vaccine[each])
+                .filter((each) => vaccine[each])
                 .reduce((prev, curr) => {
                     prev[curr] = old[curr] ? old[curr] : 0;
                     return prev;
                 }, {});
             const cVit = Object.keys(vitamin)
-                .filter(each => vitamin[each])
+                .filter((each) => vitamin[each])
                 .reduce((prev, curr) => {
                     prev[curr] = old[curr] ? old[curr] : 0;
                     return prev;
                 }, {});
             return { ...cVac, ...cVit };
         });
+    };
+
+    const deleteChosenMedicine = (type) => {
+        setChosenMedicine((old) => {
+            delete old[type];
+            return { ...old };
+        });
+        vitamin[type] &&
+            setVitamin((old) => {
+                return {
+                    ...old,
+                    [type]: !vitamin[type],
+                };
+            });
+        vaccine[type] &&
+            setVaccine((old) => {
+                return {
+                    ...old,
+                    [type]: !vaccine[type],
+                };
+            });
     };
 
     const [vaccine, setVaccine] = useState(
@@ -64,7 +84,7 @@ export const FillInConsumption = () => {
     );
     const [chosenMedicine, setChosenMedicine] = useState({});
     const handleConcentrationChange = (value, type) => {
-        setChosenMedicine(old => {
+        setChosenMedicine((old) => {
             return {
                 ...old,
                 [type]: value,
@@ -80,11 +100,11 @@ export const FillInConsumption = () => {
                     <Form.Group controlId="formFoodIn1">
                         <Form.Label className={styles.foodIn}>
                             {' '}
-                            Amount of Food Put In (Silo1) {' '}
+                            Amount of Food Put In (Silo1){' '}
                         </Form.Label>
                         <Form.Control
                             type="text"
-                            onChange={e => setFoodIn1(e.target.value)}
+                            onChange={(e) => setFoodIn1(e.target.value)}
                             value={foodIn1}
                             placeholder="Input"
                         />
@@ -93,11 +113,11 @@ export const FillInConsumption = () => {
                     <Form.Group controlId="formFoodLeft1">
                         <Form.Label className={styles.foodLeft}>
                             {' '}
-                            Amount of Food Left (Silo1) {' '}
+                            Amount of Food Left (Silo1){' '}
                         </Form.Label>
                         <Form.Control
                             type="text"
-                            onChange={e => setFoodLeft1(e.target.value)}
+                            onChange={(e) => setFoodLeft1(e.target.value)}
                             value={foodLeft1}
                             placeholder="Input"
                         />
@@ -105,11 +125,11 @@ export const FillInConsumption = () => {
                     <Form.Group controlId="formFoodIn2">
                         <Form.Label className={styles.foodIn}>
                             {' '}
-                            Amount of Food Put In (Silo2) {' '}
+                            Amount of Food Put In (Silo2){' '}
                         </Form.Label>
                         <Form.Control
                             type="text"
-                            onChange={e => setFoodIn2(e.target.value)}
+                            onChange={(e) => setFoodIn2(e.target.value)}
                             value={foodIn2}
                             placeholder="Input"
                         />
@@ -118,11 +138,11 @@ export const FillInConsumption = () => {
                     <Form.Group controlId="formFoodLeft2">
                         <Form.Label className={styles.foodLeft}>
                             {' '}
-                            Amount of Food Left (Silo2) {' '}
+                            Amount of Food Left (Silo2){' '}
                         </Form.Label>
                         <Form.Control
                             type="text"
-                            onChange={e => setFoodLeft2(e.target.value)}
+                            onChange={(e) => setFoodLeft2(e.target.value)}
                             value={foodLeft2}
                             placeholder="Input"
                         />
@@ -134,11 +154,11 @@ export const FillInConsumption = () => {
                     <Form.Group controlId="formWaterV1">
                         <Form.Label className={styles.waterV1}>
                             {' '}
-                            Water Valve 1 {' '}
+                            Water Valve 1{' '}
                         </Form.Label>
                         <Form.Control
                             type="text"
-                            onChange={e => setWaterV1(e.target.value)}
+                            onChange={(e) => setWaterV1(e.target.value)}
                             value={waterV1}
                             placeholder="Input"
                         />
@@ -147,11 +167,11 @@ export const FillInConsumption = () => {
                     <Form.Group controlId="formWaterV2">
                         <Form.Label className={styles.waterV2}>
                             {' '}
-                            Water Valve 2 {' '}
+                            Water Valve 2{' '}
                         </Form.Label>
                         <Form.Control
                             type="double"
-                            onChange={e => setWaterV2(e.target.value)}
+                            onChange={(e) => setWaterV2(e.target.value)}
                             value={waterV2}
                             placeholder="Input"
                         />
@@ -167,7 +187,11 @@ export const FillInConsumption = () => {
                         </Form.Label>
                         <div className="d-flex justify-content-between">
                             Add Medicine
-                            <img src={addMedicineBtn} onClick={handleShow} />
+                            <img
+                                src={addMedicineBtn}
+                                alt="add_btn"
+                                onClick={() => setShow(true)}
+                            />
                             <Modal show={show} onHide={handleClose}>
                                 <Modal.Header closeButton>
                                     <Modal.Title>Add Medicine</Modal.Title>
@@ -195,33 +219,27 @@ export const FillInConsumption = () => {
                             </Modal>
                         </div>
                         <div>
-                            {Object.keys(chosenMedicine).map(eachMedType => {
+                            {Object.keys(chosenMedicine).map((eachMedType) => {
                                 return (
-                                    <form
-                                        className="formPop"
-                                        key={eachMedType}
-                                    >
+                                    <div className="formPop" key={eachMedType}>
                                         <div>
                                             <label
                                                 type="text"
-                                                readonly
-                                                className="form-control-plaintext" >
+                                                className="form-control-plaintext"
+                                            >
                                                 {eachMedType}
                                             </label>
                                         </div>
                                         <div className="form-group mx-sm-3 mb-2 d-flex justify-content-between">
-                                            <label
-                                                for="inputAmountMedicine"
-                                                className="sr-only"
-                                            >
+                                            <label className="sr-only">
                                                 Amount in ml
                                             </label>
                                             <input
                                                 key={eachMedType}
                                                 type="number"
-                                                className="form-control"
+                                                className="form-control mr-2"
                                                 placeholder="Amount in ml"
-                                                onChange={e => {
+                                                onChange={(e) => {
                                                     handleConcentrationChange(
                                                         e.target.value,
                                                         eachMedType,
@@ -230,10 +248,15 @@ export const FillInConsumption = () => {
                                             />
                                             <img
                                                 src={deleteMedicineBtn}
-                                                onClick={() => true}
+                                                onClick={() =>
+                                                    deleteChosenMedicine(
+                                                        eachMedType,
+                                                    )
+                                                }
+                                                alt="trash_btn"
                                             />
                                         </div>
-                                    </form>
+                                    </div>
                                 );
                             })}
                         </div>

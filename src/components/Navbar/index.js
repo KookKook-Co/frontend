@@ -48,6 +48,7 @@ const Nav = () => {
                     {state.user.hno.map((item) => {
                         return (
                             <Dropdown.Item
+                                key={`selection-${item}`}
                                 href="#/action-1"
                                 onClick={() => selectedHouse(item)}
                             >
@@ -109,9 +110,9 @@ const Nav = () => {
             case '/daily-data':
                 return 'Daily Data';
             case '/manage-chicken':
-                return 'Manage Chicken';
+                return 'Manage House';
             case '/manage-flock':
-                return 'Manage Chicken';
+                return 'Manage House';
             case '/chicken-info':
                 return 'Manage Chicken';
             case '/create-account':

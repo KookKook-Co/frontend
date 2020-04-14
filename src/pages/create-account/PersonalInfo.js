@@ -12,16 +12,16 @@ import styles from './index.module.scss';
 const PersonalInfo = () => {
     const { state, dispatch } = useContext(Context);
     const [firstName, setFirstName] = useState(
-        (state.registration && state.registrationData.firstName) || '',
+        (state.registrationData && state.registrationData.firstName) || '',
     );
     const [lastName, setLastName] = useState(
-        (state.registration && state.registrationData.lastName) || '',
+        (state.registrationData && state.registrationData.lastName) || '',
     );
     const [email, setEmail] = useState(
-        (state.registration && state.registrationData.email) || '',
+        (state.registrationData && state.registrationData.email) || '',
     );
     const [lineId, setLineId] = useState(
-        (state.registration && state.registrationData.lineId) || '',
+        (state.registrationData && state.registrationData.lineId) || '',
     );
     const [fileUpload, setFileUpload] = useState();
     const fileRef = useRef(null);
@@ -127,7 +127,7 @@ const PersonalInfo = () => {
 
                     <input
                         type="file"
-                        onChange={(e) => setFileUpload(e.target.files[0])}
+                        onChange={(e) => console.log(e.target.files[0])}
                         ref={fileRef}
                         hidden
                     />

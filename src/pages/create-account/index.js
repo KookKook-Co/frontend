@@ -11,24 +11,32 @@ const CreateAccount = () => {
     const { state, dispatch } = useContext(Context);
     const history = useHistory();
     const [username, setUsername] = useState(
-        (state.registration && state.registrationData.username) || '',
+        (state.registrationData && state.registrationData.username) || '',
     );
     const [password, setPassword] = useState(
-        (state.registration && state.registrationData.password) || '',
+        (state.registrationData && state.registrationData.password) || '',
     );
     const [passwordConfirm, setPasswordConfirm] = useState(
-        (state.registration && state.registrationData.passwordConfirm) || '',
+        (state.registrationData && state.registrationData.passwordConfirm) ||
+            '',
     );
     const [hno, setHno] = useState(
-        (state.registration && state.registrationData.hno) || '',
+        (state.registrationData && state.registrationData.hno) || '',
     );
     const [role, setRole] = useState(
-        (state.registration && state.registrationData.role) || '',
+        (state.registrationData && state.registrationData.role) || '',
     );
+
     const proceed = () => {
         dispatch({
             type: 'update-registrationData',
-            payload: { username, password, passwordConfirm, hno, role },
+            payload: {
+                username,
+                password,
+                passwordConfirm,
+                hno,
+                role,
+            },
         });
         console.log('+++++++++regisdata1');
         console.log(state.registrationData);
@@ -80,16 +88,18 @@ const CreateAccount = () => {
                     </Form.Label>
                     <Form.Control
                         as="select"
-                        onClick={(e) => setHno(e.target.value.split(' ')[1])}
+                        onChange={(e) => setHno(e.target.value)}
                         value={hno}
                         custom
                         required
                     >
-                        <option disabled selected hidden>
+                        <option disabled hidden>
                             Select House
                         </option>
                         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-                            <option>House {item}</option>
+                            <option key={`selection- ${item}`} value={item}>
+                                House {item}
+                            </option>
                         ))}
                     </Form.Control>
                 </Form.Group>
@@ -99,12 +109,12 @@ const CreateAccount = () => {
                     </Form.Label>
                     <Form.Control
                         as="select"
-                        onClick={(e) => setRole(e.target.value)}
+                        onChange={(e) => setRole(e.target.value)}
                         value={role}
                         custom
                         required
                     >
-                        <option disabled selected hidden>
+                        <option disabled hidden>
                             Select Role
                         </option>
                         <option>OWNER</option>

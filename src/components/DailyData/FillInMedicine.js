@@ -18,8 +18,8 @@ export const FillInMedicine = ({
                             className="form-check-input-vaccine"
                             type="checkbox"
                             checked={vaccine[eachVaccineType]}
-                            onClick={() =>
-                                setVaccine(old => {
+                            onChange={() =>
+                                setVaccine((old) => {
                                     return {
                                         ...old,
                                         [eachVaccineType]: !vaccine[
@@ -29,7 +29,7 @@ export const FillInMedicine = ({
                                 })
                             }
                         />
-                        <label className="form-check-label" for="defaultCheck1">
+                        <label className="form-check-label">
                             {eachVaccineType}
                         </label>
                     </div>
@@ -44,8 +44,8 @@ export const FillInMedicine = ({
                             className="form-check-input-vaccine"
                             type="checkbox"
                             checked={vitamin[eachVitaminType]}
-                            onClick={() =>
-                                setVitamin(old => {
+                            onChange={() =>
+                                setVitamin((old) => {
                                     return {
                                         ...old,
                                         [eachVitaminType]: !vitamin[
@@ -55,7 +55,7 @@ export const FillInMedicine = ({
                                 })
                             }
                         />
-                        <label className="form-check-label" for="defaultCheck1">
+                        <label className="form-check-label">
                             {eachVitaminType}
                         </label>
                     </div>
