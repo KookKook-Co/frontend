@@ -41,8 +41,7 @@ const Reducer = (state, action) => {
             return {
                 ...state,
                 unqChicken: action.payload,
-            }
-
+            };
         default:
             return { state };
     }

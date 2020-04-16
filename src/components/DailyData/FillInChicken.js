@@ -3,8 +3,10 @@ import React, { useContext, useState } from 'react';
 import { Context } from '../../Store';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
+import sendBtn from '../../static/icon/sendBtn.svg';
 import styles from './index.module.scss';
 import { useHistory } from 'react-router-dom';
+import viewHistoryBtn from '../../static/icon/viewHistoryBtn.svg';
 
 export const FillInChicken = ({ date }) => {
     const { state, dispatch } = useContext(Context);
@@ -14,6 +16,10 @@ export const FillInChicken = ({ date }) => {
     const [dwarfChicken, setDwarfChicken] = useState();
     const [sickChicken, setSickChicken] = useState();
     const [period, setPeriod] = useState();
+
+    const getReport = () => {
+        history.push('/get-report');
+    };
 
     const sendUnqChicken = async () => {
         dispatch({
@@ -27,16 +33,17 @@ export const FillInChicken = ({ date }) => {
         });
 
         const unqualifiedChickenInfo = {
-            amountDead: state.unqualifiedChicken.deadChicken,
-            amountZleg: state.unqualifiedChicken.zLegChicken,
-            amountDwarf: state.unqualifiedChicken.dwarfChicken,
-            amountSick: state.unqualifiedChicken.sickChicken,
+            amountDead: parseFloat(deadChicken),
+            amountZleg: parseFloat(zLegChicken),
+            amountDwaft: parseFloat(dwarfChicken),
+            amountSick: parseFloat(sickChicken),
         };
 
         const data = {
             hno: state.user.hno,
-            date,
+            date: date.toISOString(),
             period,
+            unqualifiedChickenInfo,
         };
 
         console.log(data);
@@ -47,8 +54,7 @@ export const FillInChicken = ({ date }) => {
                 console.log(res);
             })
             .catch((err) => console.log(err));
-
-    }
+    };
 
     return (
         <div>
@@ -58,13 +64,17 @@ export const FillInChicken = ({ date }) => {
                 <ul className="pagination justify-content-center">
                     <li className="page-item">
                         <div
-                            className="page-link" onClick={() => setPeriod('MORNING')}>
+                            className="page-link"
+                            onClick={() => setPeriod('MORNING')}
+                        >
                             Morning
                         </div>
                     </li>
                     <li className="page-item">
                         <div
-                            className="page-link" onClick={() => setPeriod('EVENING')}>
+                            className="page-link"
+                            onClick={() => setPeriod('EVENING')}
+                        >
                             Evening
                         </div>
                     </li>
@@ -122,7 +132,7 @@ export const FillInChicken = ({ date }) => {
                     placeholder="Input"
                 />
             </Form.Group>
-            {/* <div className="d-flex justify-content-around pb-3">
+            <div className="d-flex justify-content-around pb-3">
                 <img
                     src={viewHistoryBtn}
                     alt="viewHistory_Btn"
@@ -131,9 +141,9 @@ export const FillInChicken = ({ date }) => {
                 <img
                     src={sendBtn}
                     alt="send_Btn"
-                    onClick={() => sendDailyData()}
+                    onClick={() => sendUnqChicken()}
                 />
-            </div> */}
+            </div>
         </div>
     );
 };
