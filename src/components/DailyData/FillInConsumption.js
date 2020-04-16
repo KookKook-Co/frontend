@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
+import { Context } from '../../Store';
 import { FillInMedicine } from './FillInMedicine';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import addMedicineBtn from '../../static/icon/addCircleBtn.svg';
+import axios from 'axios';
 import deleteMedicineBtn from '../../static/icon/trashBtn.svg';
+import sendBtn from '../../static/icon/sendBtn.svg';
 import styles from './index.module.scss';
+import { useHistory } from 'react-router-dom';
+import viewHistoryBtn from '../../static/icon/viewHistoryBtn.svg';
 
 const vaccineType = ['NDIB', 'IBD'];
 const vitaminType = [
@@ -21,13 +26,85 @@ const vitaminType = [
     'Tilo San',
 ];
 
-export const FillInConsumption = () => {
-    const [foodIn1, setFoodIn1] = useState();
-    const [foodLeft1, setFoodLeft1] = useState();
-    const [foodIn2, setFoodIn2] = useState();
-    const [foodLeft2, setFoodLeft2] = useState();
-    const [waterV1, setWaterV1] = useState();
-    const [waterV2, setWaterV2] = useState();
+export const FillInConsumption = ({ date }) => {
+    const { state, dispatch } = useContext(Context);
+    const history = useHistory();
+    const [foodIn1, setFoodIn1] = useState(0);
+    const [foodLeft1, setFoodLeft1] = useState(0);
+    const [foodIn2, setFoodIn2] = useState(0);
+    const [foodLeft2, setFoodLeft2] = useState(0);
+    const [waterV1, setWaterV1] = useState(0);
+    const [waterV2, setWaterV2] = useState(0);
+    const [chosenMedicine, setChosenMedicine] = useState({});
+
+    const medicineInput = (cMed) => {
+        return Object.keys(cMed).map((type) => {
+            return {
+                medicineType: type,
+                medicineConc: parseFloat(cMed[type]),
+            };
+        });
+    };
+
+    const getReport = () => {
+        history.push('/get-report');
+    };
+
+    const sendDailyData = async () => {
+        dispatch({
+            type: 'update-dailyData',
+            payload: {
+                foodIn1,
+                foodLeft1,
+                foodIn2,
+                foodLeft2,
+                waterV1,
+                waterV2,
+            },
+        });
+
+        const foodInput1 = {
+            foodSilo: 1,
+            foodIn: parseFloat(foodIn1),
+            foodRemain: parseFloat(foodLeft1),
+            foodConsumed: parseFloat(foodIn1 - foodLeft1),
+        };
+
+        const foodInput2 = {
+            foodSilo: 2,
+            foodIn: parseFloat(foodIn2),
+            foodRemain: parseFloat(foodLeft2),
+            foodConsumed: parseFloat(foodIn2 - foodLeft2),
+        };
+
+        const waterInput = {
+            waterMeter1: parseFloat(waterV1),
+            waterMeter2: parseFloat(waterV2),
+        };
+
+        const dailyInfo = {
+            food: [foodInput1, foodInput2],
+            water: waterInput,
+            medicine: medicineInput(chosenMedicine),
+        };
+
+        const data = {
+            hno: state.user.hno,
+            date: date.toISOString(),
+            dailyInfo,
+        };
+
+        console.log(data);
+
+        await axios
+            .post('/event/dailydata', data)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => console.log(err));
+
+        history.push('/FillInConfirmation');
+    };
 
     const [show, setShow] = useState(false);
     const handleClose = () => {
@@ -82,7 +159,7 @@ export const FillInConsumption = () => {
             return prev;
         }, {}),
     );
-    const [chosenMedicine, setChosenMedicine] = useState({});
+
     const handleConcentrationChange = (value, type) => {
         setChosenMedicine((old) => {
             return {
@@ -103,7 +180,7 @@ export const FillInConsumption = () => {
                             Amount of Food Put In (Silo1){' '}
                         </Form.Label>
                         <Form.Control
-                            type="text"
+                            type="number"
                             onChange={(e) => setFoodIn1(e.target.value)}
                             value={foodIn1}
                             placeholder="Input"
@@ -116,7 +193,7 @@ export const FillInConsumption = () => {
                             Amount of Food Left (Silo1){' '}
                         </Form.Label>
                         <Form.Control
-                            type="text"
+                            type="number"
                             onChange={(e) => setFoodLeft1(e.target.value)}
                             value={foodLeft1}
                             placeholder="Input"
@@ -128,7 +205,7 @@ export const FillInConsumption = () => {
                             Amount of Food Put In (Silo2){' '}
                         </Form.Label>
                         <Form.Control
-                            type="text"
+                            type="number"
                             onChange={(e) => setFoodIn2(e.target.value)}
                             value={foodIn2}
                             placeholder="Input"
@@ -141,7 +218,7 @@ export const FillInConsumption = () => {
                             Amount of Food Left (Silo2){' '}
                         </Form.Label>
                         <Form.Control
-                            type="text"
+                            type="number"
                             onChange={(e) => setFoodLeft2(e.target.value)}
                             value={foodLeft2}
                             placeholder="Input"
@@ -157,7 +234,7 @@ export const FillInConsumption = () => {
                             Water Valve 1{' '}
                         </Form.Label>
                         <Form.Control
-                            type="text"
+                            type="number"
                             onChange={(e) => setWaterV1(e.target.value)}
                             value={waterV1}
                             placeholder="Input"
@@ -170,7 +247,7 @@ export const FillInConsumption = () => {
                             Water Valve 2{' '}
                         </Form.Label>
                         <Form.Control
-                            type="double"
+                            type="number"
                             onChange={(e) => setWaterV2(e.target.value)}
                             value={waterV2}
                             placeholder="Input"
@@ -263,6 +340,18 @@ export const FillInConsumption = () => {
                     </Form.Group>
                 </div>
             </Form>
+            <div className="d-flex justify-content-around pb-3">
+                <img
+                    src={viewHistoryBtn}
+                    alt="viewHistory_Btn"
+                    onClick={() => getReport()}
+                />
+                <img
+                    src={sendBtn}
+                    alt="send_Btn"
+                    onClick={() => sendDailyData()}
+                />
+            </div>
         </div>
     );
 };

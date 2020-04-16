@@ -5,8 +5,9 @@ import Reducer from './Reducer';
 const initialState = {
     user: {},
     zones: [],
-    registrationoData: {},
+    registrationData: {},
     selectedHno: 1,
+    dailyData: {},
 };
 
 const Store = ({ children }) => {

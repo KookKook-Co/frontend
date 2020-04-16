@@ -8,26 +8,22 @@ import { FillInConsumption } from './FillInConsumption';
 import Form from 'react-bootstrap/Form';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import sendBtn from '../../static/icon/sendBtn.svg';
+import moment from 'moment';
 import styles from './index.module.scss';
-import { useHistory } from 'react-router-dom';
-import viewHistoryBtn from '../../static/icon/viewHistoryBtn.svg';
 
 const DailyData = () => {
-    const { state, dispatch } = useContext(Context);
-    const localDate = () => {
-        const tzoffset = new Date().getTimezoneOffset() * 60000;
-        return new Date(Date.now() - tzoffset).toISOString().slice(0, -1);
-    };
-    const [startDate, setStartDate] = useState(localDate);
-    const history = useHistory();
-    const getReport = () => {
-        history.push('/get-report');
-    };
-    const fillInConfirmation = () => {
-        history.push('/FillInConfirmation');
-    };
+    const { state } = useContext(Context);
+    const [date, setDate] = useState(moment());
+
     const [showConfirm, setShowConfirm] = useState(false);
+
+    const showHno = () => {
+        if (state.user.role === 'OWNER') {
+            return `HOUSE ${state.selectedHno}`;
+        } else {
+            return `HOUSE ${state.user.hno}`;
+        }
+    };
 
     return (
         <Container className={`mt-3 ${styles.containerHeight}`}>
@@ -38,13 +34,17 @@ const DailyData = () => {
                     <div>
                         <Form.Group controlId="formDate">
                             <Form.Label className={styles.selectDate}>
-                                {' '}
-                                HOUSE {state.user.hno}{' '}
+                                {showHno()}
                             </Form.Label>
                             <Form.Control
                                 type="date"
-                                defaultValue={startDate.substr(0, 10)}
-                                onChange={(e) => setStartDate(e.target.value)}
+                                defaultValue={date.format('YYYY-MM-DD')}
+                                onChange={(e) => {
+                                    console.log(typeof e.target.value);
+                                    setDate(
+                                        moment(e.target.value, 'YYYY-MM-DD'),
+                                    );
+                                }}
                             />
                         </Form.Group>
                     </div>
@@ -55,25 +55,12 @@ const DailyData = () => {
                             id="uncontrolled-tab-example"
                         >
                             <Tab eventKey="dailyData" title="Daily Data">
-                                <FillInConsumption />
+                                <FillInConsumption date={date} />
                             </Tab>
                             <Tab eventKey="chickenData" title="Chicken Data">
-                                <FillInChicken />
+                                <FillInChicken date={date} />
                             </Tab>
                         </Tabs>
-                    </div>
-
-                    <div className="d-flex justify-content-around">
-                        <img
-                            src={viewHistoryBtn}
-                            alt="viewHistory_Btn"
-                            onClick={() => getReport()}
-                        />
-                        <img
-                            src={sendBtn}
-                            alt="send_Btn"
-                            onClick={() => fillInConfirmation()}
-                        />
                     </div>
                 </div>
             )}

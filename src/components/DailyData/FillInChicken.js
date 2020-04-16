@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
+import { Context } from '../../Store';
 import Form from 'react-bootstrap/Form';
+import sendBtn from '../../static/icon/sendBtn.svg';
 import styles from './index.module.scss';
+import { useHistory } from 'react-router-dom';
+import viewHistoryBtn from '../../static/icon/viewHistoryBtn.svg';
 
-export const FillInChicken = () => {
+export const FillInChicken = (date) => {
+    const { state, dispatch } = useContext(Context);
+    const history = useHistory();
     const [deadChicken, setDeadChicken] = useState();
     const [zLegChicken, setZLegChicken] = useState();
     const [dwarfChicken, setDwarfChicken] = useState();
     const [sickChicken, setSickChicken] = useState();
+    const [period, setPeriod] = useState();
 
     return (
         <div>
@@ -16,14 +23,20 @@ export const FillInChicken = () => {
             <nav aria-label="Page navigation example">
                 <ul className="pagination justify-content-center">
                     <li className="page-item">
-                        <a className="page-link" href="#">
+                        <div
+                            className="page-link"
+                            onClick={() => setPeriod('MORNING')}
+                        >
                             Morning
-                        </a>
+                        </div>
                     </li>
                     <li className="page-item">
-                        <a className="page-link" href="#">
+                        <div
+                            className="page-link"
+                            onClick={() => setPeriod('EVENING')}
+                        >
                             Evening
-                        </a>
+                        </div>
                     </li>
                 </ul>
             </nav>
@@ -79,6 +92,18 @@ export const FillInChicken = () => {
                     placeholder="Input"
                 />
             </Form.Group>
+            {/* <div className="d-flex justify-content-around pb-3">
+                <img
+                    src={viewHistoryBtn}
+                    alt="viewHistory_Btn"
+                    onClick={() => getReport()}
+                />
+                <img
+                    src={sendBtn}
+                    alt="send_Btn"
+                    onClick={() => sendDailyData()}
+                />
+            </div> */}
         </div>
     );
 };

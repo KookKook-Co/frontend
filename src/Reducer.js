@@ -22,6 +22,11 @@ const Reducer = (state, action) => {
                 ...state,
                 selectedHno: action.payload,
             };
+        case 'update-dailyData':
+            return {
+                ...state,
+                dailyData: action.payload,
+            };
         case 'clear-selectedHno':
             return {
                 ...state,
