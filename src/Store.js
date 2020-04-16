@@ -8,6 +8,7 @@ const initialState = {
     registrationData: {},
     selectedHno: 1,
     dailyData: {},
+    unqChicken: {},
 };
 
 const Store = ({ children }) => {

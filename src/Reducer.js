@@ -37,6 +37,12 @@ const Reducer = (state, action) => {
                 ...state,
                 user: {},
             };
+        case 'update-unqChicken':
+            return {
+                ...state,
+                unqChicken: action.payload,
+            }
+
         default:
             return { state };
     }

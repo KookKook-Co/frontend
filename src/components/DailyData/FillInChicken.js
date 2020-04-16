@@ -2,12 +2,11 @@ import React, { useContext, useState } from 'react';
 
 import { Context } from '../../Store';
 import Form from 'react-bootstrap/Form';
-import sendBtn from '../../static/icon/sendBtn.svg';
+import axios from 'axios';
 import styles from './index.module.scss';
 import { useHistory } from 'react-router-dom';
-import viewHistoryBtn from '../../static/icon/viewHistoryBtn.svg';
 
-export const FillInChicken = (date) => {
+export const FillInChicken = ({ date }) => {
     const { state, dispatch } = useContext(Context);
     const history = useHistory();
     const [deadChicken, setDeadChicken] = useState();
@@ -15,6 +14,41 @@ export const FillInChicken = (date) => {
     const [dwarfChicken, setDwarfChicken] = useState();
     const [sickChicken, setSickChicken] = useState();
     const [period, setPeriod] = useState();
+
+    const sendUnqChicken = async () => {
+        dispatch({
+            type: 'update-unqChicken',
+            payload: {
+                deadChicken,
+                zLegChicken,
+                dwarfChicken,
+                sickChicken,
+            },
+        });
+
+        const unqualifiedChickenInfo = {
+            amountDead: state.unqualifiedChicken.deadChicken,
+            amountZleg: state.unqualifiedChicken.zLegChicken,
+            amountDwarf: state.unqualifiedChicken.dwarfChicken,
+            amountSick: state.unqualifiedChicken.sickChicken,
+        };
+
+        const data = {
+            hno: state.user.hno,
+            date,
+            period,
+        };
+
+        console.log(data);
+
+        await axios
+            .post('/event/unqualifiedchicken', data)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => console.log(err));
+
+    }
 
     return (
         <div>
@@ -24,17 +58,13 @@ export const FillInChicken = (date) => {
                 <ul className="pagination justify-content-center">
                     <li className="page-item">
                         <div
-                            className="page-link"
-                            onClick={() => setPeriod('MORNING')}
-                        >
+                            className="page-link" onClick={() => setPeriod('MORNING')}>
                             Morning
                         </div>
                     </li>
                     <li className="page-item">
                         <div
-                            className="page-link"
-                            onClick={() => setPeriod('EVENING')}
-                        >
+                            className="page-link" onClick={() => setPeriod('EVENING')}>
                             Evening
                         </div>
                     </li>
@@ -47,7 +77,7 @@ export const FillInChicken = (date) => {
                     Number of Dead Chickens{' '}
                 </Form.Label>
                 <Form.Control
-                    type="text"
+                    type="number"
                     onChange={(e) => setDeadChicken(e.target.value)}
                     value={deadChicken}
                     placeholder="Input"
@@ -60,7 +90,7 @@ export const FillInChicken = (date) => {
                     Number of Z-Leg Chickens{' '}
                 </Form.Label>
                 <Form.Control
-                    type="text"
+                    type="number"
                     onChange={(e) => setZLegChicken(e.target.value)}
                     value={zLegChicken}
                     placeholder="Input"
@@ -73,7 +103,7 @@ export const FillInChicken = (date) => {
                     Number of Dwarf Chickens{' '}
                 </Form.Label>
                 <Form.Control
-                    type="text"
+                    type="number"
                     onChange={(e) => setDwarfChicken(e.target.value)}
                     value={dwarfChicken}
                     placeholder="Input"
@@ -86,7 +116,7 @@ export const FillInChicken = (date) => {
                     Number of Sick Chickens{' '}
                 </Form.Label>
                 <Form.Control
-                    type="text"
+                    type="number"
                     onChange={(e) => setSickChicken(e.target.value)}
                     value={sickChicken}
                     placeholder="Input"
