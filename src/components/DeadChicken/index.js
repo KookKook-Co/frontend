@@ -5,11 +5,21 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 const DeadChicken = () => {
-    const [xPosCam, getXPosCam] = useState();
-    const [yPosCam, getYPosCam] = useState();
-    const [url, getUrl] = useState();
-    const [amountDead, getAmountDead] = useState(0);
+    const [cameraData, setCameraData] = useState([]);
     let history = useHistory();
+
+    useEffect(() => {
+        axios
+            .get(`/event/deadchickenmap?hno=1`)
+            .then((res) => {
+                // console.log(res);
+                setCameraData(res.data);
+                console.log(cameraData);
+            })
+            .catch((error) => {
+                console.log(error);
+            }, cameraData);
+    }, []);
 
     const square = (amountChickenDead, x, y) => {
         return (
@@ -17,7 +27,9 @@ const DeadChicken = () => {
                 className={`${styles.square} ${
                     amountChickenDead > 0 ? `${styles.red}` : ''
                 }`}
-                onClick={handleClickZone(x, y)}
+                onClick={() =>
+                    amountChickenDead > 0 ? handleClickZone(x, y) : undefined
+                }
             >
                 {amountChickenDead > 0 && amountChickenDead}
             </div>
@@ -30,13 +42,13 @@ const DeadChicken = () => {
         );
         console.log('Zone : ' + selData.yPosCam + chars[selData.xPosCam]);
 
-        // history.push({
-        //     pathname: '/dead-chicken-img',
-        //     state: {
-        //         imgUrl: selData.url,
-        //         zone: selData.yPosCam + chars[selData.xPosCam],
-        //     },
-        // });
+        history.push({
+            pathname: '/dead-chicken-img',
+            state: {
+                imgUrl: selData.url,
+                zone: selData.yPosCam + chars[selData.xPosCam],
+            },
+        });
     };
 
     const eachrow = (row, num) => {
@@ -169,7 +181,7 @@ const DeadChicken = () => {
         for (var i = 0; i < defaultMap.length; ++i) {
             defaultMap[i] = new Array(14).fill(0);
         }
-        data.map(
+        cameraData.map(
             (data) =>
                 (defaultMap[data.yPosCam - 1][data.xPosCam - 1] =
                     data.amountDead),

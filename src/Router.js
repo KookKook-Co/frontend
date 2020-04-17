@@ -9,10 +9,10 @@ import ManageChicken from './pages/manage-chicken';
 import ManageFlock from './pages/manage-flock';
 import Nav from './components/Navbar';
 import PersonalInfo from './pages/create-account/PersonalInfo';
-import DeadChickenImg from './pages/dead-chicken-img';
 import React from 'react';
 import ShowHouseData from './pages/show-house-data';
 import Temp from './pages/temperature';
+import DeadChickenImg from './pages/dead-chicken-img';
 
 function appRouter() {
     return (

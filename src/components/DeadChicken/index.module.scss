@@ -11,8 +11,8 @@
 }
 
 .map {
-    width: 19rem;
-    height: 30rem;
+    width: 20rem;
+    height: 32rem;
     margin-top: 1.5rem;
     margin-left: 1rem;
     // text-align: center;
@@ -43,6 +43,10 @@
 
 .red {
     background: $theme-red-color;
+    color: rgba(256, 256, 256, 0.75);
+    font-weight: $font-weight-bold;
+    font-size: 0.75rem;
+    text-align: center;
 }
 
 .foodLine {
