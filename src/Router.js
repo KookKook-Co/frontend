@@ -12,7 +12,6 @@ import PersonalInfo from './pages/create-account/PersonalInfo';
 import React from 'react';
 import ShowHouseData from './pages/show-house-data';
 import Temp from './pages/temperature';
-import DeadChickenImg from './pages/dead-chicken-img';
 
 function appRouter() {
     return (
