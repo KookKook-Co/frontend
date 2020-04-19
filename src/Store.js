@@ -9,6 +9,8 @@ const initialState = {
     selectedHno: 1,
     dailyData: {},
     unqChicken: {},
+    deadChickenLocation: {},
+    deadChickenMap: {},
 };
 
 const Store = ({ children }) => {

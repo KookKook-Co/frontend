@@ -1,8 +1,10 @@
+import React, { useContext, useEffect, useState } from 'react';
+
 import Container from 'react-bootstrap/Container';
-import styles from './index.module.scss';
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Context } from '../../Store';
 import axios from 'axios';
+import styles from './index.module.scss';
+import { useHistory } from 'react-router-dom';
 
 const DeadChicken = () => {
     const [cameraData, setCameraData] = useState([]);
@@ -15,12 +17,21 @@ const DeadChicken = () => {
                 // console.log(res);
                 setCameraData(res.data);
                 console.log(cameraData);
+                dispatch({
+                    type: 'update-deadChicken-map',
+                    payload: res.data,
+                });
             })
             .catch((error) => {
                 console.log(error);
             }, cameraData);
     }, []);
 
+    const [xPosCam, setXPosCam] = useState();
+    const [yPosCam, setYPosCam] = useState();
+    const [url, setUrl] = useState();
+    const [amountDead, setAmountDead] = useState(0);
+    const { state, dispatch } = useContext(Context);
     const square = (amountChickenDead, x, y) => {
         return (
             <div
@@ -37,56 +48,56 @@ const DeadChicken = () => {
     };
 
     const handleClickZone = (x, y) => {
-        const selData = data.filter(
-            (data) => data.xPosCam === x && data.yPosCam === y,
-        );
-        console.log('Zone : ' + selData.yPosCam + chars[selData.xPosCam]);
-
-        history.push({
-            pathname: '/dead-chicken-img',
-            state: {
-                imgUrl: selData.url,
-                zone: selData.yPosCam + chars[selData.xPosCam],
+        dispatch({
+            type: 'update-deadChicken-location',
+            payload: {
+                xPos: x,
+                yPos: y,
+                Zone: y + chars[x - 1],
+                cid: 13 * (y - 1) + (x - 1),
             },
         });
+        console.log('++++++++ DEAD MAP ++++++++');
+        console.log(state.deadChickenMap);
+        history.push('/dead-chicken-img');
     };
 
-    const eachrow = (row, num) => {
+    const eachrow = (row, index) => {
         return (
             <div className={styles.rowDeadChickenMap}>
                 <p
                     className={styles.mapLabel}
                     style={{ marginRight: '0.9rem', width: '0.3rem' }}
                 >
-                    {num}
+                    {index}
                 </p>
-                {square(row[0], 1, num)}
+                {square(row[0], 1, index)}
                 <div className={`${styles.square} ${styles.waterLine}`}></div>
-                {square(row[1], 2, num)}
+                {square(row[1], 2, index)}
                 <div className={`${styles.square} ${styles.foodLine}`}></div>
-                {square(row[2], 3, num)}
+                {square(row[2], 3, index)}
                 <div className={`${styles.square} ${styles.waterLine}`}></div>
-                {square(row[3], 4, num)}
+                {square(row[3], 4, index)}
                 <div className={`${styles.square} ${styles.foodLine}`}></div>
-                {square(row[4], 5, num)}
+                {square(row[4], 5, index)}
                 <div className={`${styles.square} ${styles.waterLine}`}></div>
-                {square(row[5], 6, num)}
+                {square(row[5], 6, index)}
                 <div className={`${styles.square} ${styles.foodLine}`}></div>
-                {square(row[6], 7, num)}
+                {square(row[6], 7, index)}
                 <div className={`${styles.square} ${styles.waterLine}`}></div>
-                {square(row[7], 8, num)}
+                {square(row[7], 8, index)}
                 <div className={`${styles.square} ${styles.foodLine}`}></div>
-                {square(row[8], 9, num)}
+                {square(row[8], 9, index)}
                 <div className={`${styles.square} ${styles.waterLine}`}></div>
-                {square(row[9], 10, num)}
+                {square(row[9], 10, index)}
                 <div className={`${styles.square} ${styles.foodLine}`}></div>
-                {square(row[10], 11, num)}
+                {square(row[10], 11, index)}
                 <div className={`${styles.square} ${styles.waterLine}`}></div>
-                {square(row[11], 12, num)}
+                {square(row[11], 12, index)}
                 <div className={`${styles.square} ${styles.foodLine}`}></div>
-                {square(row[12], 13, num)}
+                {square(row[12], 13, index)}
                 <div className={`${styles.square} ${styles.waterLine}`}></div>
-                {square(row[13], 14, num)}
+                {square(row[13], 14, index)}
             </div>
         );
     };
@@ -97,7 +108,7 @@ const DeadChicken = () => {
                 className={styles.mapLabel}
                 style={{
                     marginBottom: '0.4rem',
-                    marginLeft: '0.35rem',
+                    marginLeft: '0.32rem',
                     width: '5%',
                     float: 'left',
                 }}
@@ -167,15 +178,6 @@ const DeadChicken = () => {
         },
     ];
 
-    // useEffect (() => {
-    //     fetch('http://kookkook-backend-dev-ingress.default.202.28.193.100.xip.io/event/deadchickenmap', {
-    //         method: 'GET',
-    //         body: JSON.stringify(Camera),
-    //         headers: { 'Content-Type': 'application/json' }
-    //     })
-    // })
-
-    // const [zoneStatus, setZoneStatus] = useState(Array(24).fill(Array(14).fill(False)));
     const zoneStatus = () => {
         var defaultMap = new Array(24);
         for (var i = 0; i < defaultMap.length; ++i) {
@@ -196,7 +198,7 @@ const DeadChicken = () => {
             </div>
             <div className={styles.map}>
                 {chars.map((char) => colLabel(char))}
-                {zoneStatus().map((row, index) => eachrow(row, index))}
+                {zoneStatus().map((row, index) => eachrow(row, index + 1))}
             </div>
         </Container>
     );

@@ -42,6 +42,16 @@ const Reducer = (state, action) => {
                 ...state,
                 unqChicken: action.payload,
             };
+        case 'update-deadChicken-location':
+            return {
+                ...state,
+                deadChickenLocation: action.payload,
+            };
+        case 'update-deadChicken-map':
+            return {
+                ...state,
+                deadChickenMap: action.payload,
+            };
         default:
             return { state };
     }
