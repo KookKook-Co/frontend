@@ -56,9 +56,6 @@ function appRouter() {
                         <Route path="/show-house-data">
                             <ShowHouseData />
                         </Route>
-                        <Route path="/dead-chicken-img">
-                            <DeadChickenImg />
-                        </Route>
                     </Switch>
                 </div>
             </Router>

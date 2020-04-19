@@ -4,11 +4,14 @@ import Container from 'react-bootstrap/Container';
 import { Context } from '../../Store';
 import axios from 'axios';
 import styles from './index.module.scss';
-import { useHistory } from 'react-router-dom';
+import ImgModal from './deadChickenImgModal';
 
 const DeadChicken = () => {
     const [cameraData, setCameraData] = useState([]);
-    let history = useHistory();
+    const [show, setShow] = useState(false);
+    const handleClose = () => {
+        setShow(false);
+    };
 
     useEffect(() => {
         axios
@@ -27,10 +30,6 @@ const DeadChicken = () => {
             }, cameraData);
     }, []);
 
-    const [xPosCam, setXPosCam] = useState();
-    const [yPosCam, setYPosCam] = useState();
-    const [url, setUrl] = useState();
-    const [amountDead, setAmountDead] = useState(0);
     const { state, dispatch } = useContext(Context);
     const square = (amountChickenDead, x, y) => {
         return (
@@ -57,9 +56,10 @@ const DeadChicken = () => {
                 cid: 13 * (y - 1) + (x - 1),
             },
         });
-        console.log('++++++++ DEAD MAP ++++++++');
-        console.log(state.deadChickenMap);
-        history.push('/dead-chicken-img');
+        setShow(true);
+        // console.log('++++++++ DEAD MAP ++++++++');
+        // console.log(state.deadChickenMap);
+        // history.push('/dead-chicken-img');
     };
 
     const eachrow = (row, index) => {
@@ -135,48 +135,48 @@ const DeadChicken = () => {
         'N',
     ];
 
-    const data = [
-        {
-            cid: '001',
-            xPosCam: 2,
-            yPosCam: 1,
-            url:
-                'https://drive.google.com/file/d/1l6j_WN4BG9hxFgyPkdhWI322W1o6Ei07/view?usp=sharing',
-            amountDead: 1,
-        },
-        {
-            cid: '002',
-            xPosCam: 4,
-            yPosCam: 3,
-            url:
-                'https://drive.google.com/file/d/1l6j_WN4BG9hxFgyPkdhWI322W1o6Ei07/view?usp=sharing',
-            amountDead: 0,
-        },
-        {
-            cid: '003',
-            xPosCam: 1,
-            yPosCam: 4,
-            url:
-                'https://drive.google.com/file/d/1l6j_WN4BG9hxFgyPkdhWI322W1o6Ei07/view?usp=sharing',
-            amountDead: 1,
-        },
-        {
-            cid: '004',
-            xPosCam: 4,
-            yPosCam: 5,
-            url:
-                'https://drive.google.com/file/d/1l6j_WN4BG9hxFgyPkdhWI322W1o6Ei07/view?usp=sharing',
-            amountDead: 3,
-        },
-        {
-            cid: '005',
-            xPosCam: 4,
-            yPosCam: 6,
-            url:
-                'https://drive.google.com/file/d/1l6j_WN4BG9hxFgyPkdhWI322W1o6Ei07/view?usp=sharing',
-            amountDead: 6,
-        },
-    ];
+    // const data = [
+    //     {
+    //         cid: '001',
+    //         xPosCam: 2,
+    //         yPosCam: 1,
+    //         url:
+    //             'https://drive.google.com/file/d/1l6j_WN4BG9hxFgyPkdhWI322W1o6Ei07/view?usp=sharing',
+    //         amountDead: 1,
+    //     },
+    //     {
+    //         cid: '002',
+    //         xPosCam: 4,
+    //         yPosCam: 3,
+    //         url:
+    //             'https://drive.google.com/file/d/1l6j_WN4BG9hxFgyPkdhWI322W1o6Ei07/view?usp=sharing',
+    //         amountDead: 0,
+    //     },
+    //     {
+    //         cid: '003',
+    //         xPosCam: 1,
+    //         yPosCam: 4,
+    //         url:
+    //             'https://drive.google.com/file/d/1l6j_WN4BG9hxFgyPkdhWI322W1o6Ei07/view?usp=sharing',
+    //         amountDead: 1,
+    //     },
+    //     {
+    //         cid: '004',
+    //         xPosCam: 4,
+    //         yPosCam: 5,
+    //         url:
+    //             'https://drive.google.com/file/d/1l6j_WN4BG9hxFgyPkdhWI322W1o6Ei07/view?usp=sharing',
+    //         amountDead: 3,
+    //     },
+    //     {
+    //         cid: '005',
+    //         xPosCam: 4,
+    //         yPosCam: 6,
+    //         url:
+    //             'https://drive.google.com/file/d/1l6j_WN4BG9hxFgyPkdhWI322W1o6Ei07/view?usp=sharing',
+    //         amountDead: 6,
+    //     },
+    // ];
 
     const zoneStatus = () => {
         var defaultMap = new Array(24);
@@ -193,6 +193,7 @@ const DeadChicken = () => {
 
     return (
         <Container>
+            {show && <ImgModal isShow={show} handleClose={handleClose} />}
             <div className={styles.textLabelCh} style={{ marginTop: '2.5rem' }}>
                 <p>Please select on dead chicken location</p>
             </div>
