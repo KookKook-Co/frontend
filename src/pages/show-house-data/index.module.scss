@@ -1,15 +1,39 @@
-@import "../../assets/sass/variables.scss";
+@import '../../assets/sass/variables.scss';
 
 .bgLightBlue {
     background-color: $theme-light-blue;
 }
 
-.infoToShow{
-    margin-left: 1rem;
-    width: 350px;
-    color: #666666;
+.textGen {
+    color: black;
+    font-size: 1.5rem;
+    font-weight: $font-weight-bold;
+    line-height: 22px;
 }
 
-.textInfo{
-    margin-bottom: 1.5rem;
+.bgHouse {
+    background-color: $theme-yellow-color;
+    min-height: 23px;
+    border-radius: 8px;
+    width: 84px;
+}
+
+.textHouse {
+    color: #252525;
+    font-size: 0.75rem;
+    line-height: 16px;
+}
+
+.infoToShow {
+    color: #828282;
+    font-size: 0.875rem;
+    font-weight: $font-weight-medium;
+    line-height: 22px;
+}
+
+.textValue {
+    color: black;
+    font-size: 1rem;
+    font-weight: $font-weight-medium;
+    line-height: 22px;
 }

@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 
+import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import { Context } from '../../Store';
 import EditBtn from '../../static/icon/editBtn.svg';
-import Form from 'react-bootstrap/Form';
 import GetReportBtn from '../../static/icon/getReportBtn.svg';
+import Row from 'react-bootstrap/Row';
 import styles from './index.module.scss';
 import { useHistory } from 'react-router-dom';
 
 const ShowHousedata = () => {
+    const { state } = useContext(Context);
     const history = useHistory();
     const getReport = () => {
         history.push('/get-report');
@@ -15,63 +18,75 @@ const ShowHousedata = () => {
     const manageFlock = () => {
         history.push('/manage-flock');
     };
+
     const data = [
         {
-            generation: '2020/1',
-            date: '15 March 2020',
-            age: 4,
-            gender: 'male',
-            type: 'chicken type',
-        }
+            infoToShow: 'Chicken In Date',
+            value: state.chickenFlockInfo.chickenInDate,
+        },
+        {
+            infoToShow: 'Chicken Out Date',
+            value: state.chickenFlockInfo.chickenOutDate,
+        },
+        {
+            infoToShow: 'Number of Chickens',
+            value: state.chickenFlockInfo.numberOfChickens,
+        },
+        {
+            infoToShow: 'Chicken Type',
+            value: state.chickenFlockInfo.chickenType,
+        },
+        {
+            infoToShow: 'Gender',
+            value: state.chickenFlockInfo.gender,
+        },
     ];
+
     return (
-        <Container className={`${styles.bgLightBlue} vh-100 pt-3`}>
-            <img
-                className="d-block ml-auto mt-5"
-                src={EditBtn}
-                alt="export_btn"
-                onClick={() => manageFlock()}
-            />
+        <Container className={`${styles.bgLightBlue} vh-100 pt-5`}>
+            <div className="offset-1 mb-3">
+                <div className="d-flex mb-3">
+                    <div>
+                        <p className={`${styles.textGen} mb-1 m-0`}>
+                            {state.chickenFlockInfo.generation}
+                        </p>
+                        <div
+                            className={`${styles.bgHouse} d-flex p-1 justify-content-center`}
+                        >
+                            <div className={`${styles.textHouse}`}>
+                                HOUSE {state.user.hno ? state.user.hno : ''}
+                            </div>
+                        </div>
+                    </div>
 
-            <Form className={styles.textInfo}>
-                <div className="d-flex justify-content-start">
-                    <label for="chickenInDate" className={styles.infoToShow}> Chicken in Date </label>
-                    <div className="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="chickenInDate" value="30/02/2020" />
-                    </div>
+                    <img
+                        className="ml-auto"
+                        src={EditBtn}
+                        alt="edit_btn"
+                        onClick={() => manageFlock()}
+                    />
                 </div>
-                <div className="d-flex justify-content-start">
-                    <label for="chickenOutDate" className={styles.infoToShow}> Chicken out Date </label>
-                    <div className="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="chickenOutDate" value="01/05/2020" />
-                    </div>
-                </div>
-                <div className="d-flex justify-content-start">
-                    <label for="numChicken" className={styles.infoToShow}> Number of Chickens </label>
-                    <div className="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="numChicken" value="4821" />
-                    </div>
-                </div>
-                <div className="d-flex justify-content-start">
-                    <label for="chickenGender" className={styles.infoToShow}> Gender </label>
-                    <div className="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="chickenGender" value="Male" />
-                    </div>
-                </div>
-                <div className="d-flex justify-content-start">
-                    <label for="chickenType" className={styles.infoToShow}> Chichen Type </label>
-                    <div className="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="chickenType" value="Nugget" />
-                    </div>
-                </div>
-            </Form>
 
-
-            <img
-                src={GetReportBtn}
-                alt="export_btn"
-                onClick={() => getReport()}
-            />
+                {data.map((item) => (
+                    <Row>
+                        <Col xs={6}>
+                            <p className={styles.infoToShow}>
+                                {item.infoToShow}
+                            </p>
+                        </Col>
+                        <Col xs={6}>
+                            <p className={styles.textValue}>{item.value}</p>
+                        </Col>
+                    </Row>
+                ))}
+            </div>
+            <div className="d-flex justify-content-center">
+                <img
+                    src={GetReportBtn}
+                    alt="export_btn"
+                    onClick={() => getReport()}
+                />
+            </div>
         </Container>
     );
 };

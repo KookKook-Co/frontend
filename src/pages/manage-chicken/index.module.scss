@@ -4,6 +4,22 @@
     background-color: $theme-light-blue;
 }
 
+.iconBarn {
+    position: relative;
+    z-index: 0;
+}
+
+.textBarn {
+    color: black;
+    font-size: 1.25rem;
+    font-weight: $font-weight-bold;
+    line-height: 26px;
+    position: relative;
+    z-index: 1;
+    top: 36%;
+    right: 50%;
+}
+
 .bgCard {
     background-color: white;
     width: 340px;
@@ -29,7 +45,7 @@
 }
 
 .containerGender {
-    background-color: #307fff;
+    background-color: #2e86ab;
     border-radius: 4px;
     height: 1rem;
     width: 3rem;
@@ -49,8 +65,15 @@
 
 .textDetail {
     color: #666666;
-    font-size: 0.75rem;
+    font-size: 0.5rem;
     font-weight: $font-weight-regular;
+    margin: 0;
+}
+
+.textNumber {
+    color: #666666;
+    font-size: 0.625rem;
+    font-weight: $font-weight-medium;
     margin: 0;
 }
 
@@ -71,33 +94,33 @@ a.dropdownItem {
     }
 }
 
-.columnLeft {
-    margin-left: 1rem;
-    margin-right: 0.5rem;
-    margin-top: 1.2rem;
-    margin-bottom: 1.2rem;
-}
+// .columnLeft {
+//     margin-left: 1rem;
+//     margin-right: 0.5rem;
+//     margin-top: 1.2rem;
+//     margin-bottom: 1.2rem;
+// }
 
-.columnMiddleLeft {
-    width: 5rem;
-    margin-left: 1.5rem;
-}
+// .columnMiddleLeft {
+//     width: 5rem;
+//     margin-left: 1.5rem;
+// }
 
-.columnMiddleRight {
-    width: 5rem;
-    margin-left: 1.5rem;
-}
+// .columnMiddleRight {
+//     width: 5rem;
+//     margin-left: 1.5rem;
+// }
 
-.columnRight {
-    width: 1rem;
-}
+// .columnRight {
+//     width: 1rem;
+// }
 
-.chickNum{
-    margin-right: 1rem;
-    width: 5rem;
-}
+// .chickNum{
+//     margin-right: 1rem;
+//     width: 5rem;
+// }
 
-.chickAge{
-    margin-left: 1rem;
-    width: 5rem;
-}
+// .chickAge{
+//     margin-left: 1rem;
+//     width: 5rem;
+// }

@@ -103,7 +103,8 @@ export const FillInConsumption = ({ date }) => {
             })
             .catch((err) => console.log(err));
 
-        history.push('/FillInConfirmation');
+        // history.push('/FillInConfirmation');
+        history.push('/');
     };
 
     const [show, setShow] = useState(false);

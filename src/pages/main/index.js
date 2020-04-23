@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 
 import Col from 'react-bootstrap/Col';
@@ -6,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import DailyData from '../../components/DailyData';
 import Dashboard from '../../components/Dashboard';
 import DeadChicken from '../../components/DeadChicken';
+import React from 'react';
 import Row from 'react-bootstrap/Row';
 import styles from './index.module.scss';
 
@@ -21,11 +21,11 @@ const MainTabs = () => {
                 <Col
                     xs={4}
                     className={
-                        history.location.pathname.split('/')[1] === 'dashboard'
+                        history.location.pathname.split('/')[1] === ''
                             ? `${styles.tabActive}`
                             : `${styles.tab}`
                     }
-                    onClick={() => history.push('/dashboard')}
+                    onClick={() => history.push('/')}
                 >
                     <svg
                         width="125"
@@ -43,8 +43,7 @@ const MainTabs = () => {
                             x2="125"
                             y2="55"
                             className={
-                                history.location.pathname.split('/')[1] ===
-                                    'dashboard'
+                                history.location.pathname.split('/')[1] === ''
                                     ? `${styles.lineHover}`
                                     : `${styles.line}`
                             }

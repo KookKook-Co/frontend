@@ -3,6 +3,44 @@
 .bgLightBlue {
     background-color: $theme-light-blue;
 }
-.email {
-    margin-top: 1rem;
+
+.textGen {
+    color: black;
+    font-size: 1.5rem;
+    font-weight: $font-weight-bold;
+    line-height: 22px;
+}
+
+.bgHouse {
+    background-color: $theme-yellow-color;
+    min-height: 23px;
+    border-radius: 8px;
+    width: 84px;
+}
+
+.textHouse {
+    color: #252525;
+    font-size: 0.75rem;
+    line-height: 16px;
+}
+
+.textReport {
+    color: #666666;
+    font-size: 0.75rem;
+    font-weight: $font-weight-medium;
+    line-height: 22px;
+}
+
+.textReportInfo {
+    color: #666666;
+    font-size: 0.75rem;
+    font-weight: $font-weight-regular;
+    line-height: 22px;
+}
+
+.textSendTo {
+    color: #828282;
+    font-size: 0.875rem;
+    font-weight: $font-weight-medium;
+    line-height: 22px;
 }

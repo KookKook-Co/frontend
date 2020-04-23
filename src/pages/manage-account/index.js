@@ -1,19 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import AddBtn from '../../static/icon/addBtn.svg';
-import BarnIcon from '../../static/icon/yellowBarnIcon.svg';
-import ChickenIcon from '../../static/icon/chickenIcon.svg';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import { Context } from '../../Store';
 import DeleteBtn from '../../static/icon/deleteBtn.svg';
 import DeleteTab from '../../static/icon/delete.svg';
 import Dropdown from 'react-bootstrap/Dropdown';
-import HourglassIcon from '../../static/icon/hourglassIcon.svg';
-import InIcon from '../../static/icon/inIcon.svg';
 import MyVerticallyCenteredModal from '../../components/ConfirmationMsg/index.js';
 import NextArrow from '../../static/icon/next_manage.svg';
-import OutIcon from '../../static/icon/outIcon.svg';
 import Row from 'react-bootstrap/Row';
 import axios from 'axios';
 import moment from 'moment';
@@ -34,7 +29,6 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
 ));
 
 const CustomCard = ({ data, onDelete }) => {
-    const history = useHistory();
     const { state, dispatch } = useContext(Context);
     const chickenInDate = moment(data.dateIn).format('DD MMM YYYY');
     const chickenOutDate = moment(data.dateOut).format('DD MMM YYYY');
@@ -42,10 +36,15 @@ const CustomCard = ({ data, onDelete }) => {
     const gender = data.gender;
     const chickenType = data.type;
     const generation = data.generation;
+    const history = useHistory();
+
+    const addNewGen = () => {
+        history.push('/manage-flock');
+    };
 
     const showHouseData = () => {
         dispatch({
-            type: 'update-chickenFlockInfo',
+            type: 'update-userAccount',
             payload: {
                 chickenInDate,
                 chickenOutDate,
@@ -56,7 +55,7 @@ const CustomCard = ({ data, onDelete }) => {
             },
         });
 
-        history.push('/show-house-data');
+        history.push('/show-user-data');
     };
 
     const showDeleteBtn = () => {
@@ -66,13 +65,13 @@ const CustomCard = ({ data, onDelete }) => {
     return (
         <div className={`${styles.bgCard} p-3 mb-3 mx-auto`}>
             <div className="d-flex">
-                <div className="d-flex">
+                <div class="d-flex">
                     <img
                         src={BarnIcon}
                         alt="barn_icon"
                         className={styles.iconBarn}
                     />
-                    <p className={styles.textBarn}>{state.user.hno}</p>
+                    <p className={styles.textBarn}>{state.selectedHno}</p>
                 </div>
 
                 <div className="pl-4">
@@ -156,27 +155,24 @@ const CustomCard = ({ data, onDelete }) => {
     );
 };
 
-const ManageChicken = () => {
-    const history = useHistory();
-    const addNewGen = () => {
-        history.push('/manage-flock');
-    };
+const ManageAccount = () => {
     const { state, dispatch } = useContext(Context);
     useEffect(() => {
+        const params = {
+            hno: state.selectedHno,
+        };
         const getChickenFlockInfo = async () => {
-            const res = await axios.get(
-                `/event/chickenflocks?hno=${state.user.hno}`,
-            );
+            const res = await axios.get(`/event/chickenflocks`, {
+                params,
+            });
             console.log(res.data);
             dispatch({
                 type: 'update-chickenFlock',
                 payload: res.data,
             });
         };
-        if (state.user.hno) {
-            getChickenFlockInfo();
-        }
-    }, [state.user.hno]);
+        getChickenFlockInfo();
+    }, []);
 
     const [toDelete, setToDelete] = useState();
     const [data, setData] = useState(state.chickenFlock);
@@ -202,9 +198,9 @@ const ManageChicken = () => {
     //
     // ]);
 
-    // const createCard = (newItem) => {
-    //     setData([...data, newItem]);
-    // };
+    const createCard = (newItem) => {
+        setData([...data, newItem]);
+    };
 
     const deleteCard = (id) => {
         setData(data.filter((item) => item.id !== id));
@@ -226,22 +222,22 @@ const ManageChicken = () => {
             <Container className={`${styles.bgLightBlue} vh-100 pt-3`}>
                 {state.chickenFlock.map((item) => (
                     <CustomCard
-                        key={state.chickenFlock.indexOf(item)}
+                        key={data.indexOf(item)}
                         data={item}
-                        onDelete={() =>
-                            setToDelete(state.chickenFlock.indexOf(item))
-                        }
+                        onDelete={() => setToDelete(data.indexOf(item))}
                     />
                 ))}
                 <img
                     className="d-block ml-auto mt-5"
                     src={AddBtn}
                     alt="add_btn"
-                    onClick={() => addNewGen()}
+                    onClick={() => {
+                        addNewGen();
+                    }}
                 />
             </Container>
         </div>
     );
 };
 
-export default ManageChicken;
+export default ManageAccount;

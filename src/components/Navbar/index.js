@@ -11,11 +11,9 @@ import LogoutLogo from '../../static/icon/logout.svg';
 import ManageChickenLogo from '../../static/icon/managechicken.svg';
 import { slide as Menu } from 'react-burger-menu';
 import Navbar from 'react-bootstrap/Navbar';
-import ProfilePic from '../../static/icon/profile_pic.svg';
 import SettingLogo from '../../static/icon/settings.svg';
 import TermLogo from '../../static/icon/term.svg';
 import styles from './index.module.scss';
-import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 const Nav = () => {
@@ -33,8 +31,8 @@ const Nav = () => {
     };
     const selectedHouse = (item) => {
         dispatch({
-            type: 'update-hno',
-            payload: item,
+            type: 'update-user',
+            payload: { hno: item },
         });
     };
     const showHouse = () => {
@@ -43,19 +41,20 @@ const Nav = () => {
                 <DropdownButton
                     alignRight
                     id={styles.btnDropdown}
-                    title={`House ${state.selectedHno}`}
+                    title={`House ${state.user.hno}`}
                 >
-                    {state.user.hno.map((item) => {
-                        return (
-                            <Dropdown.Item
-                                key={`selection-${item}`}
-                                href="#/action-1"
-                                onClick={() => selectedHouse(item)}
-                            >
-                                House {item}
-                            </Dropdown.Item>
-                        );
-                    })}
+                    {Array.isArray(state.hno) &&
+                        state.hno.map((item) => {
+                            return (
+                                <Dropdown.Item
+                                    key={`selection-${item}`}
+                                    // href="#/action-1"
+                                    onClick={() => selectedHouse(item)}
+                                >
+                                    House {item}
+                                </Dropdown.Item>
+                            );
+                        })}
                 </DropdownButton>
             );
         } else {
@@ -103,7 +102,7 @@ const Nav = () => {
 
     const getTitle = () => {
         switch (history.location.pathname) {
-            case '/dashboard':
+            case '/':
                 return 'Dashboard';
             case '/dead-chicken':
                 return 'Dead Chicken';

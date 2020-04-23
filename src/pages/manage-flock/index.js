@@ -6,17 +6,17 @@ import Form from 'react-bootstrap/Form';
 import styles from './index.module.scss';
 
 const ManageFlock = () => {
-    const createNewFlock = () => {
-        return {
-            flockName,
-            chickenInDate,
-            chickenOutDate,
-            house,
-            amountOfChickens,
-            gender,
-            chickenType,
-        };
-    };
+    // const createNewFlock = () => {
+    //     return {
+    //         flockName,
+    //         chickenInDate,
+    //         chickenOutDate,
+    //         house,
+    //         amountOfChickens,
+    //         gender,
+    //         chickenType,
+    //     };
+    // };
     const [flockName, setFlockName] = useState();
     const [chickenInDate, setChickenInDate] = useState();
     const [chickenOutDate, setChickenOutDate] = useState();

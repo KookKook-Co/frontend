@@ -10,24 +10,22 @@ import RightArr from '../../static/icon/right_arr.svg';
 import moment from 'moment';
 import styles from './index.module.scss';
 
-const customTooltips = (tooltip) => {
-    tooltip.backgroundColor = '#FFF';
-    tooltip.mode = 'index';
-    tooltip.intersect = true;
-    tooltip.yPadding = 10;
-    tooltip.xPadding = 10;
-    tooltip.caretSize = 4;
-    tooltip.bodyFontColor = '#5A5A5A';
-    tooltip.borderColor = '#CECED0';
-    tooltip.borderWidth = 0.05;
-    tooltip.cornerRadius = 0;
-    tooltip.displayColors = false;
-};
+// const customTooltips = (tooltip) => {
+//     tooltip.backgroundColor = '#FFF';
+//     tooltip.mode = 'index';
+//     tooltip.intersect = true;
+//     tooltip.yPadding = 10;
+//     tooltip.xPadding = 10;
+//     tooltip.caretSize = 4;
+//     tooltip.bodyFontColor = '#5A5A5A';
+//     tooltip.borderColor = '#CECED0';
+//     tooltip.borderWidth = 0.05;
+//     tooltip.cornerRadius = 0;
+//     tooltip.displayColors = false;
+// };
 
 const WeeklyChart = ({ property }) => {
     const [day, setDay] = useState(moment());
-    const weeklyLabel = ['S', 'M', 'T', 'W', 'TH', 'F', 'S'];
-    const dailyLabel = ['00', '06', '12', '18', '24'];
 
     const canAddWeek = (day) => {
         return !(
@@ -79,7 +77,7 @@ const WeeklyChart = ({ property }) => {
                     <p className={`${styles.textFullDate}`}>
                         {day.format('dddd')} {day.format('DD MMM YYYY')}
                     </p>
-                    <Link to="/dashboard">
+                    <Link to="/">
                         <small>Change</small>
                     </Link>
                     <div className="d-flex">

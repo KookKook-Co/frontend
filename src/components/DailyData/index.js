@@ -15,15 +15,7 @@ const DailyData = () => {
     const { state } = useContext(Context);
     const [date, setDate] = useState(moment());
 
-    const [showConfirm, setShowConfirm] = useState(false);
-
-    const showHno = () => {
-        if (state.user.role === 'OWNER') {
-            return `HOUSE ${state.selectedHno}`;
-        } else {
-            return `HOUSE ${state.user.hno}`;
-        }
-    };
+    const [showConfirm, setShowComfirm] = useState(false);
 
     return (
         <Container className={`mt-3 ${styles.containerHeight}`}>
@@ -34,7 +26,7 @@ const DailyData = () => {
                     <div>
                         <Form.Group controlId="formDate">
                             <Form.Label className={styles.selectDate}>
-                                {showHno()}
+                                HOUSE {state.user.hno ? state.user.hno : ''}
                             </Form.Label>
                             <Form.Control
                                 type="date"

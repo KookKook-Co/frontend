@@ -6,11 +6,13 @@ const initialState = {
     user: {},
     zones: [],
     registrationData: {},
-    selectedHno: 1,
+    hno: [],
     dailyData: {},
     unqChicken: {},
     deadChickenLocation: {},
     deadChickenMap: {},
+    chickenFlock: [],
+    chickenFlockInfo: {},
 };
 
 const Store = ({ children }) => {

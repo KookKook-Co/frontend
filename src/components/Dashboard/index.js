@@ -41,6 +41,12 @@ const Dashboard = () => {
     const zoneData = state.zones[currentZone - 1];
 
     useEffect(() => {
+        if (localStorage.getItem('token') === null) {
+            history.push('/login');
+        }
+    }, []);
+
+    useEffect(() => {
         socket.on('pipeRealTimeData', (result) => {
             // console.log('+++result++++');
             // console.log(result);
@@ -60,14 +66,6 @@ const Dashboard = () => {
         socket.emit('getRealTimeData');
     }, []);
 
-    const showHno = () => {
-        if (state.user.role === 'OWNER') {
-            return `HOUSE ${state.selectedHno}`;
-        } else {
-            return `HOUSE ${state.user.hno}`;
-        }
-    };
-
     return (
         <Container>
             <div className="mt-3 d-flex">
@@ -78,7 +76,9 @@ const Dashboard = () => {
                     <div
                         className={`${styles.bgHouse} d-flex p-1 justify-content-center`}
                     >
-                        <div className={`${styles.textHouse}`}>{showHno()}</div>
+                        <div className={`${styles.textHouse}`}>
+                            HOUSE {state.user.hno ? state.user.hno : ''}
+                        </div>
                     </div>
                 </div>
 

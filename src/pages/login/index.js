@@ -13,7 +13,7 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const history = useHistory();
-    const { state, dispatch } = useContext(Context);
+    const { dispatch } = useContext(Context);
 
     const login = async () => {
         await axios
@@ -28,10 +28,7 @@ const Login = () => {
                     type: 'update-user',
                     payload: res.data,
                 });
-                console.log(res.data.access_token);
-                console.log('++++++++USER++++');
-                console.log(state.user);
-                history.push('/dashboard');
+                history.push('/');
             });
     };
 

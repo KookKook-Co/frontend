@@ -15,17 +15,32 @@ const Reducer = (state, action) => {
         case 'update-user':
             return {
                 ...state,
-                user: action.payload,
+                user: { ...state.user, ...action.payload },
             };
         case 'update-hno':
             return {
                 ...state,
-                selectedHno: action.payload,
+                hno: action.payload,
             };
         case 'update-dailyData':
             return {
                 ...state,
                 dailyData: action.payload,
+            };
+        case 'update-unqChicken':
+            return {
+                ...state,
+                unqChicken: action.payload,
+            };
+        case 'update-chickenFlock':
+            return {
+                ...state,
+                chickenFlock: action.payload,
+            };
+        case 'update-chickenFlockInfo':
+            return {
+                ...state,
+                chickenFlockInfo: action.payload,
             };
         case 'clear-selectedHno':
             return {

@@ -23,7 +23,7 @@ const PersonalInfo = () => {
     const [lineId, setLineId] = useState(
         (state.registrationData && state.registrationData.lineId) || '',
     );
-    const [fileUpload, setFileUpload] = useState();
+    // const [fileUpload, setFileUpload] = useState();
     const fileRef = useRef(null);
 
     const createAccount = async () => {

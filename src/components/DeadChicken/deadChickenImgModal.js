@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import { Context } from '../../Store';
-import styles from './deadChickenImgModal.module.scss';
-import Modal from 'react-bootstrap/Modal';
+
 import Button from 'react-bootstrap/Button';
+import { Context } from '../../Store';
+import Modal from 'react-bootstrap/Modal';
+import styles from './deadChickenImgModal.module.scss';
 
 function ImgModal(props) {
     const { state, dispatch } = useContext(Context);
@@ -30,9 +31,9 @@ function ImgModal(props) {
                     <Button variant="secondary" onClick={props.handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={props.handleClose}>
+                    {/* <Button variant="primary" onClick={props.handleClose}>
                         Refresh
-                    </Button>
+                    </Button> */}
                 </Modal.Footer>
             </Modal>
         </>
