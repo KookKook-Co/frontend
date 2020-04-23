@@ -58,9 +58,6 @@ function AppRouter() {
                         <Route path="/temp">
                             <Temp />
                         </Route>
-                        <Route path="/">
-                            <MainTabs />
-                        </Route>
                         <Route path="/dead-chicken">
                             <MainTabs />
                         </Route>
@@ -87,6 +84,9 @@ function AppRouter() {
                         </Route>
                         <Route path="/show-house-data">
                             <ShowHouseData />
+                        </Route>
+                        <Route path="/">
+                            <MainTabs />
                         </Route>
                         {/* 
                         <Route path="/">

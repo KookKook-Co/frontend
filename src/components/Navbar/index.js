@@ -78,7 +78,7 @@ const Nav = () => {
                         <a
                             id="contact"
                             className={`menu-item ${styles.textMenu} ml-3`}
-                            href="/"
+                            href="/create-account"
                         >
                             Create Account
                         </a>
@@ -148,35 +148,32 @@ const Nav = () => {
                         <div>{showHouse()}</div>
                     </div>
                     <div className={styles.borderLine}></div>
-                    <div className="my-4">
+                    <div className="my-4 d-flex">
                         <img src={SettingLogo} alt="setting_logo" />
-                        <a
+                        <p
                             id="home"
-                            className={`menu-item ${styles.textMenu} ml-3`}
-                            href="/"
+                            className={`menu-item ${styles.textMenu} ml-3 mb-0`}
                         >
                             Settings and Privacy
-                        </a>
+                        </p>
                     </div>
-                    <div className="my-4">
+                    <div className="my-4 d-flex">
                         <img src={TermLogo} alt="term_logo" />
-                        <a
+                        <p
                             id="about"
-                            className={`menu-item ${styles.textMenu} ml-3`}
-                            href="/"
+                            className={`menu-item ${styles.textMenu} ml-3 mb-0`}
                         >
                             Term and Conditions
-                        </a>
+                        </p>
                     </div>
-                    <div className="my-4">
+                    <div className="my-4 d-flex">
                         <img src={HelpLogo} alt="help_logo" />
-                        <a
+                        <p
                             id="contact"
-                            className={`menu-item ${styles.textMenu} ml-3`}
-                            href="/"
+                            className={`menu-item ${styles.textMenu} ml-3 mb-0`}
                         >
                             Help
-                        </a>
+                        </p>
                     </div>
                     <div className="my-4">{showManage()}</div>
                     <div className="my-4 d-flex">
