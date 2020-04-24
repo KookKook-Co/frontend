@@ -10,20 +10,6 @@ import RightArr from '../../static/icon/right_arr.svg';
 import moment from 'moment';
 import styles from './index.module.scss';
 
-// const customTooltips = (tooltip) => {
-//     tooltip.backgroundColor = '#FFF';
-//     tooltip.mode = 'index';
-//     tooltip.intersect = true;
-//     tooltip.yPadding = 10;
-//     tooltip.xPadding = 10;
-//     tooltip.caretSize = 4;
-//     tooltip.bodyFontColor = '#5A5A5A';
-//     tooltip.borderColor = '#CECED0';
-//     tooltip.borderWidth = 0.05;
-//     tooltip.cornerRadius = 0;
-//     tooltip.displayColors = false;
-// };
-
 const WeeklyChart = ({ property }) => {
     const [day, setDay] = useState(moment());
 

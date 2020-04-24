@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import { Context } from '../../Store';
+import ImgModal from './deadChickenImgModal';
 import axios from 'axios';
 import styles from './index.module.scss';
-import ImgModal from './deadChickenImgModal';
 
 const DeadChicken = () => {
     const [cameraData, setCameraData] = useState([]);
@@ -17,9 +17,7 @@ const DeadChicken = () => {
         axios
             .get(`/event/deadchickenmap?hno=1`)
             .then((res) => {
-                // console.log(res);
                 setCameraData(res.data);
-                console.log(cameraData);
                 dispatch({
                     type: 'update-deadChicken-map',
                     payload: res.data,
@@ -57,9 +55,6 @@ const DeadChicken = () => {
             },
         });
         setShow(true);
-        // console.log('++++++++ DEAD MAP ++++++++');
-        // console.log(state.deadChickenMap);
-        // history.push('/dead-chicken-img');
     };
 
     const eachrow = (row, index) => {

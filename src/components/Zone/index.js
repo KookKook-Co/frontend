@@ -14,16 +14,10 @@ import windIcon from '../../static/icon/wind.svg';
 const Zone = ({ currentZone, onPropertySelected }) => {
     const { state } = useContext(Context);
     const zoneData = state.zones[currentZone - 1];
-    console.log('+++++++zoneData++++++++');
-    console.log(currentZone);
     const enviData = zoneData && zoneData.environmentalData;
     const isIrregular = (property) => {
         return zoneData.irregularEnv.includes(property);
     };
-
-    useEffect(() => {
-        console.log(state.zones[currentZone - 1]);
-    }, [state.zones]);
 
     const dataFormat = enviData && [
         {
@@ -92,7 +86,6 @@ const Zone = ({ currentZone, onPropertySelected }) => {
                             className="d-flex flex-column p-2"
                             onClick={() => {
                                 onPropertySelected(data.property);
-                                console.log(data.property);
                             }}
                         >
                             <div

@@ -48,8 +48,6 @@ const Dashboard = () => {
 
     useEffect(() => {
         socket.on('pipeRealTimeData', (result) => {
-            // console.log('+++result++++');
-            // console.log(result);
             const realtimeData = result;
             dispatch({
                 type: 'update-zones',
@@ -60,9 +58,6 @@ const Dashboard = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        // console.log('++++state+++');
-        // console.log(state);
-        // console.log(state.zones);
         socket.emit('getRealTimeData');
     }, []);
 

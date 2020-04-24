@@ -123,7 +123,6 @@ const ManageAccount = () => {
     useEffect(() => {
         const getWorkerAccountInfo = async () => {
             const res = await axios.get(`/users?hno=${state.user.hno}`);
-            console.log(res.data);
             dispatch({
                 type: 'update-workerAccount',
                 payload: res.data,
@@ -132,7 +131,6 @@ const ManageAccount = () => {
         if (state.user && state.user.hno) {
             getWorkerAccountInfo();
         }
-        console.log(count);
     }, [state.user, count]);
 
     const [toDelete, setToDelete] = useState();

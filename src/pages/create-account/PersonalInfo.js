@@ -31,18 +31,7 @@ const PersonalInfo = () => {
             type: 'update-registrationData',
             payload: { firstName, lastName, email, lineId },
         });
-        console.log('+++++++++regisdata2');
-        console.log(state.registrationData);
-        // const user = {
-        //     username: state.registrationData.username,
-        //     password: state.registrationData.password,
-        //     firstName: firstName,
-        //     lastName: lastName,
-        //     role: state.registrationData.role,
-        //     lineID: lineId,
-        // };
         const data = new FormData();
-        console.log('+++++++++data');
 
         data.append('username', state.registrationData.username);
         data.append('password', state.registrationData.password);
@@ -56,15 +45,10 @@ const PersonalInfo = () => {
             data.append('hno', parseInt(state.registrationData.hno));
         }
         data.append('image', fileUpload, fileUpload.name);
-        console.log(data);
-        // data.append('image', fs.createReadStream(fileRef.current.files[0]));
 
         const res = await axios.post('/users', data, {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
-
-        console.log('++++res++++');
-        console.log(res);
     };
 
     useEffect(() => {

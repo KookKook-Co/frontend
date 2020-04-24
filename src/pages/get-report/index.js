@@ -38,9 +38,7 @@ const GetReport = () => {
                 .filter((each) => each.value)
                 .map((each) => each.type),
         };
-        console.log(data);
         const res = await axios.post('/report', data);
-        console.log(res);
     };
 
     return (

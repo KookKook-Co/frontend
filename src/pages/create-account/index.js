@@ -80,8 +80,6 @@ const CreateAccount = () => {
                 role,
             },
         });
-        console.log('+++++++++regisdata1');
-        console.log(state.registrationData);
         history.push(`/personal-info`);
     };
 

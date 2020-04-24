@@ -28,12 +28,10 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
     (response) => {
-        console.log(response);
         // Edit response config
         return response;
     },
     (error) => {
-        console.log(error);
         return Promise.reject(error);
     },
 );

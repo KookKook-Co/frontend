@@ -40,12 +40,7 @@ const ManageFlock = () => {
             chickenFlockInfo,
         };
 
-        await axios
-            .post('/event/dailydata', data)
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => console.log(err));
+        await axios.post('/event/dailydata', data);
 
         history.push('/manage-chicken');
     };
