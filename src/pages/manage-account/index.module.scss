@@ -1,0 +1,45 @@
+@import '../../assets/sass/variables.scss';
+
+.imgProfile {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.bgLightBlue {
+    background-color: $theme-light-blue;
+}
+
+.bgHouse {
+    background-color: $theme-yellow-color;
+    min-height: 13px;
+    border-radius: 8px;
+    width: 50px;
+}
+
+.textHouse {
+    color: #171717;
+    font-size: 0.5rem;
+    width: fit-content;
+    line-height: 10px;
+}
+
+.bgCard {
+    background-color: white;
+    border-radius: 4px;
+    width: 340px;
+}
+
+.textFullName {
+    color: black;
+    font-size: 1rem;
+    font-weight: $font-weight-medium;
+    line-height: 22px;
+}
+
+.textUsername {
+    color: rgba(151, 151, 151, 0.7);
+    font-size: 0.875rem;
+    font-weight: $font-weight-regular;
+    line-height: 22px;
+}

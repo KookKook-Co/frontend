@@ -13,6 +13,9 @@ const initialState = {
     deadChickenMap: {},
     chickenFlock: [],
     chickenFlockInfo: {},
+    createFlock: {},
+    workerAccount: [],
+    workerAccountInfo: {},
 };
 
 const Store = ({ children }) => {

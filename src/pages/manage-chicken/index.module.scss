@@ -22,6 +22,7 @@
 
 .bgCard {
     background-color: white;
+    border-radius: 4px;
     width: 340px;
 }
 
@@ -51,11 +52,6 @@
     width: 3rem;
 }
 
-.containerType {
-    background-color: #3aafae;
-    border-radius: 4px;
-}
-
 .textContainer {
     color: #ffffff;
     margin: 0;
@@ -81,11 +77,6 @@ a.dropdownItem {
     padding: 0;
 }
 
-// div.dropdown-menu {
-//     border: none !important;
-//     min-width: 0 !important;
-// }
-
 :global {
     .dropdown-menu {
         border: none;
@@ -93,34 +84,3 @@ a.dropdownItem {
         padding-top: 0;
     }
 }
-
-// .columnLeft {
-//     margin-left: 1rem;
-//     margin-right: 0.5rem;
-//     margin-top: 1.2rem;
-//     margin-bottom: 1.2rem;
-// }
-
-// .columnMiddleLeft {
-//     width: 5rem;
-//     margin-left: 1.5rem;
-// }
-
-// .columnMiddleRight {
-//     width: 5rem;
-//     margin-left: 1.5rem;
-// }
-
-// .columnRight {
-//     width: 1rem;
-// }
-
-// .chickNum{
-//     margin-right: 1rem;
-//     width: 5rem;
-// }
-
-// .chickAge{
-//     margin-left: 1rem;
-//     width: 5rem;
-// }

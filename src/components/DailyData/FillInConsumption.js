@@ -29,13 +29,27 @@ const vitaminType = [
 export const FillInConsumption = ({ date }) => {
     const { state, dispatch } = useContext(Context);
     const history = useHistory();
-    const [foodIn1, setFoodIn1] = useState(0);
-    const [foodLeft1, setFoodLeft1] = useState(0);
-    const [foodIn2, setFoodIn2] = useState(0);
-    const [foodLeft2, setFoodLeft2] = useState(0);
-    const [waterV1, setWaterV1] = useState(0);
-    const [waterV2, setWaterV2] = useState(0);
-    const [chosenMedicine, setChosenMedicine] = useState({});
+    const [foodIn1, setFoodIn1] = useState(
+        (state.dailyData && state.dailyData.foodIn1) || 0,
+    );
+    const [foodLeft1, setFoodLeft1] = useState(
+        (state.dailyData && state.dailyData.foodLeft1) || 0,
+    );
+    const [foodIn2, setFoodIn2] = useState(
+        (state.dailyData && state.dailyData.foodIn2) || 0,
+    );
+    const [foodLeft2, setFoodLeft2] = useState(
+        (state.dailyData && state.dailyData.foodLeft2) || 0,
+    );
+    const [waterV1, setWaterV1] = useState(
+        (state.dailyData && state.dailyData.waterV1) || 0,
+    );
+    const [waterV2, setWaterV2] = useState(
+        (state.dailyData && state.dailyData.waterV2) || 0,
+    );
+    const [chosenMedicine, setChosenMedicine] = useState(
+        (state.dailyData && state.dailyData.medicine) || {},
+    );
 
     const medicineInput = (cMed) => {
         return Object.keys(cMed).map((type) => {

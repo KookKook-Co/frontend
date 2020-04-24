@@ -30,13 +30,14 @@ const Nav = () => {
         history.push('/login');
     };
     const selectedHouse = (item) => {
+        localStorage.setItem('hno', item);
         dispatch({
             type: 'update-user',
             payload: { hno: item },
         });
     };
     const showHouse = () => {
-        if (state.user.role === 'OWNER') {
+        if (state.user && state.user.role === 'OWNER') {
             return (
                 <DropdownButton
                     alignRight
@@ -63,14 +64,14 @@ const Nav = () => {
                     className={`${styles.bgHouse} d-flex p-1 justify-content-center`}
                 >
                     <div className={`${styles.textHouse}`}>
-                        HOUSE {state.user.hno}
+                        HOUSE {state.user && state.user.hno}
                     </div>
                 </div>
             );
         }
     };
     const showManage = () => {
-        if (state.user.role === 'OWNER') {
+        if (state.user && state.user.role === 'OWNER') {
             return (
                 <div>
                     <div className="my-4">
@@ -78,9 +79,9 @@ const Nav = () => {
                         <a
                             id="contact"
                             className={`menu-item ${styles.textMenu} ml-3`}
-                            href="/create-account"
+                            href="/manage-account"
                         >
-                            Create Account
+                            Manage Account
                         </a>
                     </div>
                     <div className="my-4">
@@ -112,12 +113,18 @@ const Nav = () => {
                 return 'Manage House';
             case '/manage-flock':
                 return 'Manage House';
+            case '/show-house-data':
+                return 'Manage House';
             case '/chicken-info':
                 return 'Manage Chicken';
             case '/create-account':
                 return 'Create Account';
             case '/personal-info':
                 return 'Create Account';
+            case '/manage-account':
+                return 'Manage Account';
+            case '/show-worker-data':
+                return 'Manage Account';
             default:
                 return 'kookkook';
         }
@@ -140,7 +147,7 @@ const Nav = () => {
                 >
                     <div className="d-flex flex-column align-items-end mb-4">
                         <img
-                            src={state.user.imageUrl}
+                            src={state.user && state.user.imageUrl}
                             alt="profile_pic"
                             className={`mb-2 ${styles.imgProfile}`}
                         />

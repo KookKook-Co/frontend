@@ -1,0 +1,25 @@
+@import '../../assets/sass/variables.scss';
+
+.bgLightBlue {
+    background-color: $theme-light-blue;
+}
+
+.imgProfile {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.infoToShow {
+    color: #828282;
+    font-size: 0.875rem;
+    font-weight: $font-weight-medium;
+    line-height: 22px;
+}
+
+.textValue {
+    color: black;
+    font-size: 1rem;
+    font-weight: $font-weight-medium;
+    line-height: 22px;
+}

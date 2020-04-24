@@ -12,31 +12,35 @@ import CreateAccount from './pages/create-account';
 import GetReport from './pages/get-report';
 import Login from './pages/login';
 import MainTabs from './pages/main';
+import ManageAccount from './pages/manage-account';
 import ManageChicken from './pages/manage-chicken';
 import ManageFlock from './pages/manage-flock';
 import Nav from './components/Navbar';
 import PersonalInfo from './pages/create-account/PersonalInfo';
 import ShowHouseData from './pages/show-house-data';
+import ShowWorkerData from './pages/show-worker-data';
 import Temp from './pages/temperature';
 import axios from 'axios';
 
 function AppRouter() {
-    const { state, dispatch } = useContext(Context);
+    const { dispatch } = useContext(Context);
     useEffect(() => {
         const getCurrentUser = async () => {
             const res = await axios.get('/users/currentuser');
             console.log(res.data);
-            dispatch({
-                type: 'update-user',
-                payload: res.data,
-            });
-            console.log('++++++++USER++++');
-            console.log(state.user);
+            if (res.data.role === 'OWNER') {
+                const data = {
+                    ...res.data,
+                    hno: localStorage.getItem('hno'),
+                };
+                dispatch({
+                    type: 'update-user',
+                    payload: data,
+                });
+            }
 
             if (res.data.role === 'OWNER') {
                 const res = await axios.get('/event/hnos');
-                console.log('+++getHNO');
-                console.log(res.data);
                 dispatch({
                     type: 'update-hno',
                     payload: res.data,
@@ -84,6 +88,12 @@ function AppRouter() {
                         </Route>
                         <Route path="/show-house-data">
                             <ShowHouseData />
+                        </Route>
+                        <Route path="/manage-account">
+                            <ManageAccount />
+                        </Route>
+                        <Route path="/show-worker-data">
+                            <ShowWorkerData />
                         </Route>
                         <Route path="/">
                             <MainTabs />

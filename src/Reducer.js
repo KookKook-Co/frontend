@@ -17,6 +17,11 @@ const Reducer = (state, action) => {
                 ...state,
                 user: { ...state.user, ...action.payload },
             };
+        case 'create-flock':
+            return {
+                ...state,
+                createFlock: action.payload,
+            };
         case 'update-hno':
             return {
                 ...state,
@@ -25,7 +30,7 @@ const Reducer = (state, action) => {
         case 'update-dailyData':
             return {
                 ...state,
-                dailyData: action.payload,
+                dailyData: { ...state.dailyData, ...action.payload },
             };
         case 'update-unqChicken':
             return {
@@ -41,6 +46,16 @@ const Reducer = (state, action) => {
             return {
                 ...state,
                 chickenFlockInfo: action.payload,
+            };
+        case 'update-workerAccount':
+            return {
+                ...state,
+                workerAccount: action.payload,
+            };
+        case 'update-workerAccountInfo':
+            return {
+                ...state,
+                workerAccountInfo: action.payload,
             };
         case 'clear-selectedHno':
             return {

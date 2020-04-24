@@ -23,7 +23,7 @@ const PersonalInfo = () => {
     const [lineId, setLineId] = useState(
         (state.registrationData && state.registrationData.lineId) || '',
     );
-    // const [fileUpload, setFileUpload] = useState();
+    const [fileUpload, setFileUpload] = useState();
     const fileRef = useRef(null);
 
     const createAccount = async () => {
@@ -33,30 +33,38 @@ const PersonalInfo = () => {
         });
         console.log('+++++++++regisdata2');
         console.log(state.registrationData);
-        const user = {
-            username: state.registrationData.username,
-            password: state.registrationData.password,
-            firstName: state.registrationData.firstName,
-            lastName: state.registrationData.lastName,
-            role: state.registrationData.role,
-            imageUrl: fileRef.current.files[0],
-            lineID: state.registrationData.lineId,
-        };
+        // const user = {
+        //     username: state.registrationData.username,
+        //     password: state.registrationData.password,
+        //     firstName: firstName,
+        //     lastName: lastName,
+        //     role: state.registrationData.role,
+        //     lineID: lineId,
+        // };
         const data = new FormData();
         console.log('+++++++++data');
-        console.log(data);
-        data.append('user', user);
-        data.append('hno', state.registrationData.hno);
-        try {
-            const res = await axios.post('/users', data, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-            });
-            console.log('++++res++++');
-            console.log(res);
-        } catch (error) {
-            console.log('++++++Error++++++');
-            console.log(error);
+
+        data.append('username', state.registrationData.username);
+        data.append('password', state.registrationData.password);
+        data.append('firstName', firstName);
+        data.append('lastName', lastName);
+        data.append('role', state.registrationData.role);
+        data.append('lineID', lineId);
+        if (state.registrationData.role === 'OWNER') {
+            data.append('hno', null);
+        } else {
+            data.append('hno', parseInt(state.registrationData.hno));
         }
+        data.append('image', fileUpload, fileUpload.name);
+        console.log(data);
+        // data.append('image', fs.createReadStream(fileRef.current.files[0]));
+
+        const res = await axios.post('/users', data, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+
+        console.log('++++res++++');
+        console.log(res);
     };
 
     useEffect(() => {
@@ -120,14 +128,14 @@ const PersonalInfo = () => {
                     />
                 </Form.Group>
 
-                <Form.Group controlId="formLineId">
+                <Form.Group controlId="formLineId" className="mb-0">
                     <Form.Label className={styles.textFormLabel}>
                         Upload profile picture
                     </Form.Label>
 
                     <input
                         type="file"
-                        onChange={(e) => console.log(e.target.files[0])}
+                        onChange={(e) => setFileUpload(e.target.files[0])}
                         ref={fileRef}
                         hidden
                     />
@@ -144,6 +152,9 @@ const PersonalInfo = () => {
                             </p>
                         </div>
                     </div>
+                    <p className={`${styles.textUpload} mb-0`}>
+                        {fileUpload && fileUpload.name}
+                    </p>
                 </Form.Group>
             </Form>
 

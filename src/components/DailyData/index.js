@@ -8,14 +8,51 @@ import { FillInConsumption } from './FillInConsumption';
 import Form from 'react-bootstrap/Form';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import axios from 'axios';
 import moment from 'moment';
 import styles from './index.module.scss';
 
 const DailyData = () => {
-    const { state } = useContext(Context);
+    const { state, dispatch } = useContext(Context);
     const [date, setDate] = useState(moment());
 
     const [showConfirm, setShowComfirm] = useState(false);
+
+    // const getDailyData = async (event) => {
+    //     setDate(moment(event, 'YYYY-MM-DD'));
+    //     const urlDate = moment(event, 'YYYY-MM-DD');
+    //     const res = await axios.get(
+    //         `/event/dailydata?hno=${state.user.hno}&date=${urlDate}`,
+    //     );
+    //     const food = res.data.food;
+    //     const water = res.data.water;
+    //     const medicine = res.data.medicine;
+
+    //     const foodSilo1 = food[0];
+    //     const foodSilo2 = food[1];
+
+    //     const foodIn1 = foodSilo1.foodIn;
+    //     const foodLeft1 = foodSilo1.foodRemain;
+
+    //     const foodIn2 = foodSilo2.foodIn;
+    //     const foodLeft2 = foodSilo2.foodRemain;
+
+    //     const waterV1 = water.waterMeter1;
+    //     const waterV2 = water.waterMeter2;
+
+    //     dispatch({
+    //         type: 'update-dailyData',
+    //         payload: {
+    //             foodIn1,
+    //             foodLeft1,
+    //             foodIn2,
+    //             foodLeft2,
+    //             waterV1,
+    //             waterV2,
+    //             medicine,
+    //         },
+    //     });
+    // };
 
     return (
         <Container className={`mt-3 ${styles.containerHeight}`}>
@@ -31,12 +68,9 @@ const DailyData = () => {
                             <Form.Control
                                 type="date"
                                 defaultValue={date.format('YYYY-MM-DD')}
-                                onChange={(e) => {
-                                    console.log(typeof e.target.value);
-                                    setDate(
-                                        moment(e.target.value, 'YYYY-MM-DD'),
-                                    );
-                                }}
+                                // onChange={(e) => {
+                                //     getDailyData(e.target.value);
+                                // }}
                             />
                         </Form.Group>
                     </div>

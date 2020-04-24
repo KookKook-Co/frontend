@@ -157,6 +157,7 @@ const CustomCard = ({ data, onDelete }) => {
 };
 
 const ManageChicken = () => {
+    const [count, setCount] = useState(0);
     const history = useHistory();
     const addNewGen = () => {
         history.push('/manage-flock');
@@ -173,41 +174,22 @@ const ManageChicken = () => {
                 payload: res.data,
             });
         };
-        if (state.user.hno) {
+        if (state.user && state.user.hno) {
             getChickenFlockInfo();
         }
-    }, [state.user.hno]);
+        console.log(count);
+    }, [state.user, count]);
 
     const [toDelete, setToDelete] = useState();
-    const [data, setData] = useState(state.chickenFlock);
-    console.log(state.chickenFlock);
-    console.log(data);
-    // const [data, setData] = useState([
-    //     {
-    //         id: 1,
-    //         generation: '2020/1',
-    //         date: '15 March 2020',
-    //         age: 4,
-    //         gender: 'Male',
-    //         type: 'chicken type',
-    //     },
-    //     {
-    //         id: 2,
-    //         generation: '2020/1',
-    //         date: '15 March 2020',
-    //         age: 4,
-    //         gender: 'Male',
-    //         type: 'chicken type',
-    //     },
-    //
-    // ]);
 
-    // const createCard = (newItem) => {
-    //     setData([...data, newItem]);
-    // };
-
-    const deleteCard = (id) => {
-        setData(data.filter((item) => item.id !== id));
+    const deleteCard = async (generation) => {
+        axios
+            .delete(
+                `/event/chickenflocks?hno=${
+                    state.user && state.user.hno
+                }&generation=${generation}`,
+            )
+            .then(setCount(count + 1));
     };
 
     return (
@@ -224,15 +206,14 @@ const ManageChicken = () => {
                 }}
             />
             <Container className={`${styles.bgLightBlue} vh-100 pt-3`}>
-                {state.chickenFlock.map((item) => (
-                    <CustomCard
-                        key={state.chickenFlock.indexOf(item)}
-                        data={item}
-                        onDelete={() =>
-                            setToDelete(state.chickenFlock.indexOf(item))
-                        }
-                    />
-                ))}
+                {state.chickenFlock &&
+                    state.chickenFlock.map((item) => (
+                        <CustomCard
+                            key={state.chickenFlock.indexOf(item)}
+                            data={item}
+                            onDelete={() => setToDelete(item.generation)}
+                        />
+                    ))}
                 <img
                     className="d-block ml-auto mt-5"
                     src={AddBtn}

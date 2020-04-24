@@ -27,6 +27,48 @@ const CreateAccount = () => {
         (state.registrationData && state.registrationData.role) || '',
     );
 
+    const showHouseDropdown = () => {
+        if (role === 'OWNER') {
+            return (
+                <Form.Control
+                    as="select"
+                    onChange={(e) => setHno(e.target.value)}
+                    value={hno}
+                    custom
+                    required
+                    disabled
+                >
+                    <option disabled hidden>
+                        Select House
+                    </option>
+                    {[1, 2, 3, 4, 5].map((item) => (
+                        <option key={`selection- ${item}`} value={item}>
+                            House {item}
+                        </option>
+                    ))}
+                </Form.Control>
+            );
+        } else {
+            return (
+                <Form.Control
+                    as="select"
+                    onChange={(e) => setHno(e.target.value)}
+                    value={hno}
+                    custom
+                    required
+                >
+                    <option disabled hidden>
+                        Select House
+                    </option>
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+                        <option key={`selection- ${item}`} value={item}>
+                            House {item}
+                        </option>
+                    ))}
+                </Form.Control>
+            );
+        }
+    };
     const proceed = () => {
         dispatch({
             type: 'update-registrationData',
@@ -82,27 +124,6 @@ const CreateAccount = () => {
                     />
                 </Form.Group>
 
-                <Form.Group controlId="form.SelectHouse">
-                    <Form.Label className={styles.textFormLabel}>
-                        House
-                    </Form.Label>
-                    <Form.Control
-                        as="select"
-                        onChange={(e) => setHno(e.target.value)}
-                        value={hno}
-                        custom
-                        required
-                    >
-                        <option disabled hidden>
-                            Select House
-                        </option>
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-                            <option key={`selection- ${item}`} value={item}>
-                                House {item}
-                            </option>
-                        ))}
-                    </Form.Control>
-                </Form.Group>
                 <Form.Group controlId="form.SelectRole">
                     <Form.Label className={styles.textFormLabel}>
                         Role
@@ -117,9 +138,16 @@ const CreateAccount = () => {
                         <option disabled hidden>
                             Select Role
                         </option>
-                        <option>OWNER</option>
                         <option>WORKER</option>
+                        <option>OWNER</option>
                     </Form.Control>
+                </Form.Group>
+
+                <Form.Group controlId="form.SelectHouse">
+                    <Form.Label className={styles.textFormLabel}>
+                        House
+                    </Form.Label>
+                    <div>{showHouseDropdown()}</div>
                 </Form.Group>
             </Form>
 
