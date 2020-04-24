@@ -47,17 +47,16 @@ export const FillInConsumption = ({ date }) => {
     const [waterV2, setWaterV2] = useState(
         (state.dailyData && state.dailyData.waterV2) || 0,
     );
-    const [chosenMedicine, setChosenMedicine] = useState(
-        (state.dailyData && state.dailyData.medicine) || {},
-    );
 
-    const medicineInput = (cMed) => {
-        return Object.keys(cMed).map((type) => {
-            return {
-                medicineType: type,
-                medicineConc: parseFloat(cMed[type]),
-            };
-        });
+    const medicineInput = (vac, vit) => {
+        return [...vac, ...vit]
+            .filter((each) => each.isChosen)
+            .map((each) => {
+                return {
+                    medicineType: each.medicineType,
+                    medicineConc: parseFloat(each.medicineConc),
+                };
+            });
     };
 
     const getReport = () => {
@@ -99,7 +98,7 @@ export const FillInConsumption = ({ date }) => {
         const dailyInfo = {
             food: [foodInput1, foodInput2],
             water: waterInput,
-            medicine: medicineInput(chosenMedicine),
+            medicine: medicineInput(vaccine, vitamin),
         };
 
         const data = {
@@ -122,65 +121,59 @@ export const FillInConsumption = ({ date }) => {
     };
 
     const [show, setShow] = useState(false);
-    const handleClose = () => {
-        setShow(false);
-        setChosenMedicine((old) => {
-            const cVac = Object.keys(vaccine)
-                .filter((each) => vaccine[each])
-                .reduce((prev, curr) => {
-                    prev[curr] = old[curr] ? old[curr] : 0;
-                    return prev;
-                }, {});
-            const cVit = Object.keys(vitamin)
-                .filter((each) => vitamin[each])
-                .reduce((prev, curr) => {
-                    prev[curr] = old[curr] ? old[curr] : 0;
-                    return prev;
-                }, {});
-            return { ...cVac, ...cVit };
+
+    const deleteChosenVaccine = (type) => {
+        const index = vaccineType.findIndex((each) => each === type);
+        setVaccine((old) => {
+            const after = [...old];
+            after[index].isChosen = false;
+            return after;
         });
     };
 
-    const deleteChosenMedicine = (type) => {
-        setChosenMedicine((old) => {
-            delete old[type];
-            return { ...old };
+    const deleteChosenVitamin = (type) => {
+        const index = vitaminType.findIndex((each) => each === type);
+        setVitamin((old) => {
+            const after = [...old];
+            after[index].isChosen = false;
+            return after;
         });
-        vitamin[type] &&
-            setVitamin((old) => {
-                return {
-                    ...old,
-                    [type]: !vitamin[type],
-                };
-            });
-        vaccine[type] &&
-            setVaccine((old) => {
-                return {
-                    ...old,
-                    [type]: !vaccine[type],
-                };
-            });
     };
 
     const [vaccine, setVaccine] = useState(
-        vaccineType.reduce((prev, curr) => {
-            prev[curr] = false;
-            return prev;
-        }, {}),
+        vaccineType.map((each) => {
+            return {
+                medicineType: each,
+                isChosen: false,
+                medicineConc: 0,
+            };
+        }),
     );
     const [vitamin, setVitamin] = useState(
-        vitaminType.reduce((prev, curr) => {
-            prev[curr] = false;
-            return prev;
-        }, {}),
+        vitaminType.map((each) => {
+            return {
+                medicineType: each,
+                isChosen: false,
+                medicineConc: 0,
+            };
+        }),
     );
 
-    const handleConcentrationChange = (value, type) => {
-        setChosenMedicine((old) => {
-            return {
-                ...old,
-                [type]: value,
-            };
+    const handleVaccineConcentrationChange = (value, type) => {
+        const index = vaccineType.findIndex((each) => each === type);
+        setVaccine((old) => {
+            const after = [...old];
+            after[index].medicineConc = value;
+            return after;
+        });
+    };
+
+    const handleVitaminConcentrationChange = (value, type) => {
+        const index = vitaminType.findIndex((each) => each === type);
+        setVitamin((old) => {
+            const after = [...old];
+            after[index].medicineConc = value;
+            return after;
         });
     };
 
@@ -284,7 +277,7 @@ export const FillInConsumption = ({ date }) => {
                                 alt="add_btn"
                                 onClick={() => setShow(true)}
                             />
-                            <Modal show={show} onHide={handleClose}>
+                            <Modal show={show} onHide={() => setShow(false)}>
                                 <Modal.Header closeButton>
                                     <Modal.Title>Add Medicine</Modal.Title>
                                 </Modal.Header>
@@ -303,7 +296,7 @@ export const FillInConsumption = ({ date }) => {
                                         variant="addButton"
                                         type="button"
                                         className={styles.btnSubmit}
-                                        onClick={handleClose}
+                                        onClick={() => setShow(false)}
                                     >
                                         Add
                                     </Button>
@@ -311,46 +304,90 @@ export const FillInConsumption = ({ date }) => {
                             </Modal>
                         </div>
                         <div>
-                            {Object.keys(chosenMedicine).map((eachMedType) => {
-                                return (
-                                    <div className="formPop" key={eachMedType}>
-                                        <div>
-                                            <label
-                                                type="text"
-                                                className="form-control-plaintext"
-                                            >
-                                                {eachMedType}
-                                            </label>
+                            {vaccine
+                                .filter((each) => each.isChosen)
+                                .map((each, index) => {
+                                    return (
+                                        <div className="formPop" key={index}>
+                                            <div>
+                                                <label
+                                                    type="text"
+                                                    className="form-control-plaintext"
+                                                >
+                                                    {each.medicineType}
+                                                </label>
+                                            </div>
+                                            <div className="form-group mx-sm-3 mb-2 d-flex justify-content-between">
+                                                <label className="sr-only">
+                                                    Amount in ml
+                                                </label>
+                                                <input
+                                                    key={index}
+                                                    type="number"
+                                                    className="form-control mr-2"
+                                                    placeholder="Amount in ml"
+                                                    onChange={(e) => {
+                                                        handleVaccineConcentrationChange(
+                                                            e.target.value,
+                                                            each.medicineType,
+                                                        );
+                                                    }}
+                                                />
+                                                <img
+                                                    src={deleteMedicineBtn}
+                                                    onClick={() =>
+                                                        deleteChosenVaccine(
+                                                            each.medicineType,
+                                                        )
+                                                    }
+                                                    alt="trash_btn"
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="form-group mx-sm-3 mb-2 d-flex justify-content-between">
-                                            <label className="sr-only">
-                                                Amount in ml
-                                            </label>
-                                            <input
-                                                key={eachMedType}
-                                                type="number"
-                                                className="form-control mr-2"
-                                                placeholder="Amount in ml"
-                                                onChange={(e) => {
-                                                    handleConcentrationChange(
-                                                        e.target.value,
-                                                        eachMedType,
-                                                    );
-                                                }}
-                                            />
-                                            <img
-                                                src={deleteMedicineBtn}
-                                                onClick={() =>
-                                                    deleteChosenMedicine(
-                                                        eachMedType,
-                                                    )
-                                                }
-                                                alt="trash_btn"
-                                            />
+                                    );
+                                })}
+                            {vitamin
+                                .filter((each) => each.isChosen)
+                                .map((each, index) => {
+                                    return (
+                                        <div className="formPop" key={index}>
+                                            <div>
+                                                <label
+                                                    type="text"
+                                                    className="form-control-plaintext"
+                                                >
+                                                    {each.medicineType}
+                                                </label>
+                                            </div>
+                                            <div className="form-group mx-sm-3 mb-2 d-flex justify-content-between">
+                                                <label className="sr-only">
+                                                    Amount in ml
+                                                </label>
+                                                <input
+                                                    key={index}
+                                                    type="number"
+                                                    className="form-control mr-2"
+                                                    placeholder="Amount in ml"
+                                                    onChange={(e) => {
+                                                        handleVitaminConcentrationChange(
+                                                            e.target.value,
+                                                            each.medicineType,
+                                                        );
+                                                    }}
+                                                />
+                                                <img
+                                                    src={deleteMedicineBtn}
+                                                    onClick={() =>
+                                                        deleteChosenVitamin(
+                                                            each.medicineType,
+                                                        )
+                                                    }
+                                                    alt="trash_btn"
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })}
                         </div>
                     </Form.Group>
                 </div>

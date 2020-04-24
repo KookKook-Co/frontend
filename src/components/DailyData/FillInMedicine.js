@@ -10,52 +10,48 @@ export const FillInMedicine = ({
     return (
         <form>
             <h6>VACCINE</h6>
-            {Object.keys(vaccine).map((eachVaccineType, index) => {
+            {vaccine.map((eachVaccineType, index) => {
                 return (
                     <div key={index} className="form-check">
                         <input
                             className="form-check-input-vaccine"
                             type="checkbox"
-                            checked={vaccine[eachVaccineType]}
+                            checked={vaccine[index].isChosen}
                             onChange={() =>
                                 setVaccine((old) => {
-                                    return {
-                                        ...old,
-                                        [eachVaccineType]: !vaccine[
-                                            eachVaccineType
-                                        ],
-                                    };
+                                    const after = [...old];
+                                    after[index].isChosen = !after[index]
+                                        .isChosen;
+                                    return after;
                                 })
                             }
                         />
                         <label className="form-check-label">
-                            {eachVaccineType}
+                            {eachVaccineType.medicineType}
                         </label>
                     </div>
                 );
             })}
             <hr className={styles.solid} />
             <h6>VITAMIN</h6>
-            {Object.keys(vitamin).map((eachVitaminType, index) => {
+            {vitamin.map((eachVitaminType, index) => {
                 return (
                     <div key={index} className="form-check">
                         <input
                             className="form-check-input-vaccine"
                             type="checkbox"
-                            checked={vitamin[eachVitaminType]}
+                            checked={vitamin[index].isChosen}
                             onChange={() =>
                                 setVitamin((old) => {
-                                    return {
-                                        ...old,
-                                        [eachVitaminType]: !vitamin[
-                                            eachVitaminType
-                                        ],
-                                    };
+                                    const after = [...old];
+                                    after[index].isChosen = !after[index]
+                                        .isChosen;
+                                    return after;
                                 })
                             }
                         />
                         <label className="form-check-label">
-                            {eachVitaminType}
+                            {eachVitaminType.medicineType}
                         </label>
                     </div>
                 );
