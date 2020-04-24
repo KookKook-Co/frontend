@@ -19,29 +19,24 @@ const GetReport = () => {
     };
 
     const [reports, setReports] = useState(
-        Object.keys(sendReportType).reduce(
-            (prev, curr) => ({
-                ...prev,
-                [curr]: { topic: sendReportType[curr], value: false },
-            }),
-            {},
-        ),
+        Object.keys(sendReportType).map((each) => {
+            return {
+                type: each,
+                value: false,
+            };
+        }),
     );
 
     const [email, setEmail] = useState();
-
-    const checkReportTypeIsTrue = (reports) => {
-        return Object.keys(reports).filter(
-            (item) => reports[item].value === true,
-        );
-    };
 
     const getReport = async () => {
         const data = {
             hno: state.user.hno,
             generation: state.chickenFlockInfo.generation,
             email,
-            reports: checkReportTypeIsTrue(reports),
+            reports: reports
+                .filter((each) => each.value)
+                .map((each) => each.type),
         };
         console.log(data);
         const res = await axios.post('/report', data);
@@ -64,7 +59,7 @@ const GetReport = () => {
                     </div>
                 </div>
                 <h6 className={styles.textReport}>Report</h6>
-                {Object.keys(reports).map((eachReportType, index) => {
+                {reports.map((each, index) => {
                     return (
                         <div
                             key={index}
@@ -73,26 +68,20 @@ const GetReport = () => {
                             <input
                                 className="form-check-input-report"
                                 type="checkbox"
-                                checked={reports[eachReportType].value}
+                                checked={each.value}
                                 onChange={() =>
                                     setReports((old) => {
-                                        return {
-                                            ...old,
-                                            [eachReportType]: {
-                                                topic:
-                                                    reports[eachReportType]
-                                                        .topic,
-                                                value: !reports[eachReportType]
-                                                    .value,
-                                            },
-                                        };
+                                        const after = [...old];
+                                        after[index].value = !after[index]
+                                            .value;
+                                        return after;
                                     })
                                 }
                             />
                             <label
                                 className={`ml-2 mb-0 ${styles.textReportInfo}`}
                             >
-                                {reports[eachReportType].topic}
+                                {sendReportType[each.type]}
                             </label>
                         </div>
                     );
