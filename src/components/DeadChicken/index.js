@@ -53,7 +53,7 @@ const DeadChicken = () => {
                 xPos: x,
                 yPos: y,
                 Zone: y + chars[x - 1],
-                cid: 13 * (y - 1) + (x - 1),
+                cid: 14 * (y - 1) + (x - 1),
             },
         });
         setShow(true);
