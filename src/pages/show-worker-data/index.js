@@ -63,8 +63,8 @@ const ShowWorkerdata = () => {
                     />
                 </div>
 
-                {data.map((item) => (
-                    <Row>
+                {data.map((item, index) => (
+                    <Row key={index}>
                         <Col xs={6}>
                             <p className={styles.infoToShow}>
                                 {item.infoToShow}
