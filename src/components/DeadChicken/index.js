@@ -17,7 +17,7 @@ const DeadChicken = () => {
         axios
             .get(`/event/deadchickenmap?hno=1`)
             .then((res) => {
-                // console.log(res);
+                console.log(res);
                 setCameraData(res.data);
                 console.log(cameraData);
                 dispatch({
@@ -53,11 +53,13 @@ const DeadChicken = () => {
                 xPos: x,
                 yPos: y,
                 Zone: y + chars[x - 1],
-                cid: 14 * (y - 1) + (x - 1),
+                cid: 24 * (x - 1) + (y - 1),
             },
         });
         setShow(true);
-        // console.log('++++++++ DEAD MAP ++++++++');
+        console.log('x : ' + x);
+        console.log('y : ' + y);
+        console.log(24 * (x - 1) + (y - 1));
         // console.log(state.deadChickenMap);
         // history.push('/dead-chicken-img');
     };
