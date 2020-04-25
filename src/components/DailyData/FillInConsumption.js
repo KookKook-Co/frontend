@@ -5,6 +5,7 @@ import { Context } from '../../Store';
 import { FillInMedicine } from './FillInMedicine';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import MySuccessCenteredModal from '../SuccessMsg/index.js';
 import addMedicineBtn from '../../static/icon/addCircleBtn.svg';
 import axios from 'axios';
 import deleteMedicineBtn from '../../static/icon/trashBtn.svg';
@@ -29,6 +30,7 @@ const vitaminType = [
 export const FillInConsumption = ({ date }) => {
     const { state, dispatch } = useContext(Context);
     const history = useHistory();
+    const [send, setSend] = useState();
     const [foodIn1, setFoodIn1] = useState(
         (state.dailyData && state.dailyData.foodIn1) || 0,
     );
@@ -116,8 +118,7 @@ export const FillInConsumption = ({ date }) => {
             })
             .catch((err) => console.log(err));
 
-        // history.push('/FillInConfirmation');
-        history.push('/');
+        setSend('Sent!');
     };
 
     const [show, setShow] = useState(false);
@@ -179,6 +180,11 @@ export const FillInConsumption = ({ date }) => {
 
     return (
         <div>
+            <MySuccessCenteredModal
+                show={!!send}
+                title="Congratulations! Your data has been recorded successfully."
+                onHide={() => setSend()}
+            />
             <Form className="form">
                 <div>
                     <h4>FOOD CONSUMPTION</h4>

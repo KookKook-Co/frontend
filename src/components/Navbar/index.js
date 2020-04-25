@@ -5,6 +5,7 @@ import { Context } from '../../Store';
 import CreateAccountLogo from '../../static/icon/createaccount.svg';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import GetReportLogo from '../../static/icon/report.svg';
 import Hamburger from '../../static/icon/hamburger.svg';
 import HelpLogo from '../../static/icon/help.svg';
 import LogoutLogo from '../../static/icon/logout.svg';
@@ -49,7 +50,6 @@ const Nav = () => {
                             return (
                                 <Dropdown.Item
                                     key={`selection-${item}`}
-                                    // href="#/action-1"
                                     onClick={() => selectedHouse(item)}
                                 >
                                     House {item}
@@ -77,7 +77,6 @@ const Nav = () => {
                     <div className="my-4">
                         <img src={CreateAccountLogo} alt="create_logo" />
                         <a
-                            id="contact"
                             className={`menu-item ${styles.textMenu} ml-3`}
                             href="/manage-account"
                         >
@@ -85,13 +84,21 @@ const Nav = () => {
                         </a>
                     </div>
                     <div className="my-4">
-                        <img src={ManageChickenLogo} alt="manage_logo" />
+                        <img src={ManageChickenLogo} alt="chicken_logo" />
                         <a
-                            id="contact"
                             className={`menu-item ${styles.textMenu} ml-3`}
                             href="/manage-chicken"
                         >
-                            Manage Chicken
+                            Manage House
+                        </a>
+                    </div>
+                    <div className="my-4">
+                        <img src={GetReportLogo} alt="report_logo" />
+                        <a
+                            className={`menu-item ${styles.textMenu} ml-3`}
+                            href="/get-report"
+                        >
+                            Get Report
                         </a>
                     </div>
                 </div>
@@ -156,37 +163,37 @@ const Nav = () => {
                     </div>
                     <div className={styles.borderLine}></div>
                     <div className="my-4 d-flex">
-                        <img src={SettingLogo} alt="setting_logo" />
-                        <p
-                            id="home"
-                            className={`menu-item ${styles.textMenu} ml-3 mb-0`}
+                        <img src={HelpLogo} alt="help_logo" />
+                        <a
+                            className={`menu-item ${styles.textMenu} ml-3`}
+                            href="/"
                         >
+                            Dashboard
+                        </a>
+                    </div>
+                    <div className="my-4">{showManage()}</div>
+                    <div className="my-4 d-flex">
+                        <img src={SettingLogo} alt="setting_logo" />
+                        <p className={`menu-item ${styles.textMenu} ml-3 mb-0`}>
                             Settings and Privacy
                         </p>
                     </div>
                     <div className="my-4 d-flex">
                         <img src={TermLogo} alt="term_logo" />
-                        <p
-                            id="about"
-                            className={`menu-item ${styles.textMenu} ml-3 mb-0`}
-                        >
+                        <p className={`menu-item ${styles.textMenu} ml-3 mb-0`}>
                             Term and Conditions
                         </p>
                     </div>
                     <div className="my-4 d-flex">
                         <img src={HelpLogo} alt="help_logo" />
-                        <p
-                            id="contact"
-                            className={`menu-item ${styles.textMenu} ml-3 mb-0`}
-                        >
+                        <p className={`menu-item ${styles.textMenu} ml-3 mb-0`}>
                             Help
                         </p>
                     </div>
-                    <div className="my-4">{showManage()}</div>
+
                     <div className="my-4 d-flex">
                         <img src={LogoutLogo} alt="logout_logo" />
                         <p
-                            id="contact"
                             className={`menu-item ${styles.textMenu} ml-3 mb-0`}
                             onClick={() => logout()}
                         >

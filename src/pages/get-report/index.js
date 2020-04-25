@@ -4,11 +4,13 @@ import Container from 'react-bootstrap/Container';
 import { Context } from '../../Store';
 import ExportBtn from '../../static/icon/exportBtn.svg';
 import Form from 'react-bootstrap/Form';
+import MySuccessCenteredModal from '../../components/SuccessMsg/index.js';
 import axios from 'axios';
 import styles from './index.module.scss';
 
 const GetReport = () => {
     const { state } = useContext(Context);
+    const [get, setGet] = useState();
 
     const sendReportType = {
         ENVIRONMENT: 'Environmental Data Report',
@@ -41,10 +43,16 @@ const GetReport = () => {
         console.log(data);
         const res = await axios.post('/report', data);
         console.log(res);
+        setGet(res.data);
     };
 
     return (
         <Container className={`${styles.bgLightBlue} pt-4 vh-100`}>
+            <MySuccessCenteredModal
+                show={!!get}
+                title="The report is sent to the following email."
+                onHide={() => setGet()}
+            />
             <div className="mb-3">
                 <div className="mb-3">
                     <p className={`${styles.textGen} mb-2 m-0`}>
