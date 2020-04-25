@@ -9,10 +9,13 @@ export const FillInMedicine = ({
 }) => {
     return (
         <form>
-            <h6>VACCINE</h6>
+            <h6 className={styles.textTitleModal}>VACCINE</h6>
             {vaccine.map((eachVaccineType, index) => {
                 return (
-                    <div key={index} className="form-check">
+                    <div
+                        key={index}
+                        className="form-check d-flex align-items-center"
+                    >
                         <input
                             className="form-check-input-vaccine"
                             type="checkbox"
@@ -26,17 +29,22 @@ export const FillInMedicine = ({
                                 })
                             }
                         />
-                        <label className="form-check-label">
+                        <label
+                            className={`form-check-label ${styles.textMedicineModal}`}
+                        >
                             {eachVaccineType.medicineType}
                         </label>
                     </div>
                 );
             })}
             <hr className={styles.solid} />
-            <h6>VITAMIN</h6>
+            <h6 className={styles.textTitleModal}>VITAMIN</h6>
             {vitamin.map((eachVitaminType, index) => {
                 return (
-                    <div key={index} className="form-check">
+                    <div
+                        key={index}
+                        className="form-check d-flex align-items-center"
+                    >
                         <input
                             className="form-check-input-vaccine"
                             type="checkbox"
@@ -50,7 +58,9 @@ export const FillInMedicine = ({
                                 })
                             }
                         />
-                        <label className="form-check-label">
+                        <label
+                            className={`form-check-label ${styles.textMedicineModal}`}
+                        >
                             {eachVitaminType.medicineType}
                         </label>
                     </div>

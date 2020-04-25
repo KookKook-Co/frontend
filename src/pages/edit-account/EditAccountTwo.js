@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -8,65 +8,54 @@ import { Context } from '../../Store';
 import Form from 'react-bootstrap/Form';
 import { Formik } from 'formik';
 import GoBackCenteredModal from '../../components/GoBackMsg/index.js';
-import Upload from '../../static/icon/upload.svg';
 import axios from 'axios';
-import bsCustomFileInput from 'bs-custom-file-input';
 import styles from './index.module.scss';
 import { useHistory } from 'react-router-dom';
 
-const PersonalInfo = () => {
+const EditAccountTwo = () => {
     const { state, dispatch } = useContext(Context);
     const [create, setCreate] = useState();
     const history = useHistory();
-    const [firstName, setFirstName] = useState();
-    const [lastName, setLastName] = useState();
-    const [lineID, setLineID] = useState();
-    const [fileUpload, setFileUpload] = useState();
-    const fileRef = useRef(null);
+    const [firstName, setFirstName] = useState(
+        (state.workerAccountInfo && state.workerAccountInfo.firstName) || '',
+    );
+    const [lastName, setLastName] = useState(
+        (state.workerAccountInfo && state.workerAccountInfo.lastName) || '',
+    );
+    const [lineID, setLineID] = useState(
+        (state.workerAccountInfo && state.workerAccountInfo.lineID) || '',
+    );
 
     const schema = yup.object({
         firstName: yup.string().required(),
         lastName: yup.string().required(),
         lineID: yup.string().required(),
-        file: yup.mixed().required(),
     });
 
-    const createAccount = async () => {
+    const editAccount = async () => {
         dispatch({
-            type: 'update-registrationData',
+            type: 'update-workerAccountInfo',
             payload: { firstName, lastName, lineID },
         });
         console.log('+++++++++regisdata2');
-        console.log(state.registrationData);
-        const data = new FormData();
-        console.log('+++++++++data');
+        console.log(state.workerAccountInfo);
 
-        data.append('username', state.registrationData.username);
-        data.append('password', state.registrationData.password);
-        data.append('firstName', firstName);
-        data.append('lastName', lastName);
-        data.append('role', state.registrationData.role);
-        data.append('lineID', lineID);
-        if (state.registrationData.role === 'OWNER') {
-            data.append('hno', null);
-        } else {
-            data.append('hno', parseInt(state.user.hno));
-        }
-        data.append('image', fileUpload, fileUpload.name);
+        const data = {
+            uid: state.workerAccountInfo.uid,
+            username: state.workerAccountInfo.username,
+            firstName: state.workerAccountInfo.firstName,
+            lastName: state.workerAccountInfo.lastName,
+            role: state.workerAccountInfo.role,
+            lineID: state.workerAccountInfo.lineID,
+        };
+
         console.log(data);
-        // data.append('image', fs.createReadStream(fileRef.current.files[0]));
 
-        const res = await axios.post('/users', data, {
-            headers: { 'Content-Type': 'multipart/form-data' },
-        });
+        const res = await axios.put('/users', data);
 
         console.log('++++res++++');
         console.log(res);
     };
-
-    useEffect(() => {
-        bsCustomFileInput.init();
-    }, []);
 
     const toManageAccount = () => {
         history.push('/manage-account');
@@ -76,7 +65,7 @@ const PersonalInfo = () => {
         <Container className={`${styles.bgLightBlue} pt-4 vh-100`}>
             <GoBackCenteredModal
                 show={!!create}
-                title="The account has been created."
+                title="The account has been edited."
                 actionText="CLOSE"
                 onAction={() => {
                     toManageAccount();
@@ -92,13 +81,18 @@ const PersonalInfo = () => {
             <Formik
                 validationSchema={schema}
                 onSubmit={() => {
-                    createAccount();
+                    editAccount();
                 }}
                 initialValues={{
-                    firstName: '',
-                    lastName: '',
-                    lineID: '',
-                    file: undefined,
+                    firstName:
+                        state.workerAccountInfo &&
+                        state.workerAccountInfo.firstName,
+                    lastName:
+                        state.workerAccountInfo &&
+                        state.workerAccountInfo.lastName,
+                    lineID:
+                        state.workerAccountInfo &&
+                        state.workerAccountInfo.lineID,
                 }}
             >
                 {({
@@ -106,15 +100,14 @@ const PersonalInfo = () => {
                     handleChange,
                     handleBlur,
                     values,
-                    setFieldValue,
                     touched,
                     isValid,
                     errors,
                 }) => (
                     <Form
-                        className="px-4 pb-4"
                         noValidate
                         onSubmit={handleSubmit}
+                        className="px-4 pb-4"
                     >
                         <Form.Group controlId="formFirstname">
                             <Form.Label className={styles.textFormLabel}>
@@ -179,56 +172,12 @@ const PersonalInfo = () => {
                                 {errors.lineID}
                             </Form.Control.Feedback>
                         </Form.Group>
-
-                        <Form.Group controlId="formLineId" className="mb-0">
-                            <Form.Label className={styles.textFormLabel}>
-                                Upload profile picture
-                            </Form.Label>
-
-                            <input
-                                id="file"
-                                type="file"
-                                name="file"
-                                onChange={(e) => {
-                                    console.log(e.target.files[0]);
-                                    setFieldValue('file', e.target.files[0]);
-                                    setFileUpload(e.target.files[0]);
-                                }}
-                                isInvalid={touched.file && !!errors.file}
-                                ref={fileRef}
-                                hidden
-                            />
-
-                            <div
-                                className={styles.containerUpload}
-                                onClick={() => fileRef.current.click()}
-                            >
-                                <div
-                                    className={`d-flex flex-column ${styles.positionUpload}`}
-                                >
-                                    <img src={Upload} alt="upload" />
-                                    <p
-                                        className={`${styles.textUpload} m-0 pt-1`}
-                                    >
-                                        Click to upload
-                                    </p>
-                                </div>
-                            </div>
-                            {errors && (
-                                <p className={`${styles.textError} m-0 pt-1`}>
-                                    {errors.file}
-                                </p>
-                            )}
-                            <p className={`${styles.textUpload} mb-0`}>
-                                {fileUpload && fileUpload.name}
-                            </p>
-                        </Form.Group>
                         <Button
-                            variant="createAcct"
+                            variant="editAcct"
                             type="submit"
-                            className={`w-100 mt-4 ${styles.btnCreate}`}
+                            className={`w-100 mt-3 ${styles.btnCreate}`}
                         >
-                            Create Account
+                            Edit Account
                         </Button>
                     </Form>
                 )}
@@ -237,4 +186,4 @@ const PersonalInfo = () => {
     );
 };
 
-export default PersonalInfo;
+export default EditAccountTwo;

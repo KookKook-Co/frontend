@@ -132,6 +132,12 @@ const Nav = () => {
                 return 'Manage Account';
             case '/show-worker-data':
                 return 'Manage Account';
+            case '/edit-account-one':
+                return 'Edit Account';
+            case '/edit-account-two':
+                return 'Edit Account';
+            case '/edit-flock':
+                return 'Edit Flock';
             default:
                 return 'kookkook';
         }
@@ -158,7 +164,9 @@ const Nav = () => {
                             alt="profile_pic"
                             className={`mb-2 ${styles.imgProfile}`}
                         />
-                        <div className={styles.textName}>Worker Name</div>
+                        <div className={styles.textName}>
+                            {state.user.firstName} {state.user.lastName}
+                        </div>
                         <div>{showHouse()}</div>
                     </div>
                     <div className={styles.borderLine}></div>

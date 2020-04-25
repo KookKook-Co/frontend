@@ -15,8 +15,8 @@ const ShowHousedata = () => {
     const getReport = () => {
         history.push('/get-report');
     };
-    const manageFlock = () => {
-        history.push('/manage-flock');
+    const editFlock = () => {
+        history.push('/edit-flock');
     };
 
     const data = [
@@ -63,7 +63,7 @@ const ShowHousedata = () => {
                         className="ml-auto"
                         src={EditBtn}
                         alt="edit_btn"
-                        onClick={() => manageFlock()}
+                        onClick={() => editFlock()}
                     />
                 </div>
 

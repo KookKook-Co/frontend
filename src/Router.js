@@ -1,14 +1,12 @@
 import React, { useContext, useEffect } from 'react';
-import {
-    Redirect,
-    Route,
-    BrowserRouter as Router,
-    Switch,
-} from 'react-router-dom';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
 import ChickenInfo from './pages/chicken-info';
 import { Context } from './Store';
 import CreateAccount from './pages/create-account';
+import EditAccount from './pages/edit-account';
+import EditAccountTwo from './pages/edit-account/EditAccountTwo';
+import EditFlock from './pages/edit-flock';
 import GetReport from './pages/get-report';
 import Login from './pages/login';
 import MainTabs from './pages/main';
@@ -17,6 +15,7 @@ import ManageChicken from './pages/manage-chicken';
 import ManageFlock from './pages/manage-flock';
 import Nav from './components/Navbar';
 import PersonalInfo from './pages/create-account/PersonalInfo';
+import ResetPassword from './pages/reset-password';
 import ShowHouseData from './pages/show-house-data';
 import ShowWorkerData from './pages/show-worker-data';
 import Temp from './pages/temperature';
@@ -74,6 +73,12 @@ function AppRouter() {
                         <Route path="/manage-flock">
                             <ManageFlock />
                         </Route>
+                        <Route path="/edit-flock">
+                            <EditFlock />
+                        </Route>
+                        <Route path="/reset-password">
+                            <ResetPassword />
+                        </Route>
                         <Route path="/create-account">
                             <CreateAccount />
                         </Route>
@@ -82,6 +87,12 @@ function AppRouter() {
                         </Route>
                         <Route path="/personal-info">
                             <PersonalInfo />
+                        </Route>
+                        <Route path="/edit-account-one">
+                            <EditAccount />
+                        </Route>
+                        <Route path="/edit-account-two">
+                            <EditAccountTwo />
                         </Route>
                         <Route path="/get-report">
                             <GetReport />

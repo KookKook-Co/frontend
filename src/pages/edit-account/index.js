@@ -10,35 +10,33 @@ import { Formik } from 'formik';
 import styles from './index.module.scss';
 import { useHistory } from 'react-router-dom';
 
-const CreateAccount = () => {
+const EditAccount = () => {
     const { state, dispatch } = useContext(Context);
     const history = useHistory();
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
-    const [passwordConfirmation, setPasswordConfirmation] = useState();
-    const [role, setRole] = useState('');
+    const [username, setUsername] = useState(
+        (state.workerAccountInfo && state.workerAccountInfo.username) || '',
+    );
+    const [role, setRole] = useState(
+        (state.workerAccountInfo && state.workerAccountInfo.role) || '',
+    );
 
     const schema = yup.object({
         username: yup.string().required(),
-        password: yup.string().required(),
-        passwordConfirmation: yup.string().required(),
         role: yup.string().required(),
     });
 
     const proceed = () => {
         dispatch({
-            type: 'update-registrationData',
+            type: 'update-workerAccountInfo',
             payload: {
                 username,
-                password,
-                passwordConfirmation,
                 role,
             },
         });
-        console.log('+++++++++regisdata1');
+        console.log('+++++++++editregisdata1');
         console.log(state.registrationData);
 
-        history.push(`/personal-info`);
+        history.push(`/edit-account-two`);
     };
 
     return (
@@ -49,10 +47,13 @@ const CreateAccount = () => {
                     proceed();
                 }}
                 initialValues={{
-                    username: '',
-                    password: '',
-                    passwordConfirmation: '',
-                    role: '',
+                    username:
+                        state.workerAccountInfo &&
+                        state.workerAccountInfo.username,
+                    role:
+                        (state.workerAccountInfo &&
+                            state.workerAccountInfo.role) ||
+                        '',
                 }}
             >
                 {({
@@ -91,51 +92,6 @@ const CreateAccount = () => {
                             </Form.Control.Feedback>
                         </Form.Group>
 
-                        <Form.Group controlId="formPassword">
-                            <Form.Label className={styles.textFormLabel}>
-                                Password
-                            </Form.Label>
-                            <Form.Control
-                                type="password"
-                                name="password"
-                                onChange={(e) => {
-                                    handleChange(e);
-                                    setPassword(e.target.value);
-                                }}
-                                isInvalid={
-                                    touched.password && !!errors.password
-                                }
-                                value={values.password}
-                                placeholder="Enter Password"
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                {errors.password}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-
-                        <Form.Group controlId="formPasswordConfirmation">
-                            <Form.Label className={styles.textFormLabel}>
-                                Password Confirmation
-                            </Form.Label>
-                            <Form.Control
-                                type="password"
-                                name="passwordConfirmation"
-                                onChange={(e) => {
-                                    handleChange(e);
-                                    setPasswordConfirmation(e.target.value);
-                                }}
-                                isInvalid={
-                                    touched.passwordConfirmation &&
-                                    !!errors.passwordConfirmation
-                                }
-                                value={values.passwordConfirmation}
-                                placeholder="Enter Password"
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                {errors.passwordConfirmation}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-
                         <Form.Group controlId="form.SelectRole">
                             <Form.Label className={styles.textFormLabel}>
                                 Role
@@ -162,7 +118,7 @@ const CreateAccount = () => {
                             </Form.Control.Feedback>
                         </Form.Group>
                         <Button
-                            variant="createAcct"
+                            variant="editAcct"
                             type="submit"
                             className={`w-100 ${styles.btnCreate}`}
                         >
@@ -174,4 +130,4 @@ const CreateAccount = () => {
         </Container>
     );
 };
-export default CreateAccount;
+export default EditAccount;

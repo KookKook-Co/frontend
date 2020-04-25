@@ -4,7 +4,6 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import { Context } from '../../Store';
 import EditBtn from '../../static/icon/editBtn.svg';
-import GetReportBtn from '../../static/icon/getReportBtn.svg';
 import Row from 'react-bootstrap/Row';
 import styles from './index.module.scss';
 import { useHistory } from 'react-router-dom';
@@ -12,11 +11,9 @@ import { useHistory } from 'react-router-dom';
 const ShowWorkerdata = () => {
     const { state } = useContext(Context);
     const history = useHistory();
-    const getReport = () => {
-        history.push('/get-report');
-    };
+
     const manageWorkerAccount = () => {
-        history.push('/create-account');
+        history.push('/edit-account-one');
     };
 
     const data = [
@@ -30,7 +27,7 @@ const ShowWorkerdata = () => {
         },
         {
             infoToShow: 'House',
-            value: state.workerAccountInfo.hno,
+            value: state.user.hno,
         },
         {
             infoToShow: 'Role',
@@ -55,12 +52,20 @@ const ShowWorkerdata = () => {
                         className={`mb-2 ${styles.imgProfile}`}
                     />
 
-                    <img
-                        className="ml-auto"
-                        src={EditBtn}
-                        alt="edit_btn"
-                        onClick={() => manageWorkerAccount()}
-                    />
+                    <div className="d-flex flex-column ml-auto">
+                        <img
+                            className="ml-auto"
+                            src={EditBtn}
+                            alt="edit_btn"
+                            onClick={() => manageWorkerAccount()}
+                        />
+                        <p
+                            className={`${styles.textReset} mr-2`}
+                            onClick={() => history.push('/reset-password')}
+                        >
+                            Reset Password
+                        </p>
+                    </div>
                 </div>
 
                 {data.map((item, index) => (
@@ -75,13 +80,6 @@ const ShowWorkerdata = () => {
                         </Col>
                     </Row>
                 ))}
-            </div>
-            <div className="d-flex justify-content-center">
-                <img
-                    src={GetReportBtn}
-                    alt="export_btn"
-                    onClick={() => getReport()}
-                />
             </div>
         </Container>
     );

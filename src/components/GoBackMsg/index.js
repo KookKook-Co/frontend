@@ -1,8 +1,9 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import React from 'react';
+import SuccessIcon from '../../static/icon/success.svg';
 
-function MyVerticallyCenteredModal(props) {
+function GoBackCenteredModal(props) {
     return (
         <Modal
             {...props}
@@ -14,14 +15,20 @@ function MyVerticallyCenteredModal(props) {
                 <Modal.Title id="contained-modal-title-vcenter"></Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <p>{props.title}</p>
+                <div className="d-flex flex-column justify-content-center">
+                    <img
+                        src={SuccessIcon}
+                        alt="success_icon"
+                        className="mb-2"
+                    />
+                    <p className="text-center mb-0">{props.title}</p>
+                </div>
             </Modal.Body>
-            <Modal.Footer className="d-flex justify-content-center">
+            <Modal.Footer className="d-flex flex-column">
                 <Button onClick={props.onAction}>{props.actionText}</Button>
-                <Button onClick={props.onHide}>Cancel</Button>
             </Modal.Footer>
         </Modal>
     );
 }
 
-export default MyVerticallyCenteredModal;
+export default GoBackCenteredModal;

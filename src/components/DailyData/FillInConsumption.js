@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
 import { Context } from '../../Store';
@@ -31,24 +31,95 @@ export const FillInConsumption = ({ date }) => {
     const { state, dispatch } = useContext(Context);
     const history = useHistory();
     const [send, setSend] = useState();
-    const [foodIn1, setFoodIn1] = useState(
-        (state.dailyData && state.dailyData.foodIn1) || 0,
-    );
-    const [foodLeft1, setFoodLeft1] = useState(
-        (state.dailyData && state.dailyData.foodLeft1) || 0,
-    );
-    const [foodIn2, setFoodIn2] = useState(
-        (state.dailyData && state.dailyData.foodIn2) || 0,
-    );
-    const [foodLeft2, setFoodLeft2] = useState(
-        (state.dailyData && state.dailyData.foodLeft2) || 0,
-    );
-    const [waterV1, setWaterV1] = useState(
-        (state.dailyData && state.dailyData.waterV1) || 0,
-    );
-    const [waterV2, setWaterV2] = useState(
-        (state.dailyData && state.dailyData.waterV2) || 0,
-    );
+    const [foodIn1, setFoodIn1] = useState(0);
+    const [foodLeft1, setFoodLeft1] = useState(0);
+    const [foodIn2, setFoodIn2] = useState(0);
+    const [foodLeft2, setFoodLeft2] = useState(0);
+    const [waterV1, setWaterV1] = useState(0);
+    const [waterV2, setWaterV2] = useState(0);
+
+    useEffect(() => {
+        const getDailyData = async () => {
+            const res = await axios.get(
+                `/event/dailydata?hno=${state.user.hno}&date=${date}`,
+            );
+
+            if (
+                res.data !== '' &&
+                res.data !== null &&
+                res.data !== undefined
+            ) {
+                const food = res.data.food;
+                const water = res.data.water;
+                const medicine = res.data.medicine;
+
+                if (food !== undefined && food !== null && food.length !== 0) {
+                    const foodSilo1 = food[0];
+                    const foodSilo2 = food[1];
+
+                    setFoodIn1(foodSilo1.foodIn);
+                    setFoodLeft1(foodSilo1.foodRemain);
+
+                    setFoodIn2(foodSilo2.foodIn);
+                    setFoodLeft2(foodSilo2.foodRemain);
+                }
+
+                if (
+                    water !== undefined &&
+                    water !== null &&
+                    Object.keys(water).length !== 0
+                ) {
+                    setWaterV1(water.waterMeter1);
+                    setWaterV2(water.waterMeter2);
+                }
+
+                if (
+                    medicine !== undefined &&
+                    medicine !== null &&
+                    medicine.length !== 0
+                ) {
+                    setVaccine(
+                        vaccineType.map((each) => {
+                            const med = medicine.find(
+                                (item) => item.medicineType === each,
+                            );
+                            console.log('++VACCINE');
+                            console.log(med);
+                            if (med) {
+                                return { ...med, isChosen: true };
+                            } else {
+                                return {
+                                    medicineType: each,
+                                    isChosen: false,
+                                    medicineConc: 0,
+                                };
+                            }
+                        }),
+                    );
+
+                    setVitamin(
+                        vitaminType.map((each) => {
+                            const med = medicine.find(
+                                (item) => item.medicineType === each,
+                            );
+                            console.log('++VITAMIN');
+                            console.log(med);
+                            if (med) {
+                                return { ...med, isChosen: true };
+                            } else {
+                                return {
+                                    medicineType: each,
+                                    isChosen: false,
+                                    medicineConc: 0,
+                                };
+                            }
+                        }),
+                    );
+                }
+            }
+        };
+        getDailyData();
+    }, [date]);
 
     const medicineInput = (vac, vit) => {
         return [...vac, ...vit]
@@ -187,9 +258,10 @@ export const FillInConsumption = ({ date }) => {
             />
             <Form className="form">
                 <div>
-                    <h4>FOOD CONSUMPTION</h4>
+                    <h4 className={styles.textTitle}>FOOD CONSUMPTION</h4>
+                    <div className={`mb-2 ${styles.borderLine}`}></div>
                     <Form.Group controlId="formFoodIn1">
-                        <Form.Label className={styles.foodIn}>
+                        <Form.Label className={styles.textSubtitle}>
                             {' '}
                             Amount of Food Put In (Silo1){' '}
                         </Form.Label>
@@ -202,7 +274,7 @@ export const FillInConsumption = ({ date }) => {
                     </Form.Group>
 
                     <Form.Group controlId="formFoodLeft1">
-                        <Form.Label className={styles.foodLeft}>
+                        <Form.Label className={styles.textSubtitle}>
                             {' '}
                             Amount of Food Left (Silo1){' '}
                         </Form.Label>
@@ -214,7 +286,7 @@ export const FillInConsumption = ({ date }) => {
                         />
                     </Form.Group>
                     <Form.Group controlId="formFoodIn2">
-                        <Form.Label className={styles.foodIn}>
+                        <Form.Label className={styles.textSubtitle}>
                             {' '}
                             Amount of Food Put In (Silo2){' '}
                         </Form.Label>
@@ -227,7 +299,7 @@ export const FillInConsumption = ({ date }) => {
                     </Form.Group>
 
                     <Form.Group controlId="formFoodLeft2">
-                        <Form.Label className={styles.foodLeft}>
+                        <Form.Label className={styles.textSubtitle}>
                             {' '}
                             Amount of Food Left (Silo2){' '}
                         </Form.Label>
@@ -241,9 +313,10 @@ export const FillInConsumption = ({ date }) => {
                 </div>
 
                 <div>
-                    <h4>WATER CONSUMPTION</h4>
+                    <h4 className={styles.textTitle}>WATER CONSUMPTION</h4>
+                    <div className={`mb-2 ${styles.borderLine}`}></div>
                     <Form.Group controlId="formWaterV1">
-                        <Form.Label className={styles.waterV1}>
+                        <Form.Label className={styles.textSubtitle}>
                             {' '}
                             Water Valve 1{' '}
                         </Form.Label>
@@ -256,7 +329,7 @@ export const FillInConsumption = ({ date }) => {
                     </Form.Group>
 
                     <Form.Group controlId="formWaterV2">
-                        <Form.Label className={styles.waterV2}>
+                        <Form.Label className={styles.textSubtitle}>
                             {' '}
                             Water Valve 2{' '}
                         </Form.Label>
@@ -270,9 +343,10 @@ export const FillInConsumption = ({ date }) => {
                 </div>
 
                 <div>
-                    <h4>MEDICINE</h4>
+                    <h4 className={styles.textTitle}>MEDICINE</h4>
+                    <div className={`mb-2 ${styles.borderLine}`}></div>
                     <Form.Group controlId="formMedicine">
-                        <Form.Label className={styles.medicineIn}>
+                        <Form.Label className={styles.textSubtitle}>
                             {' '}
                             Amount of Medicine Put In{' '}
                         </Form.Label>
@@ -285,7 +359,11 @@ export const FillInConsumption = ({ date }) => {
                             />
                             <Modal show={show} onHide={() => setShow(false)}>
                                 <Modal.Header closeButton>
-                                    <Modal.Title>Add Medicine</Modal.Title>
+                                    <Modal.Title
+                                        className={styles.textMedicine}
+                                    >
+                                        Add Medicine
+                                    </Modal.Title>
                                 </Modal.Header>
 
                                 <Modal.Body>
@@ -338,6 +416,7 @@ export const FillInConsumption = ({ date }) => {
                                                             each.medicineType,
                                                         );
                                                     }}
+                                                    value={each.medicineConc}
                                                 />
                                                 <img
                                                     src={deleteMedicineBtn}
@@ -380,6 +459,7 @@ export const FillInConsumption = ({ date }) => {
                                                             each.medicineType,
                                                         );
                                                     }}
+                                                    value={each.medicineConc}
                                                 />
                                                 <img
                                                     src={deleteMedicineBtn}

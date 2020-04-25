@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Bar } from 'react-chartjs-2';
 import Container from 'react-bootstrap/Container';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import { Context } from '../../Store';
 import LeftArr from '../../static/icon/left_arr.svg';
-import { Link } from 'react-router-dom';
 import RightArr from '../../static/icon/right_arr.svg';
+import axios from 'axios';
 import moment from 'moment';
 import styles from './index.module.scss';
 
@@ -25,16 +24,16 @@ import styles from './index.module.scss';
 // };
 
 const WeeklyChart = ({ property }) => {
+    const { state } = useContext(Context);
     const [day, setDay] = useState(moment());
+    const [maxValue, setMaxValue] = useState();
+    const [minValue, setMinValue] = useState();
+    const [maxLabel, setMaxLabel] = useState('SUNDAY');
+    const [minLabel, setMinLabel] = useState('SUNDAY');
+    const [selectedDate, setSelectedDate] = useState();
 
-    const canAddWeek = (day) => {
-        return !(
-            day.clone().add(7, 'days').diff(moment().endOf('week'), 'days') > 0
-        );
-    };
-
-    const chartData = {
-        labels: ['S', 'M', 'T', 'W', 'TH', 'F', 'S'],
+    const [chartData, setChartData] = useState({
+        labels: ['S', 'M', 'T', 'W', 'TH', 'F', 'SA'],
         datasets: [
             {
                 label: 'MAX',
@@ -53,67 +52,216 @@ const WeeklyChart = ({ property }) => {
                 barThickness: 19,
             },
         ],
+    });
+
+    useEffect(() => {
+        const getWeeklyChart = async () => {
+            const res = await axios.get(
+                `/event/env/weekly?sid=1&type=${property}&dateStart=${day
+                    .startOf('week')
+                    .toISOString()}&dateEnd=${day.endOf('week').toISOString()}`,
+            );
+            console.log(res.data);
+
+            const maxData = res.data.map((each) => each.max);
+            const minData = res.data.map((each) => each.min);
+
+            const realChartData = {
+                labels: ['S', 'M', 'T', 'W', 'TH', 'F', 'SA'],
+                datasets: [
+                    {
+                        label: 'MAX',
+                        data: maxData,
+                        backgroundColor: 'rgba(254, 206, 71, 1)',
+                        barThickness: 19,
+                    },
+                    {
+                        label: 'MIN',
+                        data: minData,
+                        backgroundColor: 'rgba(58, 175, 174, 1)',
+                        barThickness: 19,
+                    },
+                ],
+            };
+
+            if (moreThanToday()) {
+                setMaxValue(null);
+                setMinValue(null);
+            }
+            setMaxValue(maxData[0]);
+            setMinValue(minData[0]);
+            setChartData(realChartData);
+        };
+
+        getWeeklyChart();
+    }, [day]);
+
+    const canAddWeek = (day) => {
+        return !(
+            day.clone().add(7, 'days').diff(moment().endOf('week'), 'days') > 0
+        );
     };
 
-    const findAvg = () => {
-        const findSum = chartData.datasets.map((data) => {
-            return data.data.reduce((accumulator, currentValue) => {
-                return accumulator + currentValue;
-            }, 0);
-        });
-        const arrLength = chartData.datasets.map((data) => {
-            return data.data.length;
-        });
-        return findSum / arrLength;
+    const moreThanToday = () => {
+        return day.diff(setSelectedDate, 'days') > 0;
     };
+
+    const getUnit = (property) => {
+        if (property === 'temperature') {
+            return 'C';
+        } else if (property === 'windspeed') {
+            return 'M/S';
+        } else if (property === 'ammonia') {
+            return 'PPM';
+        } else if (property === 'humidity') {
+            return '%';
+        }
+    };
+
+    const showDay = (maxLabel) => {
+        if (maxLabel === 'S') {
+            return 'SUNDAY';
+        } else if (maxLabel === 'M') {
+            return 'MONDAY';
+        } else if (maxLabel === 'T') {
+            return 'TUESDAY';
+        } else if (maxLabel === 'W') {
+            return 'WEDNESDAY';
+        } else if (maxLabel === 'TH') {
+            return 'THURSDAY';
+        } else if (maxLabel === 'F') {
+            return 'FRIDAY';
+        } else if (maxLabel === 'SA') {
+            return 'SATURDAY';
+        }
+    };
+
+    const setShowDate = (maxLabel) => {
+        if (maxLabel === 'S') {
+            setSelectedDate(day.startOf('week').format('DD MMM YYYY'));
+        } else if (maxLabel === 'M') {
+            setSelectedDate(
+                day.startOf('week').add(1, 'days').format('DD MMM YYYY'),
+            );
+        } else if (maxLabel === 'T') {
+            setSelectedDate(
+                day.startOf('week').add(2, 'days').format('DD MMM YYYY'),
+            );
+        } else if (maxLabel === 'W') {
+            setSelectedDate(
+                day.startOf('week').add(3, 'days').format('DD MMM YYYY'),
+            );
+        } else if (maxLabel === 'TH') {
+            setSelectedDate(
+                day.startOf('week').add(4, 'days').format('DD MMM YYYY'),
+            );
+        } else if (maxLabel === 'F') {
+            setSelectedDate(
+                day.startOf('week').add(5, 'days').format('DD MMM YYYY'),
+            );
+        } else if (maxLabel === 'SA') {
+            setSelectedDate(
+                day.startOf('week').add(6, 'days').format('DD MMM YYYY'),
+            );
+        }
+    };
+
+    const showDate = (maxLabel) => {
+        if (maxLabel === 'S') {
+            return day.startOf('week').format('DD MMM YYYY');
+        } else if (maxLabel === 'M') {
+            return day.startOf('week').add(1, 'days').format('DD MMM YYYY');
+        } else if (maxLabel === 'T') {
+            return day.startOf('week').add(2, 'days').format('DD MMM YYYY');
+        } else if (maxLabel === 'W') {
+            return day.startOf('week').add(3, 'days').format('DD MMM YYYY');
+        } else if (maxLabel === 'TH') {
+            return day.startOf('week').add(4, 'days').format('DD MMM YYYY');
+        } else if (maxLabel === 'F') {
+            return day.startOf('week').add(5, 'days').format('DD MMM YYYY');
+        } else if (maxLabel === 'SA') {
+            return day.startOf('week').add(6, 'days').format('DD MMM YYYY');
+        }
+    };
+
+    // const findAvg = () => {
+    //     const findSum = chartData.datasets.map((data) => {
+    //         return data.data.reduce((accumulator, currentValue) => {
+    //             return accumulator + currentValue;
+    //         }, 0);
+    //     });
+    //     const arrLength = chartData.datasets.map((data) => {
+    //         return data.data.length;
+    //     });
+    //     return findSum / arrLength;
+    // };
 
     return (
-        <Container>
+        <Container className="p-0">
             <div className="d-flex mx-3 mb-3">
                 <div className="d-flex flex-column">
                     <div className={`${styles.textEnviTitle}`}>
                         {property.toUpperCase()}
                     </div>
                     <p className={`${styles.textFullDate}`}>
-                        {day.format('dddd')} {day.format('DD MMM YYYY')}
+                        {showDay(maxLabel) || 'SUNDAY'}{' '}
+                        {showDate(maxLabel) ||
+                            day.startOf('week').format('DD MMM YYYY')}
                     </p>
-                    <Link to="/">
-                        <small>Change</small>
-                    </Link>
                     <div className="d-flex">
                         <div className="d-flex flex-column">
-                            <div className={`${styles.textValue}`}>26 C</div>
+                            <div className={`${styles.textValue}`}>
+                                {minValue} {getUnit(property)}
+                            </div>
                             <p className={`m-0 ${styles.textTime}`}>
                                 MIN at 05.00
                             </p>
                         </div>
                         <div className={`${styles.border} mx-2`}></div>
                         <div className="d-flex flex-column">
-                            <div className={`${styles.textValue}`}>32 C</div>
+                            <div className={`${styles.textValue}`}>
+                                {maxValue} {getUnit(property)}
+                            </div>
                             <p className={`m-0 ${styles.textTime}`}>
-                                MAX at 05.00
+                                MAX at 18.00
                             </p>
                         </div>
                     </div>
                 </div>
-                <DropdownButton
-                    id={styles.btnDropdown}
-                    title="Today"
-                    className="ml-auto"
-                >
-                    <Dropdown.Item href="#/action-1">Week</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">
-                        Another action
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">
-                        Something else
-                    </Dropdown.Item>
-                </DropdownButton>
             </div>
             <Bar
                 data={chartData}
-                width={124}
-                height={150}
+                width={130}
+                height={25}
+                getElementsAtEvent={(elems) => {
+                    console.log(elems);
+                    const firstPoint = elems[0];
+
+                    if (firstPoint !== undefined) {
+                        const label1 = chartData.labels[firstPoint._index];
+                        const value1 =
+                            chartData.datasets[firstPoint._datasetIndex].data[
+                                firstPoint._index
+                            ];
+
+                        console.log(label1);
+                        console.log(value1);
+
+                        setMaxValue(value1);
+                        setMaxLabel(label1);
+
+                        const label2 = chartData.labels[firstPoint._index];
+                        const value2 =
+                            chartData.datasets[1].data[firstPoint._index];
+                        console.log(label2);
+                        console.log(value2);
+
+                        setMinValue(value2);
+                        setMinLabel(label2);
+
+                        setShowDate(label1);
+                    }
+                }}
                 options={{
                     maintainAspectRatio: false,
                     cornerRadius: 8,
@@ -140,7 +288,7 @@ const WeeklyChart = ({ property }) => {
                         yAxes: [
                             {
                                 ticks: {
-                                    display: false,
+                                    beginAtZero: true,
                                 },
                                 gridLines: {
                                     display: false,
@@ -156,7 +304,7 @@ const WeeklyChart = ({ property }) => {
                                 type: 'line',
                                 mode: 'horizontal',
                                 scaleID: 'y-axis-0',
-                                value: findAvg(),
+                                // value: findAvg(),
                                 borderColor: 'rgb(58, 175, 174)',
                                 borderWidth: 2,
                                 borderDash: [2, 2],
@@ -201,7 +349,7 @@ const WeeklyChart = ({ property }) => {
                 }}
             />
 
-            <div className="pagination-week d-flex justify-content-center align-items-center">
+            <div className="pagination-week d-flex justify-content-center align-items-center mb-3">
                 <img
                     src={LeftArr}
                     alt="left_arr"

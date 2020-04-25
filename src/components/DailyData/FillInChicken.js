@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Context } from '../../Store';
 import Form from 'react-bootstrap/Form';
+import MySuccessCenteredModal from '../SuccessMsg/index.js';
 import axios from 'axios';
 import sendBtn from '../../static/icon/sendBtn.svg';
 import styles from './index.module.scss';
@@ -11,15 +12,32 @@ import viewHistoryBtn from '../../static/icon/viewHistoryBtn.svg';
 export const FillInChicken = ({ date }) => {
     const { state, dispatch } = useContext(Context);
     const history = useHistory();
+    const [send, setSend] = useState();
     const [deadChicken, setDeadChicken] = useState();
     const [zLegChicken, setZLegChicken] = useState();
     const [dwarfChicken, setDwarfChicken] = useState();
     const [sickChicken, setSickChicken] = useState();
-    const [period, setPeriod] = useState();
+    const [period, setPeriod] = useState('MORNING');
 
     const getReport = () => {
         history.push('/get-report');
     };
+
+    useEffect(() => {
+        const getChickenFlock = async () => {
+            const res = await axios.get(
+                `/event/unqualifiedchicken?hno=${state.user.hno}&date=${date}&period=${period}`,
+            );
+
+            if (res.data !== '' && res.data !== null) {
+                setDeadChicken(res.data.amountDead);
+                setZLegChicken(res.data.amountZleg);
+                setDwarfChicken(res.data.amountDwaft);
+                setSickChicken(res.data.amountSick);
+            }
+        };
+        getChickenFlock();
+    }, [date, period]);
 
     const sendUnqChicken = async () => {
         dispatch({
@@ -55,18 +73,25 @@ export const FillInChicken = ({ date }) => {
             })
             .catch((err) => console.log(err));
 
-        history.push('/');
+        setSend('Sent!');
     };
 
     return (
         <div>
-            <h4>UNQUALIFIED CHICKEN</h4>
+            <MySuccessCenteredModal
+                show={!!send}
+                title="Congratulations! Your data has been recorded successfully."
+                onHide={() => setSend()}
+            />
+            <h4 className={styles.textTitle}>UNQUALIFIED CHICKEN</h4>
+            <div className={`mb-2 ${styles.borderLine}`}></div>
 
+            <div className={`${styles.textSubtitle}`}>Select Time</div>
             <nav aria-label="Page navigation example">
                 <ul className="pagination justify-content-center">
-                    <li className="page-item">
+                    <li className="page-item hover">
                         <div
-                            className="page-link"
+                            className={`page-link ${styles.textTime}`}
                             onClick={() => setPeriod('MORNING')}
                         >
                             Morning
@@ -74,7 +99,7 @@ export const FillInChicken = ({ date }) => {
                     </li>
                     <li className="page-item">
                         <div
-                            className="page-link"
+                            className={`page-link ${styles.textTime}`}
                             onClick={() => setPeriod('EVENING')}
                         >
                             Evening
@@ -84,7 +109,7 @@ export const FillInChicken = ({ date }) => {
             </nav>
 
             <Form.Group controlId="formDeadChicken">
-                <Form.Label className={styles.numDeadChicken}>
+                <Form.Label className={styles.textSubtitle}>
                     {' '}
                     Number of Dead Chickens{' '}
                 </Form.Label>
@@ -97,7 +122,7 @@ export const FillInChicken = ({ date }) => {
             </Form.Group>
 
             <Form.Group controlId="formZLegChicken">
-                <Form.Label className={styles.numZLegChicken}>
+                <Form.Label className={styles.textSubtitle}>
                     {' '}
                     Number of Z-Leg Chickens{' '}
                 </Form.Label>
@@ -110,7 +135,7 @@ export const FillInChicken = ({ date }) => {
             </Form.Group>
 
             <Form.Group controlId="formDwarfChicken">
-                <Form.Label className={styles.numDwarfChicken}>
+                <Form.Label className={styles.textSubtitle}>
                     {' '}
                     Number of Dwarf Chickens{' '}
                 </Form.Label>
@@ -123,7 +148,7 @@ export const FillInChicken = ({ date }) => {
             </Form.Group>
 
             <Form.Group controlId="formSickChicken">
-                <Form.Label className={styles.numSickChicken}>
+                <Form.Label className={styles.textSubtitle}>
                     {' '}
                     Number of Sick Chickens{' '}
                 </Form.Label>

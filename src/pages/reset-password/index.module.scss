@@ -1,0 +1,35 @@
+@import '../../assets/sass/variables.scss';
+
+.btnCreate {
+    background-color: $theme-yellow-color;
+    width: 173px;
+    height: 40px;
+    color: white;
+}
+
+.bgLightBlue {
+    background-color: $theme-light-blue;
+}
+
+.textFormLabel {
+    color: #828282;
+    font-size: 1rem;
+    font-weight: $font-weight-regular;
+}
+
+::placeholder {
+    font-size: 0.875rem;
+    font-weight: $font-weight-light;
+    color: #bdbdbd;
+}
+
+:global {
+    .form-control {
+        font-size: 0.875rem;
+        font-weight: $font-weight-light;
+        color: #bdbdbd;
+    }
+    option {
+        color: black;
+    }
+}

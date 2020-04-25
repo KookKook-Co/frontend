@@ -1,17 +1,22 @@
-@import "../../assets/sass/variables.scss";
+@import '../../assets/sass/variables.scss';
 
 //index -> Daily data
-h4{
-    margin-top: 1.5rem
-}
-
-.selectDate.formLabel{
+h4 {
     margin-top: 1.5rem;
-    margin-bottom: 1.5 rem;
-    color: #828282;
 }
 
-.button{
+.textHouse {
+    color: #787878;
+    font-size: 0.875rem;
+    font-weight: $font-weight-medium;
+    line-height: 22px;
+}
+
+.borderLine {
+    border: 1px solid rgba(132, 130, 130, 0.6);
+}
+
+.button {
     display: flex;
     justify-content: space-evenly;
 }
@@ -20,29 +25,25 @@ h4{
     height: 'calc(100vh - 56px)';
 }
 
-// Fill in consumption 
-.foodIn.formLabel{
-    color: #828282
-}
-
-.foodLeft.formLabel{
-    color: #828282
-}
-
-.waterMeter1.formLabel{
-    color: #828282
-}
-
-.waterMeter2.formLabel{
-    color: #828282
+// Fill in consumption
+.textSubtitle {
+    color: #828282;
+    font-size: 0.875rem;
+    font-weight: $font-weight-medium;
+    line-height: 22px;
 }
 
 //Fill in medicine
-.medicineIn.formLabel{
-    color: #828282
+
+.textMedicine {
+    color: black;
+    font-size: 1rem;
+    font-weight: $font-weight-regular;
+    line-height: 21px;
+    letter-spacing: 0.222857px;
 }
 
-.btnAdd{
+.btnAdd {
     background-color: $theme-yellow-color;
     width: 30px;
     height: 30px;
@@ -58,33 +59,66 @@ hr.solid {
     margin-top: 0.5rem;
 }
 
-//Fill in chickens
-.numDeadChicken.formLabel{
-    color: #828282
+.textTitleModal {
+    color: #666666;
+    font-size: 0.75rem;
+    font-weight: $font-weight-medium;
+    line-height: 22px;
 }
 
-.numZLegChicken.formLabel{
-    color: #828282
-}
-
-.numDwarfChicken.formLabel{
-    color: #828282
-}
-
-.numSickChicken.formLabel{
-    color: #828282
+.textMedicineModal {
+    color: #666666;
+    font-size: 0.75rem;
+    font-weight: $font-weight-regular;
+    line-height: 22px;
 }
 
 //Fill in confirmation
 
-.greenTick{
+.greenTick {
     margin-top: 4rem;
     margin-bottom: 1rem;
     text-align: center;
 }
 
-.congratTxt{
+.congratTxt {
     margin-top: 2rem;
     margin-bottom: 2rem;
     text-align: center;
+}
+
+.tabDailyData {
+    width: 87px;
+    height: 23px;
+    left: 25px;
+    top: 243px;
+    background: #2e86ab;
+    border-radius: 8px;
+}
+
+.textTabs {
+    color: $theme-blue-green-color;
+}
+
+:global {
+    .nav-pills .nav-link.active {
+        background-color: $theme-blue-green-color;
+    }
+    .page-link {
+        color: $theme-blue-green-color;
+    }
+}
+
+.textTitle {
+    color: #464646;
+    font-size: 1rem;
+    font-weight: $font-weight-bold;
+    line-height: 21px;
+    letter-spacing: 0.05em;
+    margin-bottom: 0;
+}
+
+.textTime {
+    font-size: 0.75rem;
+    font-weight: $font-weight-medium;
 }

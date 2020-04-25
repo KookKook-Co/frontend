@@ -27,11 +27,11 @@ const Reducer = (state, action) => {
                 ...state,
                 hno: action.payload,
             };
-        case 'update-dailyData':
-            return {
-                ...state,
-                dailyData: { ...state.dailyData, ...action.payload },
-            };
+        // case 'update-editAccount':
+        //     return {
+        //         ...state,
+        //         editAccount: { ...state.dailyData, ...action.payload },
+        //     };
         case 'update-unqChicken':
             return {
                 ...state,
@@ -55,7 +55,10 @@ const Reducer = (state, action) => {
         case 'update-workerAccountInfo':
             return {
                 ...state,
-                workerAccountInfo: action.payload,
+                workerAccountInfo: {
+                    ...state.workerAccountInfo,
+                    ...action.payload,
+                },
             };
         case 'clear-selectedHno':
             return {

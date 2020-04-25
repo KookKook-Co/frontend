@@ -13,16 +13,25 @@ import moment from 'moment';
 import styles from './index.module.scss';
 import { useHistory } from 'react-router-dom';
 
-const ManageFlock = () => {
+const EditFlock = () => {
     const { state, dispatch } = useContext(Context);
     const history = useHistory();
     const [create, setCreate] = useState();
-    const [generation, setGeneration] = useState();
+    const [generation, setGeneration] = useState(
+        state.chickenFlockInfo && state.chickenFlockInfo.generation,
+    );
     const [dateIn, setDateIn] = useState(moment());
     const [dateOut, setDateOut] = useState(moment());
-    const [amountIn, setAmountIn] = useState();
-    const [gender, setGender] = useState('');
-    const [type, setType] = useState('');
+
+    const [amountIn, setAmountIn] = useState(
+        state.chickenFlockInfo && state.chickenFlockInfo.numberOfChickens,
+    );
+    const [gender, setGender] = useState(
+        (state.chickenFlockInfo && state.chickenFlockInfo.gender) || '',
+    );
+    const [type, setType] = useState(
+        (state.chickenFlockInfo && state.chickenFlockInfo.chickenType) || '',
+    );
 
     const schema = yup.object({
         generation: yup.string().required(),
@@ -33,12 +42,7 @@ const ManageFlock = () => {
         type: yup.string().required(),
     });
 
-    const createNewFlock = async () => {
-        dispatch({
-            type: 'create-flock',
-            payload: { generation, dateIn, dateOut, type, amountIn, gender },
-        });
-
+    const editFlock = async () => {
         const chickenFlockInfo = {
             dateIn: dateIn.toISOString(),
             dateOut: dateOut.toISOString(),
@@ -59,6 +63,11 @@ const ManageFlock = () => {
                 console.log(res);
             })
             .catch((err) => console.log(err));
+
+        dispatch({
+            type: 'update-chickenFlockInfo',
+            payload: {},
+        });
     };
 
     const toManageHouse = () => {
@@ -69,7 +78,7 @@ const ManageFlock = () => {
         <Container className={`${styles.bgLightBlue} pt-4 vh-100`}>
             <GoBackCenteredModal
                 show={!!create}
-                title="The chicken flock has been created."
+                title="The chicken flock has been edited."
                 actionText="CLOSE"
                 onAction={() => {
                     toManageHouse();
@@ -79,15 +88,33 @@ const ManageFlock = () => {
             <Formik
                 validationSchema={schema}
                 onSubmit={() => {
-                    createNewFlock();
+                    editFlock();
                 }}
                 initialValues={{
-                    generation: '',
-                    dateIn: '',
-                    dateOut: '',
-                    amountIn: '',
-                    gender: '',
-                    type: '',
+                    generation:
+                        state.chickenFlockInfo &&
+                        state.chickenFlockInfo.generation,
+                    dateIn:
+                        state.chickenFlockInfo &&
+                        moment(state.chickenFlockInfo.chickenInDate).format(
+                            'YYYY-MM-DD',
+                        ),
+                    dateOut:
+                        state.chickenFlockInfo &&
+                        moment(state.chickenFlockInfo.chickenOutDate).format(
+                            'YYYY-MM-DD',
+                        ),
+                    amountIn:
+                        state.chickenFlockInfo &&
+                        state.chickenFlockInfo.numberOfChickens,
+                    gender:
+                        (state.chickenFlockInfo &&
+                            state.chickenFlockInfo.gender) ||
+                        '',
+                    type:
+                        (state.chickenFlockInfo &&
+                            state.chickenFlockInfo.chickenType) ||
+                        '',
                 }}
             >
                 {({
@@ -182,7 +209,7 @@ const ManageFlock = () => {
                                 Amount of Chickens
                             </Form.Label>
                             <Form.Control
-                                type="number"
+                                type="text"
                                 name="amountIn"
                                 onChange={(e) => {
                                     handleChange(e);
@@ -254,7 +281,7 @@ const ManageFlock = () => {
                             className="d-flex mx-auto mt-5 w-100 mb-2 justify-content-center"
                             type="submit"
                         >
-                            <div>Add New Flock</div>
+                            <div>Edit Flock</div>
                         </Button>
                     </Form>
                 )}
@@ -263,4 +290,4 @@ const ManageFlock = () => {
     );
 };
 
-export default ManageFlock;
+export default EditFlock;

@@ -43,7 +43,7 @@ const GetReport = () => {
         console.log(data);
         const res = await axios.post('/report', data);
         console.log(res);
-        setGet(res.data);
+        setGet('GET!');
     };
 
     return (
