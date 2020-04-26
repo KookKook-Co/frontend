@@ -38,7 +38,7 @@ const Dashboard = () => {
     const [currentZone, setCurrentZone] = useState(1);
     const [currentProperty, setCurrentProperty] = useState('temperature');
     const history = useHistory();
-    const zoneData = state.zones[currentZone - 1];
+    const zoneData = state.zones && state.zones[currentZone - 1];
 
     useEffect(() => {
         if (localStorage.getItem('token') === null) {

@@ -19,6 +19,7 @@ export const FillInChicken = ({ date, currentTag }) => {
     const [sickChicken, setSickChicken] = useState();
     const [period, setPeriod] = useState('MORNING');
     const [showFormik, setShowFormik] = useState(false);
+    const [isSelect, setIsSelect] = useState(false);
 
     const schema = yup.object({
         deadChicken: yup.number().required('This field is required.'),
@@ -87,6 +88,25 @@ export const FillInChicken = ({ date, currentTag }) => {
         setSend('Sent!');
     };
 
+    const PeriodTab = ({ period, isSelect }) => {
+        return (
+            <div>
+                <li className="page-item hover">
+                    <div
+                        className={`page-link ${styles.textTime} ${
+                            isSelect ? `${styles.bgSelect}` : ''
+                        }`}
+                        onClick={(e) => {
+                            setPeriod(period);
+                        }}
+                    >
+                        {period}
+                    </div>
+                </li>
+            </div>
+        );
+    };
+
     return (
         <div>
             <MySuccessCenteredModal
@@ -113,40 +133,26 @@ export const FillInChicken = ({ date, currentTag }) => {
                     {({
                         handleSubmit,
                         handleChange,
-                        handleBlur,
                         values,
                         touched,
-                        isValid,
                         errors,
                     }) => (
                         <Form noValidate onSubmit={handleSubmit}>
                             <div className={`${styles.textSubtitle}`}>
                                 Select Time
                             </div>
+
                             <nav aria-label="Page navigation example">
                                 <ul className="pagination justify-content-center">
-                                    <li className="page-item hover">
-                                        <div
-                                            className={`page-link ${styles.textTime}`}
-                                            onClick={(e) => {
-                                                handleChange(e);
-                                                setPeriod('MORNING');
-                                            }}
-                                        >
-                                            Morning
-                                        </div>
-                                    </li>
-                                    <li className="page-item">
-                                        <div
-                                            className={`page-link ${styles.textTime}`}
-                                            onClick={(e) => {
-                                                handleChange(e);
-                                                setPeriod('EVENING');
-                                            }}
-                                        >
-                                            Evening
-                                        </div>
-                                    </li>
+                                    {['MORNING', 'EVENING'].map(
+                                        (item, index) => (
+                                            <PeriodTab
+                                                key={index}
+                                                period={item}
+                                                isSelect={item === period}
+                                            />
+                                        ),
+                                    )}
                                 </ul>
                             </nav>
 

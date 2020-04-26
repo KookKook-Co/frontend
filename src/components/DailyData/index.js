@@ -70,13 +70,23 @@ const DailyData = () => {
                             </Col>
                             <Col sm={9}>
                                 <Tab.Content>
-                                    <Tab.Pane eventKey="first">
+                                    <Tab.Pane
+                                        eventKey="first"
+                                        onClick={() => {
+                                            setCurrentTag(1);
+                                        }}
+                                    >
                                         <FillInConsumption
                                             date={date}
                                             currentTag={currentTag}
                                         />
                                     </Tab.Pane>
-                                    <Tab.Pane eventKey="second">
+                                    <Tab.Pane
+                                        eventKey="second"
+                                        onClick={() => {
+                                            setCurrentTag(2);
+                                        }}
+                                    >
                                         <FillInChicken
                                             date={date}
                                             currentTag={currentTag}
