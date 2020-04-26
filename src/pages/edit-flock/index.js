@@ -64,6 +64,8 @@ const EditFlock = () => {
             })
             .catch((err) => console.log(err));
 
+        setCreate('CREATE!');
+
         dispatch({
             type: 'update-chickenFlockInfo',
             payload: {},
@@ -281,7 +283,7 @@ const EditFlock = () => {
                             className="d-flex mx-auto mt-5 w-100 mb-2 justify-content-center"
                             type="submit"
                         >
-                            <div>Edit Flock</div>
+                            <div>Save</div>
                         </Button>
                     </Form>
                 )}

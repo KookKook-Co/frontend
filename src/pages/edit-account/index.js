@@ -56,15 +56,7 @@ const EditAccount = () => {
                         '',
                 }}
             >
-                {({
-                    handleSubmit,
-                    handleChange,
-                    handleBlur,
-                    values,
-                    touched,
-                    isValid,
-                    errors,
-                }) => (
+                {({ handleSubmit, handleChange, values, touched, errors }) => (
                     <Form
                         noValidate
                         onSubmit={handleSubmit}

@@ -76,6 +76,10 @@ const PersonalInfo = () => {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
 
+        if (res.status === 409) {
+            alert('Username is already used.');
+        }
+
         setCreate('Create!');
         console.log('++++res++++');
         console.log(res);

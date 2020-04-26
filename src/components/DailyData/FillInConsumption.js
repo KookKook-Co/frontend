@@ -36,6 +36,8 @@ export const FillInConsumption = ({ date, currentTag }) => {
     const [foodLeft2, setFoodLeft2] = useState();
     const [waterV1, setWaterV1] = useState();
     const [waterV2, setWaterV2] = useState();
+    const [consumption1, setConsumption1] = useState();
+    const [consumption2, setConsumption2] = useState();
 
     const schema = yup.object({
         foodIn1: yup.number().required('This field is required.'),
@@ -84,9 +86,15 @@ export const FillInConsumption = ({ date, currentTag }) => {
 
                         setFoodIn1(foodSilo1.foodIn);
                         setFoodLeft1(foodSilo1.foodRemain);
+                        setConsumption1(
+                            foodSilo1.foodIn - foodSilo1.foodRemain,
+                        );
 
                         setFoodIn2(foodSilo2.foodIn);
                         setFoodLeft2(foodSilo2.foodRemain);
+                        setConsumption2(
+                            foodSilo2.foodIn - foodSilo2.foodRemain,
+                        );
                     }
 
                     if (
@@ -108,7 +116,6 @@ export const FillInConsumption = ({ date, currentTag }) => {
                                 const med = medicine.find(
                                     (item) => item.medicineType === each,
                                 );
-                                console.log('++VACCINE');
                                 console.log(med);
                                 if (med) {
                                     return { ...med, isChosen: true };
@@ -127,7 +134,6 @@ export const FillInConsumption = ({ date, currentTag }) => {
                                 const med = medicine.find(
                                     (item) => item.medicineType === each,
                                 );
-                                console.log('++VITAMIN');
                                 console.log(med);
                                 if (med) {
                                     return { ...med, isChosen: true };
@@ -298,10 +304,8 @@ export const FillInConsumption = ({ date, currentTag }) => {
                     {({
                         handleSubmit,
                         handleChange,
-                        handleBlur,
                         values,
                         touched,
-                        isValid,
                         errors,
                     }) => (
                         <Form
@@ -316,7 +320,7 @@ export const FillInConsumption = ({ date, currentTag }) => {
                             <Form.Group controlId="formFoodIn1">
                                 <Form.Label className={styles.textSubtitle}>
                                     {' '}
-                                    Amount of Food Put In (Silo1){' '}
+                                    Food Input (Silo1){' '}
                                 </Form.Label>
                                 <Form.Control
                                     type="number"
@@ -359,10 +363,24 @@ export const FillInConsumption = ({ date, currentTag }) => {
                                     {errors.foodRemain1}
                                 </Form.Control.Feedback>
                             </Form.Group>
+
+                            <Form.Group controlId="formConsumption1">
+                                <Form.Label className={styles.textSubtitle}>
+                                    {' '}
+                                    Consumption (Silo1){' '}
+                                </Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    value={consumption1}
+                                    placeholder="Input"
+                                    disabled
+                                />
+                            </Form.Group>
+
                             <Form.Group controlId="formFoodIn2">
                                 <Form.Label className={styles.textSubtitle}>
                                     {' '}
-                                    Amount of Food Put In (Silo2){' '}
+                                    Food Input (Silo2){' '}
                                 </Form.Label>
                                 <Form.Control
                                     type="number"
@@ -404,6 +422,19 @@ export const FillInConsumption = ({ date, currentTag }) => {
                                 <Form.Control.Feedback type="invalid">
                                     {errors.foodRemain2}
                                 </Form.Control.Feedback>
+                            </Form.Group>
+
+                            <Form.Group controlId="formConsumption2">
+                                <Form.Label className={styles.textSubtitle}>
+                                    {' '}
+                                    Consumption (Silo2){' '}
+                                </Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    value={consumption2}
+                                    placeholder="Input"
+                                    disabled
+                                />
                             </Form.Group>
 
                             <h4 className={styles.textTitle}>
@@ -456,7 +487,9 @@ export const FillInConsumption = ({ date, currentTag }) => {
                                 </Form.Control.Feedback>
                             </Form.Group>
 
-                            <h4 className={styles.textTitle}>MEDICINE</h4>
+                            <h4 className={styles.textTitle}>
+                                MEDICINE CONSUMPTION
+                            </h4>
                             <div className={`mb-2 ${styles.borderLine}`}></div>
                             <Form.Group controlId="formMedicine">
                                 <Form.Label className={styles.textSubtitle}>

@@ -108,6 +108,7 @@ const Dashboard = () => {
                     <WeeklyChart
                         property={currentProperty}
                         onChangeView={() => history.push('/dashboard/hourly')}
+                        zone={currentZone}
                     />
                 </Route>
                 <Route>

@@ -51,10 +51,9 @@ const EditAccountTwo = () => {
 
         console.log(data);
 
-        const res = await axios.put('/users', data);
+        await axios.put('/users', data);
 
-        console.log('++++res++++');
-        console.log(res);
+        setCreate('Create!');
     };
 
     const toManageAccount = () => {
@@ -98,10 +97,10 @@ const EditAccountTwo = () => {
                 {({
                     handleSubmit,
                     handleChange,
-                    handleBlur,
+
                     values,
                     touched,
-                    isValid,
+
                     errors,
                 }) => (
                     <Form
@@ -177,7 +176,7 @@ const EditAccountTwo = () => {
                             type="submit"
                             className={`w-100 mt-3 ${styles.btnCreate}`}
                         >
-                            Edit Account
+                            Save
                         </Button>
                     </Form>
                 )}

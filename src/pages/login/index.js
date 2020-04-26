@@ -12,6 +12,7 @@ import { useHistory } from 'react-router-dom';
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [incorrect, setIncorrect] = useState(false);
     const history = useHistory();
     const { dispatch } = useContext(Context);
 
@@ -35,6 +36,11 @@ const Login = () => {
                     payload: data,
                 });
                 history.push('/');
+            })
+            .catch((err) => {
+                // alert('Username or password is invalid.');
+                // console.log('Username or password is invalid.');
+                setIncorrect(true);
             });
     };
 
@@ -53,7 +59,10 @@ const Login = () => {
                         </Form.Label>
                         <Form.Control
                             type="text"
-                            onChange={(e) => setUsername(e.target.value)}
+                            onChange={(e) => {
+                                setUsername(e.target.value);
+                                setIncorrect(false);
+                            }}
                             value={username}
                             placeholder="Enter Username"
                         />
@@ -65,12 +74,20 @@ const Login = () => {
                         </Form.Label>
                         <Form.Control
                             type="password"
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                                setIncorrect(false);
+                            }}
                             value={password}
                             placeholder="Enter Password"
                         />
                     </Form.Group>
                 </Form>
+                {incorrect && (
+                    <p className={`${styles.textError}`}>
+                        Incorrect Username or Password
+                    </p>
+                )}
                 <Button
                     className="btn-login d-flex mx-auto mt-5 px-4 mb-2"
                     type="button"

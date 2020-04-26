@@ -23,7 +23,7 @@ import styles from './index.module.scss';
 //     tooltip.displayColors = false;
 // };
 
-const WeeklyChart = ({ property }) => {
+const WeeklyChart = ({ property, zone }) => {
     const { state } = useContext(Context);
     const [day, setDay] = useState(moment());
     const [maxValue, setMaxValue] = useState();
@@ -57,7 +57,7 @@ const WeeklyChart = ({ property }) => {
     useEffect(() => {
         const getWeeklyChart = async () => {
             const res = await axios.get(
-                `/event/env/weekly?sid=1&type=${property}&dateStart=${day
+                `/event/env/weekly?sid=${`${zone}`}&type=${property}&dateStart=${day
                     .startOf('week')
                     .toISOString()}&dateEnd=${day.endOf('week').toISOString()}`,
             );

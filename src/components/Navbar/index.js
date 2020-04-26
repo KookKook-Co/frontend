@@ -140,6 +140,12 @@ const Nav = () => {
         return !list.includes(history.location.pathname);
     };
 
+    const isNotMain = () => {
+        const list = ['/', '/daily-data', '/dead-chicken'];
+        //in list return true
+        return !list.includes(history.location.pathname);
+    };
+
     return (
         <>
             {isNotLogin() && (
@@ -208,7 +214,7 @@ const Nav = () => {
                 className={styles.bgYellow}
                 variant="dark"
             >
-                {isNotLogin() && (
+                {isNotMain() && isNotLogin() && (
                     <img
                         src={BackBtn}
                         alt="back_btn"
