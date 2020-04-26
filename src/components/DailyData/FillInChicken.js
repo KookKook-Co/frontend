@@ -19,7 +19,6 @@ export const FillInChicken = ({ date, currentTag }) => {
     const [sickChicken, setSickChicken] = useState();
     const [period, setPeriod] = useState('MORNING');
     const [showFormik, setShowFormik] = useState(false);
-    const [isSelect, setIsSelect] = useState(false);
 
     const schema = yup.object({
         deadChicken: yup.number().required('This field is required.'),
@@ -39,6 +38,13 @@ export const FillInChicken = ({ date, currentTag }) => {
                     }&date=${date}&period=${period}`,
                 );
 
+                if (res.data === '') {
+                    setDeadChicken();
+                    setZLegChicken();
+                    setDwarfChicken();
+                    setSickChicken();
+                }
+
                 if (res.data !== '' && res.data !== null) {
                     setDeadChicken(res.data.amountDead);
                     setZLegChicken(res.data.amountZleg);
@@ -49,7 +55,7 @@ export const FillInChicken = ({ date, currentTag }) => {
             };
             getChickenFlock();
         }
-    }, [date, period]);
+    }, [date, period, currentTag]);
 
     const sendUnqChicken = async () => {
         dispatch({

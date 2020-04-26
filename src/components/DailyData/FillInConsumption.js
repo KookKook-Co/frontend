@@ -56,6 +56,15 @@ export const FillInConsumption = ({ date, currentTag }) => {
                     }&date=${date}`,
                 );
 
+                if (res.data === '') {
+                    setFoodIn1();
+                    setFoodLeft1();
+                    setFoodIn2();
+                    setFoodLeft2();
+                    setWaterV1();
+                    setWaterV2();
+                }
+
                 if (
                     res.data !== '' &&
                     res.data !== null &&
@@ -137,7 +146,7 @@ export const FillInConsumption = ({ date, currentTag }) => {
             };
             getDailyData();
         }
-    }, [date]);
+    }, [date, currentTag]);
 
     const medicineInput = (vac, vit) => {
         return [...vac, ...vit]
