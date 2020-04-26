@@ -72,7 +72,8 @@ const Dashboard = () => {
                         className={`${styles.bgHouse} d-flex p-1 justify-content-center`}
                     >
                         <div className={`${styles.textHouse}`}>
-                            HOUSE {state.user.hno ? state.user.hno : ''}
+                            HOUSE{' '}
+                            {state.user && state.user.hno ? state.user.hno : ''}
                         </div>
                     </div>
                 </div>

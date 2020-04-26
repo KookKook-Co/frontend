@@ -13,16 +13,26 @@ import { useHistory } from 'react-router-dom';
 const CreateAccount = () => {
     const { state, dispatch } = useContext(Context);
     const history = useHistory();
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
-    const [passwordConfirmation, setPasswordConfirmation] = useState();
-    const [role, setRole] = useState('');
+    const [username, setUsername] = useState(
+        (state.registrationData && state.registrationData.username) || '',
+    );
+    const [password, setPassword] = useState(
+        (state.registrationData && state.registrationData.password) || '',
+    );
+    const [passwordConfirmation, setPasswordConfirmation] = useState(
+        (state.registrationData &&
+            state.registrationData.passwordConfirmation) ||
+            '',
+    );
+    const [role, setRole] = useState(
+        (state.registrationData && state.registrationData.role) || '',
+    );
 
     const schema = yup.object({
-        username: yup.string().required(),
-        password: yup.string().required(),
-        passwordConfirmation: yup.string().required(),
-        role: yup.string().required(),
+        username: yup.string().required('This field is required.'),
+        password: yup.string().required('This field is required.'),
+        passwordConfirmation: yup.string().required('This field is required.'),
+        role: yup.string().required('This field is required.'),
     });
 
     const proceed = () => {
@@ -49,10 +59,22 @@ const CreateAccount = () => {
                     proceed();
                 }}
                 initialValues={{
-                    username: '',
-                    password: '',
-                    passwordConfirmation: '',
-                    role: '',
+                    username:
+                        (state.registrationData &&
+                            state.registrationData.username) ||
+                        '',
+                    password:
+                        (state.registrationData &&
+                            state.registrationData.password) ||
+                        '',
+                    passwordConfirmation:
+                        (state.registrationData &&
+                            state.registrationData.passwordConfirmation) ||
+                        '',
+                    role:
+                        (state.registrationData &&
+                            state.registrationData.role) ||
+                        '',
                 }}
             >
                 {({

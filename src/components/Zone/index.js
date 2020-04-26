@@ -29,7 +29,7 @@ const Zone = ({ currentZone, onPropertySelected }) => {
         {
             result: 3,
             property: 'temperature',
-            unit: 'CELSIUS',
+            unit: '°C',
             percentage: '11.5%',
             measure: 'TEMPERATURE',
             enviIcon: tempIcon,
@@ -40,7 +40,7 @@ const Zone = ({ currentZone, onPropertySelected }) => {
         {
             result: 3,
             property: 'windspeed',
-            unit: 'KM/HR',
+            unit: 'M/S',
             percentage: '11.5%',
             measure: 'WIND',
             enviIcon: windIcon,
@@ -51,7 +51,7 @@ const Zone = ({ currentZone, onPropertySelected }) => {
         {
             result: 3,
             property: 'ammonia',
-            unit: '',
+            unit: 'PPM',
             percentage: '11.5%',
             measure: 'AMMONIA',
             enviIcon: ammoniaIcon,
@@ -62,7 +62,7 @@ const Zone = ({ currentZone, onPropertySelected }) => {
         {
             result: 3,
             property: 'humidity',
-            unit: '',
+            unit: '% RH',
             percentage: '11.5%',
             measure: 'HUMIDITY',
             enviIcon: humidityIcon,
@@ -98,7 +98,7 @@ const Zone = ({ currentZone, onPropertySelected }) => {
                             <div
                                 className={`${styles.bgCard} d-flex flex-column`}
                             >
-                                <div className="d-flex flex-column text-center flex-grow-1 h-100">
+                                <div className="d-flex flex-column text-center justify-content-center flex-grow-1">
                                     <p
                                         className={`m-0 ${
                                             isIrregular(data.property)
@@ -111,14 +111,6 @@ const Zone = ({ currentZone, onPropertySelected }) => {
                                     <p className={`${styles.textUnit} m-0`}>
                                         {data.unit}
                                     </p>
-                                    <div className="d-flex justify-content-center">
-                                        <img src={upArrow} alt="upArrow" />
-                                        <p
-                                            className={`${styles.textPercent} m-0`}
-                                        >
-                                            {data.percentage}
-                                        </p>
-                                    </div>
                                 </div>
                                 <div className="d-flex p-2">
                                     <img
@@ -131,11 +123,6 @@ const Zone = ({ currentZone, onPropertySelected }) => {
                                             className={`${styles.textMeasure} m-0`}
                                         >
                                             {data.measure}
-                                        </p>
-                                        <p
-                                            className={`${styles.textSensor} m-0`}
-                                        >
-                                            From {data.sensor} sensors
                                         </p>
                                     </div>
                                 </div>

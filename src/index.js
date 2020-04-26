@@ -7,7 +7,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://0a193d27.ngrok.io/';
+axios.defaults.baseURL = 'http://128.199.211.41/';
 axios.defaults.headers.common['Authorization'] = 'AUTH TOKEN';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 

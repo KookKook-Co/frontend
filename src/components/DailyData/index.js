@@ -15,6 +15,7 @@ import styles from './index.module.scss';
 const DailyData = () => {
     const { state } = useContext(Context);
     const [date, setDate] = useState(moment());
+    const [currentTag, setCurrentTag] = useState(1);
 
     return (
         <Container className={`mt-3 ${styles.containerHeight}`}>
@@ -22,7 +23,8 @@ const DailyData = () => {
                 <div>
                     <Form.Group controlId="formDate">
                         <Form.Label className={styles.textHouse}>
-                            HOUSE {state.user.hno ? state.user.hno : ''}
+                            HOUSE{' '}
+                            {state.user && state.user.hno ? state.user.hno : ''}
                         </Form.Label>
                         <Form.Control
                             type="date"
@@ -46,6 +48,9 @@ const DailyData = () => {
                                         <Nav.Link
                                             eventKey="first"
                                             className={styles.textTabs}
+                                            onClick={() => {
+                                                setCurrentTag(1);
+                                            }}
                                         >
                                             Daily Data
                                         </Nav.Link>
@@ -54,6 +59,9 @@ const DailyData = () => {
                                         <Nav.Link
                                             eventKey="second"
                                             className={styles.textTabs}
+                                            onClick={() => {
+                                                setCurrentTag(2);
+                                            }}
                                         >
                                             Chicken
                                         </Nav.Link>
@@ -63,10 +71,16 @@ const DailyData = () => {
                             <Col sm={9}>
                                 <Tab.Content>
                                     <Tab.Pane eventKey="first">
-                                        <FillInConsumption date={date} />
+                                        <FillInConsumption
+                                            date={date}
+                                            currentTag={currentTag}
+                                        />
                                     </Tab.Pane>
                                     <Tab.Pane eventKey="second">
-                                        <FillInChicken date={date} />
+                                        <FillInChicken
+                                            date={date}
+                                            currentTag={currentTag}
+                                        />
                                     </Tab.Pane>
                                 </Tab.Content>
                             </Col>

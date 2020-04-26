@@ -18,8 +18,8 @@ const ResetPassword = () => {
     const [passwordConfirmation, setPasswordConfirmation] = useState();
 
     const schema = yup.object({
-        password: yup.string().required(),
-        passwordConfirmation: yup.string().required(),
+        password: yup.string().required('This field is required.'),
+        passwordConfirmation: yup.string().required('This field is required.'),
     });
 
     const submitNewPassword = async () => {

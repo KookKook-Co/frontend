@@ -1,42 +1,53 @@
+import * as yup from 'yup';
+
 import React, { useContext, useEffect, useState } from 'react';
 
+import Button from 'react-bootstrap/Button';
 import { Context } from '../../Store';
 import Form from 'react-bootstrap/Form';
+import { Formik } from 'formik';
 import MySuccessCenteredModal from '../SuccessMsg/index.js';
 import axios from 'axios';
-import sendBtn from '../../static/icon/sendBtn.svg';
 import styles from './index.module.scss';
-import { useHistory } from 'react-router-dom';
-import viewHistoryBtn from '../../static/icon/viewHistoryBtn.svg';
 
-export const FillInChicken = ({ date }) => {
+export const FillInChicken = ({ date, currentTag }) => {
     const { state, dispatch } = useContext(Context);
-    const history = useHistory();
     const [send, setSend] = useState();
     const [deadChicken, setDeadChicken] = useState();
     const [zLegChicken, setZLegChicken] = useState();
     const [dwarfChicken, setDwarfChicken] = useState();
     const [sickChicken, setSickChicken] = useState();
     const [period, setPeriod] = useState('MORNING');
+    const [showFormik, setShowFormik] = useState(false);
 
-    const getReport = () => {
-        history.push('/get-report');
-    };
+    const schema = yup.object({
+        deadChicken: yup.number().required('This field is required.'),
+        zLegChicken: yup.number().required('This field is required.'),
+        dwarfChicken: yup.number().required('This field is required.'),
+        sickChicken: yup.number().required('This field is required.'),
+        period: yup.string().required('This field is required.'),
+    });
 
     useEffect(() => {
-        const getChickenFlock = async () => {
-            const res = await axios.get(
-                `/event/unqualifiedchicken?hno=${state.user.hno}&date=${date}&period=${period}`,
-            );
+        if (currentTag === 2) {
+            setShowFormik(false);
+            const getChickenFlock = async () => {
+                const res = await axios.get(
+                    `/event/unqualifiedchicken?hno=${
+                        state.user && state.user.hno
+                    }&date=${date}&period=${period}`,
+                );
 
-            if (res.data !== '' && res.data !== null) {
-                setDeadChicken(res.data.amountDead);
-                setZLegChicken(res.data.amountZleg);
-                setDwarfChicken(res.data.amountDwaft);
-                setSickChicken(res.data.amountSick);
-            }
-        };
-        getChickenFlock();
+                if (res.data !== '' && res.data !== null) {
+                    setDeadChicken(res.data.amountDead);
+                    setZLegChicken(res.data.amountZleg);
+                    setDwarfChicken(res.data.amountDwaft);
+                    setSickChicken(res.data.amountSick);
+                }
+                setShowFormik(true);
+            };
+            getChickenFlock();
+        }
     }, [date, period]);
 
     const sendUnqChicken = async () => {
@@ -58,7 +69,7 @@ export const FillInChicken = ({ date }) => {
         };
 
         const data = {
-            hno: state.user.hno,
+            hno: state.user && state.user.hno,
             date: date.toISOString(),
             period,
             unqualifiedChickenInfo,
@@ -80,97 +91,178 @@ export const FillInChicken = ({ date }) => {
         <div>
             <MySuccessCenteredModal
                 show={!!send}
-                title="Congratulations! Your data has been recorded successfully."
+                title="Your data has been recorded successfully."
                 onHide={() => setSend()}
             />
             <h4 className={styles.textTitle}>UNQUALIFIED CHICKEN</h4>
             <div className={`mb-2 ${styles.borderLine}`}></div>
+            {showFormik && (
+                <Formik
+                    validationSchema={schema}
+                    onSubmit={() => {
+                        sendUnqChicken();
+                    }}
+                    initialValues={{
+                        deadChicken: deadChicken,
+                        zLegChicken: zLegChicken,
+                        dwarfChicken: dwarfChicken,
+                        sickChicken: sickChicken,
+                        period: period,
+                    }}
+                >
+                    {({
+                        handleSubmit,
+                        handleChange,
+                        handleBlur,
+                        values,
+                        touched,
+                        isValid,
+                        errors,
+                    }) => (
+                        <Form noValidate onSubmit={handleSubmit}>
+                            <div className={`${styles.textSubtitle}`}>
+                                Select Time
+                            </div>
+                            <nav aria-label="Page navigation example">
+                                <ul className="pagination justify-content-center">
+                                    <li className="page-item hover">
+                                        <div
+                                            className={`page-link ${styles.textTime}`}
+                                            onClick={(e) => {
+                                                handleChange(e);
+                                                setPeriod('MORNING');
+                                            }}
+                                        >
+                                            Morning
+                                        </div>
+                                    </li>
+                                    <li className="page-item">
+                                        <div
+                                            className={`page-link ${styles.textTime}`}
+                                            onClick={(e) => {
+                                                handleChange(e);
+                                                setPeriod('EVENING');
+                                            }}
+                                        >
+                                            Evening
+                                        </div>
+                                    </li>
+                                </ul>
+                            </nav>
 
-            <div className={`${styles.textSubtitle}`}>Select Time</div>
-            <nav aria-label="Page navigation example">
-                <ul className="pagination justify-content-center">
-                    <li className="page-item hover">
-                        <div
-                            className={`page-link ${styles.textTime}`}
-                            onClick={() => setPeriod('MORNING')}
-                        >
-                            Morning
-                        </div>
-                    </li>
-                    <li className="page-item">
-                        <div
-                            className={`page-link ${styles.textTime}`}
-                            onClick={() => setPeriod('EVENING')}
-                        >
-                            Evening
-                        </div>
-                    </li>
-                </ul>
-            </nav>
+                            <Form.Group controlId="formDeadChicken">
+                                <Form.Label className={styles.textSubtitle}>
+                                    {' '}
+                                    Number of Dead Chickens{' '}
+                                </Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    name="deadChicken"
+                                    onChange={(e) => {
+                                        handleChange(e);
+                                        setDeadChicken(e.target.value);
+                                    }}
+                                    isInvalid={
+                                        touched.deadChicken &&
+                                        !!errors.deadChicken
+                                    }
+                                    value={values.deadChicken}
+                                    placeholder="Input"
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.deadChicken}
+                                </Form.Control.Feedback>
+                            </Form.Group>
 
-            <Form.Group controlId="formDeadChicken">
-                <Form.Label className={styles.textSubtitle}>
-                    {' '}
-                    Number of Dead Chickens{' '}
-                </Form.Label>
-                <Form.Control
-                    type="number"
-                    onChange={(e) => setDeadChicken(e.target.value)}
-                    value={deadChicken}
-                    placeholder="Input"
-                />
-            </Form.Group>
+                            <Form.Group controlId="formZLegChicken">
+                                <Form.Label className={styles.textSubtitle}>
+                                    {' '}
+                                    Number of Z-Leg Chickens{' '}
+                                </Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    name="zLegChicken"
+                                    onChange={(e) => {
+                                        handleChange(e);
+                                        setZLegChicken(e.target.value);
+                                    }}
+                                    isInvalid={
+                                        touched.zLegChicken &&
+                                        !!errors.zLegChicken
+                                    }
+                                    value={values.zLegChicken}
+                                    placeholder="Input"
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.zLegChicken}
+                                </Form.Control.Feedback>
+                            </Form.Group>
 
-            <Form.Group controlId="formZLegChicken">
-                <Form.Label className={styles.textSubtitle}>
-                    {' '}
-                    Number of Z-Leg Chickens{' '}
-                </Form.Label>
-                <Form.Control
-                    type="number"
-                    onChange={(e) => setZLegChicken(e.target.value)}
-                    value={zLegChicken}
-                    placeholder="Input"
-                />
-            </Form.Group>
+                            <Form.Group controlId="formDwarfChicken">
+                                <Form.Label className={styles.textSubtitle}>
+                                    {' '}
+                                    Number of Dwarf Chickens{' '}
+                                </Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    name="dwarfChicken"
+                                    onChange={(e) => {
+                                        handleChange(e);
+                                        setDwarfChicken(e.target.value);
+                                    }}
+                                    isInvalid={
+                                        touched.dwarfChicken &&
+                                        !!errors.dwarfChicken
+                                    }
+                                    value={values.dwarfChicken}
+                                    placeholder="Input"
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.dwarfChicken}
+                                </Form.Control.Feedback>
+                            </Form.Group>
 
-            <Form.Group controlId="formDwarfChicken">
-                <Form.Label className={styles.textSubtitle}>
-                    {' '}
-                    Number of Dwarf Chickens{' '}
-                </Form.Label>
-                <Form.Control
-                    type="number"
-                    onChange={(e) => setDwarfChicken(e.target.value)}
-                    value={dwarfChicken}
-                    placeholder="Input"
-                />
-            </Form.Group>
-
-            <Form.Group controlId="formSickChicken">
-                <Form.Label className={styles.textSubtitle}>
-                    {' '}
-                    Number of Sick Chickens{' '}
-                </Form.Label>
-                <Form.Control
-                    type="number"
-                    onChange={(e) => setSickChicken(e.target.value)}
-                    value={sickChicken}
-                    placeholder="Input"
-                />
-            </Form.Group>
-            <div className="d-flex justify-content-around pb-3">
-                <img
-                    src={viewHistoryBtn}
-                    alt="viewHistory_Btn"
-                    onClick={() => getReport()}
-                />
-                <img
-                    src={sendBtn}
-                    alt="send_Btn"
-                    onClick={() => sendUnqChicken()}
-                />
-            </div>
+                            <Form.Group controlId="formSickChicken">
+                                <Form.Label className={styles.textSubtitle}>
+                                    {' '}
+                                    Number of Sick Chickens{' '}
+                                </Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    name="sickChicken"
+                                    onChange={(e) => {
+                                        handleChange(e);
+                                        setSickChicken(e.target.value);
+                                    }}
+                                    isInvalid={
+                                        touched.sickChicken &&
+                                        !!errors.sickChicken
+                                    }
+                                    value={values.sickChicken}
+                                    placeholder="Input"
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.sickChicken}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Button
+                                className="d-flex mx-auto w-100 mb-3 justify-content-center"
+                                type="submit"
+                            >
+                                <div>Send</div>
+                            </Button>
+                            {/* <div className="d-flex justify-content-around pb-3">
+                            <img
+                                src={viewHistoryBtn}
+                                alt="viewHistory_Btn"
+                                onClick={() => getReport()}
+                            />
+                            
+                        </div> */}
+                        </Form>
+                    )}
+                </Formik>
+            )}
         </div>
     );
 };

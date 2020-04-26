@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import { Context } from '../../Store';
+import ImgModal from './deadChickenImgModal';
 import axios from 'axios';
 import styles from './index.module.scss';
-import ImgModal from './deadChickenImgModal';
 
 const DeadChicken = () => {
     const [cameraData, setCameraData] = useState([]);
@@ -104,9 +104,10 @@ const DeadChicken = () => {
         );
     };
 
-    const colLabel = (char) => {
+    const colLabel = (char, index) => {
         return (
             <div
+                key={index}
                 className={styles.mapLabel}
                 style={{
                     marginBottom: '0.4rem',
@@ -200,7 +201,7 @@ const DeadChicken = () => {
                 <p>Please select on dead chicken location</p>
             </div>
             <div className={styles.map}>
-                {chars.map((char) => colLabel(char))}
+                {chars.map((char, index) => colLabel(char, index))}
                 {zoneStatus().map((row, index) => eachrow(row, index + 1))}
             </div>
         </Container>

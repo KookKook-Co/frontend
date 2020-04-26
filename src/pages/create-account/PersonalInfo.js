@@ -18,10 +18,18 @@ const PersonalInfo = () => {
     const { state, dispatch } = useContext(Context);
     const [create, setCreate] = useState();
     const history = useHistory();
-    const [firstName, setFirstName] = useState();
-    const [lastName, setLastName] = useState();
-    const [lineID, setLineID] = useState();
-    const [fileUpload, setFileUpload] = useState();
+    const [firstName, setFirstName] = useState(
+        (state.registrationData && state.registrationData.firstName) || '',
+    );
+    const [lastName, setLastName] = useState(
+        (state.registrationData && state.registrationData.lastName) || '',
+    );
+    const [lineID, setLineID] = useState(
+        (state.registrationData && state.registrationData.lineID) || '',
+    );
+    const [fileUpload, setFileUpload] = useState(
+        (state.registrationData && state.registrationData.fileUpload) || '',
+    );
     const fileRef = useRef(null);
 
     const schema = yup.object({
@@ -31,10 +39,18 @@ const PersonalInfo = () => {
         file: yup.mixed().required(),
     });
 
+    const backToFirstPage = () => {
+        dispatch({
+            type: 'update-registrationData',
+            payload: { firstName, lastName, lineID, fileUpload },
+        });
+        history.push('/create-account');
+    };
+
     const createAccount = async () => {
         dispatch({
             type: 'update-registrationData',
-            payload: { firstName, lastName, lineID },
+            payload: { firstName, lastName, lineID, fileUpload },
         });
         console.log('+++++++++regisdata2');
         console.log(state.registrationData);
@@ -60,6 +76,7 @@ const PersonalInfo = () => {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
 
+        setCreate('Create!');
         console.log('++++res++++');
         console.log(res);
     };
@@ -95,10 +112,22 @@ const PersonalInfo = () => {
                     createAccount();
                 }}
                 initialValues={{
-                    firstName: '',
-                    lastName: '',
-                    lineID: '',
-                    file: undefined,
+                    firstName:
+                        (state.registrationData &&
+                            state.registrationData.firstName) ||
+                        firstName,
+                    lastName:
+                        (state.registrationData &&
+                            state.registrationData.lastName) ||
+                        lastName,
+                    lineID:
+                        (state.registrationData &&
+                            state.registrationData.lineID) ||
+                        lineID,
+                    file:
+                        (state.registrationData &&
+                            state.registrationData.file) ||
+                        fileUpload,
                 }}
             >
                 {({
@@ -223,13 +252,22 @@ const PersonalInfo = () => {
                                 {fileUpload && fileUpload.name}
                             </p>
                         </Form.Group>
-                        <Button
-                            variant="createAcct"
-                            type="submit"
-                            className={`w-100 mt-4 ${styles.btnCreate}`}
-                        >
-                            Create Account
-                        </Button>
+                        <div className="d-flex">
+                            <Button
+                                variant="back"
+                                className={`mt-4 ${styles.btnCreate} mr-1`}
+                                onClick={() => backToFirstPage()}
+                            >
+                                Back
+                            </Button>
+                            <Button
+                                variant="createAcct"
+                                type="submit"
+                                className={`mt-4 ${styles.btnCreate} ml-1`}
+                            >
+                                Create
+                            </Button>
+                        </div>
                     </Form>
                 )}
             </Formik>

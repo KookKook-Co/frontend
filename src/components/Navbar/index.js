@@ -3,9 +3,9 @@ import React, { useContext } from 'react';
 import BackBtn from '../../static/icon/backBtn.svg';
 import { Context } from '../../Store';
 import CreateAccountLogo from '../../static/icon/createaccount.svg';
+import DashboardLogo from '../../static/icon/dasboardNavIcon.svg';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import GetReportLogo from '../../static/icon/report.svg';
 import Hamburger from '../../static/icon/hamburger.svg';
 import HelpLogo from '../../static/icon/help.svg';
 import LogoutLogo from '../../static/icon/logout.svg';
@@ -92,15 +92,6 @@ const Nav = () => {
                             Manage House
                         </a>
                     </div>
-                    <div className="my-4">
-                        <img src={GetReportLogo} alt="report_logo" />
-                        <a
-                            className={`menu-item ${styles.textMenu} ml-3`}
-                            href="/get-report"
-                        >
-                            Get Report
-                        </a>
-                    </div>
                 </div>
             );
         } else {
@@ -165,13 +156,14 @@ const Nav = () => {
                             className={`mb-2 ${styles.imgProfile}`}
                         />
                         <div className={styles.textName}>
-                            {state.user.firstName} {state.user.lastName}
+                            {state.user && state.user.firstName}{' '}
+                            {state.user && state.user.lastName}
                         </div>
                         <div>{showHouse()}</div>
                     </div>
                     <div className={styles.borderLine}></div>
                     <div className="my-4 d-flex">
-                        <img src={HelpLogo} alt="help_logo" />
+                        <img src={DashboardLogo} alt="help_logo" />
                         <a
                             className={`menu-item ${styles.textMenu} ml-3`}
                             href="/"

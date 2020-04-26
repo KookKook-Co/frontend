@@ -25,12 +25,12 @@ const ManageFlock = () => {
     const [type, setType] = useState('');
 
     const schema = yup.object({
-        generation: yup.string().required(),
-        dateIn: yup.string().required(),
-        dateOut: yup.string().required(),
-        amountIn: yup.number().required(),
-        gender: yup.string().required(),
-        type: yup.string().required(),
+        generation: yup.string().required('This field is required.'),
+        dateIn: yup.string().required('This field is required.'),
+        dateOut: yup.string().required('This field is required.'),
+        amountIn: yup.number().required('This field is required.'),
+        gender: yup.string().required('This field is required.'),
+        type: yup.string().required('This field is required.'),
     });
 
     const createNewFlock = async () => {
@@ -59,6 +59,8 @@ const ManageFlock = () => {
                 console.log(res);
             })
             .catch((err) => console.log(err));
+
+        setCreate('Create!');
     };
 
     const toManageHouse = () => {
@@ -179,7 +181,7 @@ const ManageFlock = () => {
 
                         <Form.Group controlId="formAmountOfChickens">
                             <Form.Label className={styles.textFormLabel}>
-                                Amount of Chickens
+                                Number of Chickens
                             </Form.Label>
                             <Form.Control
                                 type="number"

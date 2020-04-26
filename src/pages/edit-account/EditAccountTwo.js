@@ -27,9 +27,9 @@ const EditAccountTwo = () => {
     );
 
     const schema = yup.object({
-        firstName: yup.string().required(),
-        lastName: yup.string().required(),
-        lineID: yup.string().required(),
+        firstName: yup.string().required('This field is required.'),
+        lastName: yup.string().required('This field is required.'),
+        lineID: yup.string().required('This field is required.'),
     });
 
     const editAccount = async () => {
