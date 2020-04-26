@@ -7,7 +7,7 @@ const initialState = {
     zones: [],
     registrationData: {},
     hno: [],
-    // editAccount: {},
+    dailyData: {},
     unqChicken: {},
     deadChickenLocation: {},
     deadChickenMap: {},

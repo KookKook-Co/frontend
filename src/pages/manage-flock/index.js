@@ -57,6 +57,7 @@ const ManageFlock = () => {
             .post('/event/chickenflocks', data)
             .then((res) => {
                 console.log(res);
+                setCreate('Create!');
             })
             .catch((err) => console.log(err));
 
@@ -165,19 +166,6 @@ const ManageFlock = () => {
                                 {errors.dateOut}
                             </Form.Control.Feedback>
                         </Form.Group>
-
-                        {/* <DropdownButton
-                        id="dropdown-basic-button"
-                        title="Select House"
-                    >
-                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">
-                            Another action
-                        </Dropdown.Item>
-                        <Dropdown.Item href="#/action-3">
-                            Something else
-                        </Dropdown.Item>
-                    </DropdownButton> */}
 
                         <Form.Group controlId="formAmountOfChickens">
                             <Form.Label className={styles.textFormLabel}>

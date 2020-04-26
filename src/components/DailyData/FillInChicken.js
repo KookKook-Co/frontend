@@ -35,7 +35,7 @@ export const FillInChicken = ({ date, currentTag }) => {
                 const res = await axios.get(
                     `/event/unqualifiedchicken?hno=${
                         state.user && state.user.hno
-                    }&date=${date}&period=${period}`,
+                    }&date=${date.toISOString()}&period=${period}`,
                 );
 
                 if (res.data === '') {

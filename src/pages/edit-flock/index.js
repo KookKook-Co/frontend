@@ -61,10 +61,9 @@ const EditFlock = () => {
             .post('/event/chickenflocks', data)
             .then((res) => {
                 console.log(res);
+                setCreate('EDIT!');
             })
             .catch((err) => console.log(err));
-
-        setCreate('CREATE!');
 
         dispatch({
             type: 'update-chickenFlockInfo',
@@ -119,15 +118,7 @@ const EditFlock = () => {
                         '',
                 }}
             >
-                {({
-                    handleSubmit,
-                    handleChange,
-                    handleBlur,
-                    values,
-                    touched,
-                    isValid,
-                    errors,
-                }) => (
+                {({ handleSubmit, handleChange, values, touched, errors }) => (
                     <Form noValidate onSubmit={handleSubmit}>
                         <Form.Group controlId="formFlockName">
                             <Form.Label className={styles.textFormLabel}>
@@ -192,19 +183,6 @@ const EditFlock = () => {
                                 {errors.dateOut}
                             </Form.Control.Feedback>
                         </Form.Group>
-
-                        {/* <DropdownButton
-                        id="dropdown-basic-button"
-                        title="Select House"
-                    >
-                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">
-                            Another action
-                        </Dropdown.Item>
-                        <Dropdown.Item href="#/action-3">
-                            Something else
-                        </Dropdown.Item>
-                    </DropdownButton> */}
 
                         <Form.Group controlId="formAmountOfChickens">
                             <Form.Label className={styles.textFormLabel}>

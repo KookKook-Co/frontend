@@ -51,9 +51,9 @@ const EditAccountTwo = () => {
 
         console.log(data);
 
-        await axios.put('/users', data);
-
-        setCreate('Create!');
+        await axios.put('/users', data).then((res) => {
+            setCreate('Edit!');
+        });
     };
 
     const toManageAccount = () => {

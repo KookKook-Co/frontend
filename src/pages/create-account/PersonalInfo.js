@@ -72,15 +72,17 @@ const PersonalInfo = () => {
         console.log(data);
         // data.append('image', fs.createReadStream(fileRef.current.files[0]));
 
-        const res = await axios.post('/users', data, {
-            headers: { 'Content-Type': 'multipart/form-data' },
-        });
+        const res = await axios
+            .post('/users', data, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            })
+            .then((res) => {
+                setCreate('Create!');
+            });
 
         if (res.status === 409) {
             alert('Username is already used.');
         }
-
-        setCreate('Create!');
         console.log('++++res++++');
         console.log(res);
     };

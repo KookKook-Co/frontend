@@ -60,6 +60,11 @@ const Reducer = (state, action) => {
                     ...action.payload,
                 },
             };
+        case 'update-dailyData':
+            return {
+                ...state,
+                dailyData: action.payload,
+            };
         case 'clear-selectedHno':
             return {
                 ...state,

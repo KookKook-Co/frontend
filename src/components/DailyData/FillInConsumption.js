@@ -55,7 +55,7 @@ export const FillInConsumption = ({ date, currentTag }) => {
                 const res = await axios.get(
                     `/event/dailydata?hno=${
                         state.user && state.user.hno
-                    }&date=${date}`,
+                    }&date=${date.toLocaleString()}`,
                 );
 
                 if (res.data === '') {
@@ -215,10 +215,9 @@ export const FillInConsumption = ({ date, currentTag }) => {
             .post('/event/dailydata', data)
             .then((res) => {
                 console.log(res);
+                setSend('Sent!');
             })
             .catch((err) => console.log(err));
-
-        setSend('Sent!');
     };
 
     const [showFormik, setShowFormik] = useState(false);
