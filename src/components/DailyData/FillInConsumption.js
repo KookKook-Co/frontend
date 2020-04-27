@@ -56,12 +56,30 @@ export const FillInConsumption = ({ date, currentTag }) => {
     const [consumption2, setConsumption2] = useState();
 
     const schema = yup.object({
-        foodIn1: yup.number().required('This field is required.'),
-        foodIn2: yup.number().required('This field is required.'),
-        foodRemain1: yup.number().required('This field is required.'),
-        foodRemain2: yup.number().required('This field is required.'),
-        waterV1: yup.number().required('This field is required.'),
-        waterV2: yup.number().required('This field is required.'),
+        foodIn1: yup
+            .number()
+            .positive('This field must be positive.')
+            .required('This field is required.'),
+        foodIn2: yup
+            .number()
+            .positive('This field must be positive.')
+            .required('This field is required.'),
+        foodRemain1: yup
+            .number()
+            .positive('This field must be positive.')
+            .required('This field is required.'),
+        foodRemain2: yup
+            .number()
+            .positive('This field must be positive.')
+            .required('This field is required.'),
+        waterV1: yup
+            .number()
+            .positive('This field must be positive.')
+            .required('This field is required.'),
+        waterV2: yup
+            .number()
+            .positive('This field must be positive.')
+            .required('This field is required.'),
     });
 
     useEffect(() => {
@@ -232,6 +250,7 @@ export const FillInConsumption = ({ date, currentTag }) => {
             hno: state.user && state.user.hno ? state.user.hno : 1,
             dateBefore: date
                 .tz('Asia/Bangkok')
+                .clone()
                 .subtract(1, 'days')
                 .format('DD-MM-YYYY'),
             date: date.format('DD-MM-YYYY'),

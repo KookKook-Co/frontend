@@ -36,8 +36,6 @@ const Login = () => {
                 history.push('/');
             })
             .catch((err) => {
-                // alert('Username or password is invalid.');
-                // console.log('Username or password is invalid.');
                 setIncorrect(true);
             });
     };
@@ -81,13 +79,17 @@ const Login = () => {
                         />
                     </Form.Group>
                 </Form>
-                {incorrect && (
-                    <p className={`${styles.textError}`}>
-                        Incorrect Username or Password
-                    </p>
-                )}
+
+                <p
+                    className={`${
+                        incorrect ? styles.textError : styles.textCorrect
+                    }`}
+                >
+                    Incorrect Username or Password
+                </p>
+
                 <Button
-                    className="btn-login d-flex mx-auto mt-5 px-4 mb-2"
+                    className="btn-login d-flex mx-auto mt-3 px-4 mb-2"
                     type="button"
                     onClick={() => login()}
                 >

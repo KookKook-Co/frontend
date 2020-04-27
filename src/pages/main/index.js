@@ -1,13 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 
-import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import { Context } from '../../Store';
 import DailyData from '../../components/DailyData';
 import Dashboard from '../../components/Dashboard';
 import DeadChicken from '../../components/DeadChicken';
-import Row from 'react-bootstrap/Row';
 import io from 'socket.io-client';
 import styles from './index.module.scss';
 
@@ -33,10 +31,7 @@ const MainTabs = () => {
     }, []);
 
     return (
-        <Container
-            className={`${styles.bgLightBlue} p-0`}
-            // styles="height: calc(100vh - 56px)"
-        >
+        <Container className={`${styles.bgLightBlue} p-0`}>
             <div className="d-flex justify-content-between">
                 <div
                     className={`flex-column w-100`}
@@ -53,7 +48,6 @@ const MainTabs = () => {
                             className={`d-flex flex-column justify-content-center flex-grow-1 p-1`}
                         >
                             <svg
-                                svg
                                 width="28"
                                 height="28"
                                 viewBox="0 0 28 28"

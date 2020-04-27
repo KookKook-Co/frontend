@@ -15,6 +15,8 @@ const WeeklyChart = ({ property, zone }) => {
     const [minValue, setMinValue] = useState();
     const [maxLabel, setMaxLabel] = useState('SUNDAY');
     const [selectedDate, setSelectedDate] = useState();
+    const [currentIndex, setCurrentIndex] = useState();
+    const [resData, setResData] = useState();
 
     const [chartData, setChartData] = useState({});
 
@@ -33,8 +35,9 @@ const WeeklyChart = ({ property, zone }) => {
                     .toISOString()}`,
             );
 
-            const maxTimeStamp = res.data.map((each) => each.maxTS);
-            const minTimeStamp = res.data.map((each) => each.minTS);
+            setResData(res.data);
+            setCurrentIndex(res.data.length - 1);
+
             const maxData = res.data.map((each) => each.max);
             const minData = res.data.map((each) => each.min);
 
@@ -90,23 +93,15 @@ const WeeklyChart = ({ property, zone }) => {
         }
     };
 
-    const showDay = (maxLabel) => {
-        if (maxLabel === 'SUN') {
-            return 'SUNDAY';
-        } else if (maxLabel === 'MON') {
-            return 'MONDAY';
-        } else if (maxLabel === 'TUE') {
-            return 'TUESDAY';
-        } else if (maxLabel === 'WED') {
-            return 'WEDNESDAY';
-        } else if (maxLabel === 'THU') {
-            return 'THURSDAY';
-        } else if (maxLabel === 'FRI') {
-            return 'FRIDAY';
-        } else if (maxLabel === 'SAT') {
-            return 'SATURDAY';
-        }
-    };
+    const weekDay = [
+        'SUNDAY',
+        'MONDAY',
+        'TUESDAY',
+        'WEDNESDAY',
+        'THURSDAY',
+        'FRIDAY',
+        'SATURDAY',
+    ];
 
     const setShowDate = (maxLabel) => {
         if (maxLabel === 'SUN') {
@@ -164,26 +159,46 @@ const WeeklyChart = ({ property, zone }) => {
                         {property.toUpperCase()}
                     </div>
                     <p className={`${styles.textFullDate}`}>
-                        {showDay(maxLabel) || 'SUNDAY'}{' '}
+                        {weekDay[currentIndex] || 'SUNDAY'}{' '}
                         {showDate(maxLabel) ||
                             day.startOf('week').format('DD MMM YYYY')}
                     </p>
                     <div className="d-flex">
                         <div className="d-flex flex-column">
                             <div className={`${styles.textValue}`}>
-                                {minValue} {getUnit(property)}
+                                {resData && resData[currentIndex]
+                                    ? resData[currentIndex].min
+                                    : ''}{' '}
+                                {getUnit(property)}
                             </div>
                             <p className={`m-0 ${styles.textTime}`}>
-                                MIN at 05.00
+                                {resData && resData[currentIndex]
+                                    ? `MIN at ${moment(
+                                          resData &&
+                                              resData[currentIndex].minTS,
+                                      )
+                                          .tz('Asia/Bangkok')
+                                          .format('hh:mm a')}`
+                                    : ''}{' '}
                             </p>
                         </div>
                         <div className={`${styles.border} mx-2`}></div>
                         <div className="d-flex flex-column">
                             <div className={`${styles.textValue}`}>
-                                {maxValue} {getUnit(property)}
+                                {resData && resData[currentIndex]
+                                    ? resData[currentIndex].max
+                                    : ''}{' '}
+                                {getUnit(property)}
                             </div>
                             <p className={`m-0 ${styles.textTime}`}>
-                                MAX at 18.00
+                                {resData && resData[currentIndex]
+                                    ? `MAX at ${moment(
+                                          resData &&
+                                              resData[currentIndex].maxTS,
+                                      )
+                                          .tz('Asia/Bangkok')
+                                          .format('hh:mm a')}`
+                                    : ''}{' '}
                             </p>
                         </div>
                     </div>
@@ -203,6 +218,8 @@ const WeeklyChart = ({ property, zone }) => {
                             chartData.datasets[firstPoint._datasetIndex].data[
                                 firstPoint._index
                             ];
+
+                        setCurrentIndex(firstPoint._index);
 
                         setMaxValue(value1);
                         setMaxLabel(label1);
@@ -292,7 +309,7 @@ const WeeklyChart = ({ property, zone }) => {
                 }}
             />
 
-            <div className="pagination-week d-flex justify-content-center align-items-center mb-3">
+            <div className="pagination-week d-flex justify-content-center align-items-center pb-3">
                 <img
                     src={LeftArr}
                     alt="left_arr"

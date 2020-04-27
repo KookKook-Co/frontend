@@ -21,10 +21,22 @@ export const FillInChicken = ({ date, currentTag }) => {
     const [showFormik, setShowFormik] = useState(false);
 
     const schema = yup.object({
-        deadChicken: yup.number().required('This field is required.'),
-        zLegChicken: yup.number().required('This field is required.'),
-        dwarfChicken: yup.number().required('This field is required.'),
-        sickChicken: yup.number().required('This field is required.'),
+        deadChicken: yup
+            .number()
+            .positive('This field must be positive.')
+            .required('This field is required.'),
+        zLegChicken: yup
+            .number()
+            .positive('This field must be positive.')
+            .required('This field is required.'),
+        dwarfChicken: yup
+            .number()
+            .positive('This field must be positive.')
+            .required('This field is required.'),
+        sickChicken: yup
+            .number()
+            .positive('This field must be positive.')
+            .required('This field is required.'),
         period: yup.string().required('This field is required.'),
     });
 
@@ -35,7 +47,7 @@ export const FillInChicken = ({ date, currentTag }) => {
                 const res = await axios.get(
                     `/event/unqualifiedchicken?hno=${
                         state.user && state.user.hno ? state.user.hno : 1
-                    }&date=${date.toISOString()}&period=${period}`,
+                    }&date=${date.format('DD-MM-YYYY')}&period=${period}`,
                 );
 
                 if (res.data === '') {
@@ -77,14 +89,20 @@ export const FillInChicken = ({ date, currentTag }) => {
 
         const data = {
             hno: state.user && state.user.hno ? state.user.hno : 1,
-            date: date.toISOString(),
+            date: date.format('DD-MM-YYYY'),
             period,
             unqualifiedChickenInfo,
         };
 
-        await axios.post('/event/unqualifiedchicken', data);
+        console.log(data);
 
-        setSend('Sent!');
+        axios
+            .post('/event/unqualifiedchicken', data)
+            .then((res) => {
+                console.log(res);
+                setSend('Sent!');
+            })
+            .catch((err) => console.log(err.response));
     };
 
     const PeriodTab = ({ period, isSelect }) => {
