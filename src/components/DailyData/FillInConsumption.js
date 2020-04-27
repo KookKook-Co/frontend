@@ -27,6 +27,22 @@ const vitaminType = [
     'Tilo San',
 ];
 
+const initialVaccine = vaccineType.map((each) => {
+    return {
+        medicineType: each,
+        isChosen: false,
+        medicineConc: 0,
+    };
+});
+
+const initialVitamin = vitaminType.map((each) => {
+    return {
+        medicineType: each,
+        isChosen: false,
+        medicineConc: 0,
+    };
+});
+
 export const FillInConsumption = ({ date, currentTag }) => {
     const { state, dispatch } = useContext(Context);
     const [send, setSend] = useState();
@@ -67,6 +83,8 @@ export const FillInConsumption = ({ date, currentTag }) => {
                     setFoodLeft2();
                     setWaterV1();
                     setWaterV2();
+                    setVaccine(initialVaccine);
+                    setVitamin(initialVitamin);
                 }
 
                 if (
@@ -108,6 +126,8 @@ export const FillInConsumption = ({ date, currentTag }) => {
                         setWaterV2(water.waterMeter2);
                     }
 
+                    console.log('MEDICINE');
+                    console.log(medicine);
                     if (
                         medicine !== undefined &&
                         medicine !== null &&
@@ -148,6 +168,9 @@ export const FillInConsumption = ({ date, currentTag }) => {
                                 }
                             }),
                         );
+                    } else {
+                        setVaccine(initialVaccine);
+                        setVitamin(initialVitamin);
                     }
                 }
                 setShowFormik(true);
@@ -247,24 +270,8 @@ export const FillInConsumption = ({ date, currentTag }) => {
         });
     };
 
-    const [vaccine, setVaccine] = useState(
-        vaccineType.map((each) => {
-            return {
-                medicineType: each,
-                isChosen: false,
-                medicineConc: 0,
-            };
-        }),
-    );
-    const [vitamin, setVitamin] = useState(
-        vitaminType.map((each) => {
-            return {
-                medicineType: each,
-                isChosen: false,
-                medicineConc: 0,
-            };
-        }),
-    );
+    const [vaccine, setVaccine] = useState(initialVaccine);
+    const [vitamin, setVitamin] = useState(initialVitamin);
 
     const handleVaccineConcentrationChange = (value, type) => {
         const index = vaccineType.findIndex((each) => each === type);
