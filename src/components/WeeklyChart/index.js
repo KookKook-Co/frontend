@@ -11,10 +11,8 @@ import styles from './index.module.scss';
 
 const WeeklyChart = ({ property, zone }) => {
     const [day, setDay] = useState(moment().tz('Asia/Bangkok'));
-    const [maxValue, setMaxValue] = useState();
-    const [minValue, setMinValue] = useState();
-    const [maxLabel, setMaxLabel] = useState('SUNDAY');
     const [selectedDate, setSelectedDate] = useState();
+    const [maxLabel, setMaxLabel] = useState();
     const [currentIndex, setCurrentIndex] = useState();
     const [resData, setResData] = useState();
 
@@ -28,11 +26,9 @@ const WeeklyChart = ({ property, zone }) => {
             const res = await axios.get(
                 `/event/env/weekly?sid=${`${zone}`}&type=${property}&dateStart=${day
                     .startOf('week')
-                    .toISOString()}&dateEnd=${day
+                    .format('DD-MM-YYYY')}&dateEnd=${day
                     .endOf('week')
-                    .clone()
-                    .add(1, 'days')
-                    .toISOString()}`,
+                    .format('DD-MM-YYYY')}`,
             );
 
             setResData(res.data);
@@ -58,13 +54,6 @@ const WeeklyChart = ({ property, zone }) => {
                     },
                 ],
             };
-
-            if (moreThanToday()) {
-                setMaxValue(null);
-                setMinValue(null);
-            }
-            setMaxValue(maxData[0]);
-            setMinValue(minData[0]);
             setChartData(realChartData);
         };
 
@@ -75,10 +64,6 @@ const WeeklyChart = ({ property, zone }) => {
         return !(
             day.clone().add(7, 'days').diff(moment().endOf('week'), 'days') > 0
         );
-    };
-
-    const moreThanToday = () => {
-        return day.diff(setSelectedDate, 'days') > 0;
     };
 
     const getUnit = (property) => {
@@ -209,25 +194,16 @@ const WeeklyChart = ({ property, zone }) => {
                 width={130}
                 height={25}
                 getElementsAtEvent={(elems) => {
-                    console.log(elems);
                     const firstPoint = elems[0];
 
                     if (firstPoint !== undefined) {
                         const label1 = chartData.labels[firstPoint._index];
-                        const value1 =
-                            chartData.datasets[firstPoint._datasetIndex].data[
-                                firstPoint._index
-                            ];
 
                         setCurrentIndex(firstPoint._index);
-
-                        setMaxValue(value1);
                         setMaxLabel(label1);
 
                         const value2 =
                             chartData.datasets[1].data[firstPoint._index];
-
-                        setMinValue(value2);
 
                         setShowDate(label1);
                     }
