@@ -52,7 +52,6 @@ const PersonalInfo = () => {
             type: 'update-registrationData',
             payload: { firstName, lastName, lineID, fileUpload },
         });
-
         const data = new FormData();
 
         data.append('username', state.registrationData.username);

@@ -24,8 +24,6 @@ function AppRouter() {
     useEffect(() => {
         const getCurrentUser = async () => {
             const res = await axios.get('/users/currentuser');
-
-            console.log(res.data);
             if (res.data.role === 'OWNER') {
                 const data = {
                     ...res.data,

@@ -19,10 +19,6 @@ const Zone = ({ currentZone, onPropertySelected }) => {
         return zoneData.irregularEnv.includes(property);
     };
 
-    useEffect(() => {
-        console.log(state.zones[currentZone - 1]);
-    }, [state.zones]);
-
     const dataFormat = enviData && [
         {
             result: 3,
@@ -90,7 +86,6 @@ const Zone = ({ currentZone, onPropertySelected }) => {
                             className="d-flex flex-column p-2"
                             onClick={() => {
                                 onPropertySelected(data.property);
-                                console.log(data.property);
                             }}
                         >
                             <div

@@ -17,9 +17,7 @@ const DeadChicken = () => {
         axios
             .get(`/event/deadchickenmap?hno=1`)
             .then((res) => {
-                console.log(res);
                 setCameraData(res.data);
-                console.log(cameraData);
                 dispatch({
                     type: 'update-deadChicken-map',
                     payload: res.data,

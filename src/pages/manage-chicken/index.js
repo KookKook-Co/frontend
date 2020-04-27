@@ -168,7 +168,6 @@ const ManageChicken = () => {
             const res = await axios.get(
                 `/event/chickenflocks?hno=${state.user.hno}`,
             );
-            console.log(res.data);
             dispatch({
                 type: 'update-chickenFlock',
                 payload: res.data,
@@ -177,7 +176,6 @@ const ManageChicken = () => {
         if (state.user && state.user.hno) {
             getChickenFlockInfo();
         }
-        console.log(count);
     }, [state.user, count]);
 
     const [toDelete, setToDelete] = useState();

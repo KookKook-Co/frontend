@@ -82,14 +82,7 @@ export const FillInChicken = ({ date, currentTag }) => {
             unqualifiedChickenInfo,
         };
 
-        console.log(data);
-
-        await axios
-            .post('/event/unqualifiedchicken', data)
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => console.log(err));
+        await axios.post('/event/unqualifiedchicken', data);
 
         setSend('Sent!');
     };

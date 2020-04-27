@@ -25,7 +25,6 @@ const Login = () => {
             .then((res) => {
                 localStorage.setItem('token', res.data.access_token);
                 localStorage.setItem('hno', 1);
-
                 const data = {
                     ...res.data,
                     hno: localStorage.getItem('hno'),

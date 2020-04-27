@@ -56,7 +56,6 @@ const ManageFlock = () => {
         await axios
             .post('/event/chickenflocks', data)
             .then((res) => {
-                console.log(res);
                 setCreate('Create!');
             })
             .catch((err) => console.log(err));

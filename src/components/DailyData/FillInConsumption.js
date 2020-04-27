@@ -238,12 +238,9 @@ export const FillInConsumption = ({ date, currentTag }) => {
             dailyInfo,
         };
 
-        console.log(data);
-
         await axios
             .post('/event/dailydata', data)
             .then((res) => {
-                console.log(res);
                 setSend('Sent!');
             })
             .catch((err) => console.log(err));
