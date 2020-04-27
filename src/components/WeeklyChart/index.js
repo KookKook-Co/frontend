@@ -20,9 +20,6 @@ const WeeklyChart = ({ property, zone }) => {
 
     useEffect(() => {
         const getWeeklyChart = async () => {
-            console.log(day.startOf('week').toISOString());
-            console.log(day.endOf('week').toISOString());
-
             const res = await axios.get(
                 `/event/env/weekly?sid=${`${zone}`}&type=${property}&dateStart=${day
                     .startOf('week')

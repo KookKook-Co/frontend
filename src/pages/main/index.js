@@ -9,7 +9,7 @@ import DeadChicken from '../../components/DeadChicken';
 import io from 'socket.io-client';
 import styles from './index.module.scss';
 
-const socket = io('128.199.211.41:4000/');
+const socket = io('/');
 
 const MainTabs = () => {
     const { dispatch } = useContext(Context);

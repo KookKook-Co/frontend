@@ -16,7 +16,7 @@ import NextArrow from '../../static/icon/next_manage.svg';
 import OutIcon from '../../static/icon/outIcon.svg';
 import Row from 'react-bootstrap/Row';
 import axios from 'axios';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import styles from './index.module.scss';
 import { useHistory } from 'react-router-dom';
 
@@ -36,8 +36,12 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
 const CustomCard = ({ data, onDelete }) => {
     const history = useHistory();
     const { state, dispatch } = useContext(Context);
-    const chickenInDate = moment(data.dateIn).format('DD MMM YYYY');
-    const chickenOutDate = moment(data.dateOut).format('DD MMM YYYY');
+    const chickenInDate = moment(data.dateIn)
+        .tz('Asia/Bangkok')
+        .format('DD MMM YYYY');
+    const chickenOutDate = moment(data.dateOut)
+        .tz('Asia/Bangkok')
+        .format('DD MMM YYYY');
     const numberOfChickens = data.amountIn;
     const gender = data.gender;
     const chickenType = data.type;
@@ -103,7 +107,15 @@ const CustomCard = ({ data, onDelete }) => {
                             <div className="d-flex align-items-center">
                                 <img src={HourglassIcon} alt="hourglass_icon" />
                                 <p className={`${styles.textNumber} ml-2`}>
-                                    4 Days
+                                    {moment()
+                                        .tz('Asia/Bangkok')
+                                        .diff(
+                                            moment(data.dateIn).tz(
+                                                'Asia/Bangkok',
+                                            ),
+                                            'days',
+                                        )}{' '}
+                                    days
                                 </p>
                             </div>
                         </Col>
@@ -113,7 +125,9 @@ const CustomCard = ({ data, onDelete }) => {
                             <div className="d-flex align-items-center">
                                 <img src={InIcon} alt="in_icon" />
                                 <p className={`${styles.textDetail} ml-2`}>
-                                    {moment(data.dateIn).format('DD MMM YYYY')}
+                                    {moment(data.dateIn)
+                                        .tz('Asia/Bangkok')
+                                        .format('DD MMM YYYY')}
                                 </p>
                             </div>
                         </Col>
@@ -121,7 +135,9 @@ const CustomCard = ({ data, onDelete }) => {
                             <div className="d-flex align-items-center">
                                 <img src={OutIcon} alt="out_icon" />
                                 <p className={`${styles.textDetail} ml-2`}>
-                                    {moment(data.dateOut).format('DD MMM YYYY')}
+                                    {moment(data.dateOut)
+                                        .tz('Asia/Bangkok')
+                                        .format('DD MMM YYYY')}
                                 </p>
                             </div>
                         </Col>

@@ -223,7 +223,7 @@ const PersonalInfo = () => {
                                 type="file"
                                 name="file"
                                 onChange={(e) => {
-                                    console.log(e.target.files[0]);
+                                    // console.log(e.target.files[0]);
                                     setFieldValue('file', e.target.files[0]);
                                     setFileUpload(e.target.files[0]);
                                 }}

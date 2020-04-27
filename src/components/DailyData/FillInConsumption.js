@@ -144,8 +144,6 @@ export const FillInConsumption = ({ date, currentTag }) => {
                         setWaterV2(water.waterMeter2);
                     }
 
-                    console.log('MEDICINE');
-                    console.log(medicine);
                     if (
                         medicine !== undefined &&
                         medicine !== null &&
@@ -156,7 +154,6 @@ export const FillInConsumption = ({ date, currentTag }) => {
                                 const med = medicine.find(
                                     (item) => item.medicineType === each,
                                 );
-                                console.log(med);
                                 if (med) {
                                     return { ...med, isChosen: true };
                                 } else {
@@ -174,7 +171,6 @@ export const FillInConsumption = ({ date, currentTag }) => {
                                 const med = medicine.find(
                                     (item) => item.medicineType === each,
                                 );
-                                console.log(med);
                                 if (med) {
                                     return { ...med, isChosen: true };
                                 } else {

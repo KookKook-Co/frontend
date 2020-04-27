@@ -60,7 +60,6 @@ const EditFlock = () => {
         await axios
             .post('/event/chickenflocks', data)
             .then((res) => {
-                console.log(res);
                 setCreate('EDIT!');
             })
             .catch((err) => console.log(err));
@@ -136,6 +135,7 @@ const EditFlock = () => {
                                 }
                                 value={values.generation}
                                 placeholder="ex: 2020/1"
+                                disabled
                             />
                             <Form.Control.Feedback type="invalid">
                                 {errors.generation}

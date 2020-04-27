@@ -47,7 +47,7 @@ const EditAccountTwo = () => {
             lineID: state.workerAccountInfo.lineID,
         };
 
-        console.log(data);
+        // console.log(data);
 
         await axios.put('/users', data).then((res) => {
             setCreate('Edit!');

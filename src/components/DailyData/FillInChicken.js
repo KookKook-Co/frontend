@@ -94,12 +94,12 @@ export const FillInChicken = ({ date, currentTag }) => {
             unqualifiedChickenInfo,
         };
 
-        console.log(data);
+        // console.log(data);
 
         axios
             .post('/event/unqualifiedchicken', data)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 setSend('Sent!');
             })
             .catch((err) => console.log(err.response));
