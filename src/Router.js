@@ -18,7 +18,6 @@ import PersonalInfo from './pages/create-account/PersonalInfo';
 import ResetPassword from './pages/reset-password';
 import ShowHouseData from './pages/show-house-data';
 import ShowWorkerData from './pages/show-worker-data';
-import Temp from './pages/temperature';
 import axios from 'axios';
 
 function AppRouter() {
@@ -58,9 +57,6 @@ function AppRouter() {
                     <Switch>
                         <Route path="/login">
                             <Login />
-                        </Route>
-                        <Route path="/temp">
-                            <Temp />
                         </Route>
                         <Route path="/dead-chicken">
                             <MainTabs />
@@ -110,10 +106,6 @@ function AppRouter() {
                         <Route path="/">
                             <MainTabs />
                         </Route>
-                        {/* 
-                        <Route path="/">
-                            <Redirect to="/login" />
-                        </Route> */}
                     </Switch>
                 </div>
             </Router>

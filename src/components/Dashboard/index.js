@@ -8,7 +8,7 @@ import Zone from '../Zone';
 import io from 'socket.io-client';
 import styles from './index.module.scss';
 
-const socket = io('128.199.211.41:4000');
+const socket = io('128.199.211.41:4000/');
 
 const ZonePicker = ({ isSelect, zone, onSelectZone, isIrregular }) => {
     return (
@@ -38,7 +38,6 @@ const Dashboard = () => {
     const [currentZone, setCurrentZone] = useState(1);
     const [currentProperty, setCurrentProperty] = useState('temperature');
     const history = useHistory();
-    const zoneData = state.zones && state.zones[currentZone - 1];
 
     useEffect(() => {
         if (localStorage.getItem('token') === null) {
@@ -94,8 +93,9 @@ const Dashboard = () => {
                                     onSelectZone={setCurrentZone}
                                     isSelect={zone === currentZone}
                                     isIrregular={
-                                        zoneData &&
-                                        zoneData.irregularEnv.length > 0
+                                        state.zones &&
+                                        state.zones[zone - 1]?.irregularEnv
+                                            .length > 0
                                     }
                                 />
                             ))}

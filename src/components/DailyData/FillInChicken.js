@@ -34,7 +34,7 @@ export const FillInChicken = ({ date, currentTag }) => {
             const getChickenFlock = async () => {
                 const res = await axios.get(
                     `/event/unqualifiedchicken?hno=${
-                        state.user && state.user.hno
+                        state.user && state.user.hno ? state.user.hno : 1
                     }&date=${date.toISOString()}&period=${period}`,
                 );
 
@@ -76,7 +76,7 @@ export const FillInChicken = ({ date, currentTag }) => {
         };
 
         const data = {
-            hno: state.user && state.user.hno,
+            hno: state.user && state.user.hno ? state.user.hno : 1,
             date: date.toISOString(),
             period,
             unqualifiedChickenInfo,
@@ -263,14 +263,6 @@ export const FillInChicken = ({ date, currentTag }) => {
                             >
                                 <div>Send</div>
                             </Button>
-                            {/* <div className="d-flex justify-content-around pb-3">
-                            <img
-                                src={viewHistoryBtn}
-                                alt="viewHistory_Btn"
-                                onClick={() => getReport()}
-                            />
-                            
-                        </div> */}
                         </Form>
                     )}
                 </Formik>

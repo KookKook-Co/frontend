@@ -43,7 +43,9 @@ const Nav = () => {
                 <DropdownButton
                     alignRight
                     id={styles.btnDropdown}
-                    title={`House ${state.user.hno}`}
+                    title={`House ${
+                        state.user && state.user.hno ? state.user.hno : 1
+                    }`}
                 >
                     {Array.isArray(state.hno) &&
                         state.hno.map((item) => {
@@ -64,7 +66,8 @@ const Nav = () => {
                     className={`${styles.bgHouse} d-flex p-1 justify-content-center`}
                 >
                     <div className={`${styles.textHouse}`}>
-                        HOUSE {state.user && state.user.hno}
+                        HOUSE{' '}
+                        {state.user && state.user.hno ? state.user.hno : ''}
                     </div>
                 </div>
             );

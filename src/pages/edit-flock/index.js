@@ -53,7 +53,7 @@ const EditFlock = () => {
         };
 
         const data = {
-            hno: parseInt(state.user.hno),
+            hno: parseInt(state.user && state.user.hno ? state.user.hno : 1),
             chickenFlockInfo,
         };
 

@@ -49,7 +49,7 @@ const ManageFlock = () => {
         };
 
         const data = {
-            hno: parseInt(state.user.hno),
+            hno: parseInt(state.user && state.user.hno ? state.user.hno : 1),
             chickenFlockInfo,
         };
 
@@ -93,15 +93,7 @@ const ManageFlock = () => {
                     type: '',
                 }}
             >
-                {({
-                    handleSubmit,
-                    handleChange,
-                    handleBlur,
-                    values,
-                    touched,
-                    isValid,
-                    errors,
-                }) => (
+                {({ handleSubmit, handleChange, values, touched, errors }) => (
                     <Form noValidate onSubmit={handleSubmit}>
                         <Form.Group controlId="formFlockName">
                             <Form.Label className={styles.textFormLabel}>

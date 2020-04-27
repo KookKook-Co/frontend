@@ -19,23 +19,23 @@ const ShowWorkerdata = () => {
     const data = [
         {
             infoToShow: 'Firstname',
-            value: state.workerAccountInfo.firstName,
+            value: state.workerAccountInfo && state.workerAccountInfo.firstName,
         },
         {
             infoToShow: 'Lastname',
-            value: state.workerAccountInfo.lastName,
+            value: state.workerAccountInfo && state.workerAccountInfo.lastName,
         },
         {
             infoToShow: 'House',
-            value: state.user.hno,
+            value: state.user && state.user.hno,
         },
         {
             infoToShow: 'Role',
-            value: state.workerAccountInfo.role,
+            value: state.workerAccountInfo && state.workerAccountInfo.role,
         },
         {
             infoToShow: 'LineID',
-            value: state.workerAccountInfo.lineID,
+            value: state.workerAccountInfo && state.workerAccountInfo.lineID,
         },
     ];
 

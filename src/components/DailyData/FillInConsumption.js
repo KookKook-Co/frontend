@@ -50,12 +50,14 @@ export const FillInConsumption = ({ date, currentTag }) => {
 
     useEffect(() => {
         if (currentTag === 1) {
+            setConsumption1('');
+            setConsumption2('');
             setShowFormik(false);
             const getDailyData = async () => {
                 const res = await axios.get(
                     `/event/dailydata?hno=${
-                        state.user && state.user.hno
-                    }&date=${date.toLocaleString()}`,
+                        state.user && state.user.hno ? state.user.hno : 1
+                    }&date=${date.toISOString()}`,
                 );
 
                 if (res.data === '') {
@@ -204,7 +206,7 @@ export const FillInConsumption = ({ date, currentTag }) => {
         };
 
         const data = {
-            hno: state.user && state.user.hno,
+            hno: state.user && state.user.hno ? state.user.hno : 1,
             date: date.toISOString(),
             dailyInfo,
         };
@@ -370,8 +372,11 @@ export const FillInConsumption = ({ date, currentTag }) => {
                                 </Form.Label>
                                 <Form.Control
                                     type="number"
-                                    value={consumption1}
-                                    placeholder="Input"
+                                    value={
+                                        parseFloat(foodIn1 - foodLeft1) ||
+                                        consumption1
+                                    }
+                                    placeholder="-"
                                     disabled
                                 />
                             </Form.Group>
@@ -430,8 +435,11 @@ export const FillInConsumption = ({ date, currentTag }) => {
                                 </Form.Label>
                                 <Form.Control
                                     type="number"
-                                    value={consumption2}
-                                    placeholder="Input"
+                                    value={
+                                        parseFloat(foodIn2 - foodLeft2) ||
+                                        consumption2
+                                    }
+                                    placeholder="-"
                                     disabled
                                 />
                             </Form.Group>

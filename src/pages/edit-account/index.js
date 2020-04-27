@@ -33,8 +33,6 @@ const EditAccount = () => {
                 role,
             },
         });
-        console.log('+++++++++editregisdata1');
-        console.log(state.registrationData);
 
         history.push(`/edit-account-two`);
     };

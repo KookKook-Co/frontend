@@ -24,7 +24,7 @@ const ResetPassword = () => {
 
     const submitNewPassword = async () => {
         const data = {
-            uid: state.workerAccountInfo.uid,
+            uid: state.workerAccountInfo && state.workerAccountInfo.uid,
             password,
         };
         await axios.put('/users/password', data);
@@ -43,15 +43,7 @@ const ResetPassword = () => {
                     passwordConfirmation: '',
                 }}
             >
-                {({
-                    handleSubmit,
-                    handleChange,
-                    handleBlur,
-                    values,
-                    touched,
-                    isValid,
-                    errors,
-                }) => (
+                {({ handleSubmit, handleChange, values, touched, errors }) => (
                     <Form
                         noValidate
                         onSubmit={handleSubmit}

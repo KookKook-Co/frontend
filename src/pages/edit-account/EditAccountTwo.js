@@ -37,8 +37,6 @@ const EditAccountTwo = () => {
             type: 'update-workerAccountInfo',
             payload: { firstName, lastName, lineID },
         });
-        console.log('+++++++++regisdata2');
-        console.log(state.workerAccountInfo);
 
         const data = {
             uid: state.workerAccountInfo.uid,

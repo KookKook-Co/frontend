@@ -52,10 +52,8 @@ const PersonalInfo = () => {
             type: 'update-registrationData',
             payload: { firstName, lastName, lineID, fileUpload },
         });
-        console.log('+++++++++regisdata2');
-        console.log(state.registrationData);
+
         const data = new FormData();
-        console.log('+++++++++data');
 
         data.append('username', state.registrationData.username);
         data.append('password', state.registrationData.password);
@@ -66,11 +64,12 @@ const PersonalInfo = () => {
         if (state.registrationData.role === 'OWNER') {
             data.append('hno', null);
         } else {
-            data.append('hno', parseInt(state.user.hno));
+            data.append(
+                'hno',
+                parseInt(state.user && state.user.hno ? state.user.hno : 1),
+            );
         }
         data.append('image', fileUpload, fileUpload.name);
-        console.log(data);
-        // data.append('image', fs.createReadStream(fileRef.current.files[0]));
 
         const res = await axios
             .post('/users', data, {
@@ -83,8 +82,6 @@ const PersonalInfo = () => {
         if (res.status === 409) {
             alert('Username is already used.');
         }
-        console.log('++++res++++');
-        console.log(res);
     };
 
     useEffect(() => {

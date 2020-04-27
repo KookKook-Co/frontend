@@ -22,23 +22,27 @@ const ShowHousedata = () => {
     const data = [
         {
             infoToShow: 'Chicken In Date',
-            value: state.chickenFlockInfo.chickenInDate,
+            value:
+                state.chickenFlockInfo && state.chickenFlockInfo.chickenInDate,
         },
         {
             infoToShow: 'Chicken Out Date',
-            value: state.chickenFlockInfo.chickenOutDate,
+            value:
+                state.chickenFlockInfo && state.chickenFlockInfo.chickenOutDate,
         },
         {
             infoToShow: 'Number of Chickens',
-            value: state.chickenFlockInfo.numberOfChickens,
+            value:
+                state.chickenFlockInfo &&
+                state.chickenFlockInfo.numberOfChickens,
         },
         {
             infoToShow: 'Chicken Type',
-            value: state.chickenFlockInfo.chickenType,
+            value: state.chickenFlockInfo && state.chickenFlockInfo.chickenType,
         },
         {
             infoToShow: 'Gender',
-            value: state.chickenFlockInfo.gender,
+            value: state.chickenFlockInfo && state.chickenFlockInfo.gender,
         },
     ];
 
@@ -54,7 +58,10 @@ const ShowHousedata = () => {
                             className={`${styles.bgHouse} d-flex p-1 justify-content-center`}
                         >
                             <div className={`${styles.textHouse}`}>
-                                HOUSE {state.user.hno ? state.user.hno : ''}
+                                HOUSE{' '}
+                                {state.user && state.user.hno
+                                    ? state.user.hno
+                                    : ''}
                             </div>
                         </div>
                     </div>

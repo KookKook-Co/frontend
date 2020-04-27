@@ -33,17 +33,17 @@ const GetReport = () => {
 
     const getReport = async () => {
         const data = {
-            hno: state.user.hno,
+            hno: state.user && state.user.hno ? state.user.hno : 1,
             generation: state.chickenFlockInfo.generation,
             email,
             reports: reports
                 .filter((each) => each.value)
                 .map((each) => each.type),
         };
-        console.log(data);
-        const res = await axios.post('/report', data);
-        console.log(res);
-        setGet('GET!');
+
+        await axios.post('/report', data).then((res) => {
+            setGet('GET!');
+        });
     };
 
     return (
