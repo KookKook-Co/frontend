@@ -145,8 +145,11 @@ const WeeklyChart = ({ property, zone }) => {
                     </div>
                     <p className={`${styles.textFullDate}`}>
                         {weekDay[currentIndex] || 'SUNDAY'}{' '}
-                        {showDate(maxLabel) ||
-                            day.startOf('week').format('DD MMM YYYY')}
+                        {resData && resData[currentIndex]
+                            ? moment(resData[currentIndex].date)
+                                  .tz('Asia/Bangkok')
+                                  .format('DD MMM YYYY')
+                            : day.startOf('week').format('DD MMM YYYY')}
                     </p>
                     <div className="d-flex">
                         <div className="d-flex flex-column">
