@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import ChickenInfo from './pages/chicken-info';
 import { Context } from './Store';
 import CreateAccount from './pages/create-account';
 import EditAccount from './pages/edit-account';
@@ -78,9 +77,6 @@ function AppRouter() {
                         </Route>
                         <Route path="/create-account">
                             <CreateAccount />
-                        </Route>
-                        <Route path="/chicken-info">
-                            <ChickenInfo />
                         </Route>
                         <Route path="/personal-info">
                             <PersonalInfo />
