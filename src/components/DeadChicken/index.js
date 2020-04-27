@@ -61,7 +61,7 @@ const DeadChicken = () => {
 
     const eachrow = (row, index) => {
         return (
-            <div className={styles.rowDeadChickenMap}>
+            <div key={index} className={styles.rowDeadChickenMap}>
                 <p
                     className={styles.mapLabel}
                     style={{ marginRight: '0.9rem', width: '0.3rem' }}
@@ -132,49 +132,6 @@ const DeadChicken = () => {
         'M',
         'N',
     ];
-
-    // const data = [
-    //     {
-    //         cid: '001',
-    //         xPosCam: 2,
-    //         yPosCam: 1,
-    //         url:
-    //             'https://drive.google.com/file/d/1l6j_WN4BG9hxFgyPkdhWI322W1o6Ei07/view?usp=sharing',
-    //         amountDead: 1,
-    //     },
-    //     {
-    //         cid: '002',
-    //         xPosCam: 4,
-    //         yPosCam: 3,
-    //         url:
-    //             'https://drive.google.com/file/d/1l6j_WN4BG9hxFgyPkdhWI322W1o6Ei07/view?usp=sharing',
-    //         amountDead: 0,
-    //     },
-    //     {
-    //         cid: '003',
-    //         xPosCam: 1,
-    //         yPosCam: 4,
-    //         url:
-    //             'https://drive.google.com/file/d/1l6j_WN4BG9hxFgyPkdhWI322W1o6Ei07/view?usp=sharing',
-    //         amountDead: 1,
-    //     },
-    //     {
-    //         cid: '004',
-    //         xPosCam: 4,
-    //         yPosCam: 5,
-    //         url:
-    //             'https://drive.google.com/file/d/1l6j_WN4BG9hxFgyPkdhWI322W1o6Ei07/view?usp=sharing',
-    //         amountDead: 3,
-    //     },
-    //     {
-    //         cid: '005',
-    //         xPosCam: 4,
-    //         yPosCam: 6,
-    //         url:
-    //             'https://drive.google.com/file/d/1l6j_WN4BG9hxFgyPkdhWI322W1o6Ei07/view?usp=sharing',
-    //         amountDead: 6,
-    //     },
-    // ];
 
     const zoneStatus = () => {
         var defaultMap = new Array(24);

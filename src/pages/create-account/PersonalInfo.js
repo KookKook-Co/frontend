@@ -71,17 +71,19 @@ const PersonalInfo = () => {
         }
         data.append('image', fileUpload, fileUpload.name);
 
-        const res = await axios
+        axios
             .post('/users', data, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             })
             .then((res) => {
                 setCreate('Create!');
+            })
+            .catch((err) => {
+                console.log(err.response);
+                if (err.response.status === 409) {
+                    alert('Username is already used.');
+                }
             });
-
-        if (res.status === 409) {
-            alert('Username is already used.');
-        }
     };
 
     useEffect(() => {
