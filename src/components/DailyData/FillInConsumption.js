@@ -57,7 +57,7 @@ export const FillInConsumption = ({ date, currentTag }) => {
                 const res = await axios.get(
                     `/event/dailydata?hno=${
                         state.user && state.user.hno ? state.user.hno : 1
-                    }&date=${date.toISOString()}`,
+                    }&date=${date.format('DD-MM-YYYY')}`,
                 );
 
                 if (res.data === '') {
@@ -207,7 +207,11 @@ export const FillInConsumption = ({ date, currentTag }) => {
 
         const data = {
             hno: state.user && state.user.hno ? state.user.hno : 1,
-            date: date.toISOString(),
+            dateBefore: date
+                .tz('Asia/Bangkok')
+                .subtract(1, 'days')
+                .format('DD-MM-YYYY'),
+            date: date.format('DD-MM-YYYY'),
             dailyInfo,
         };
 

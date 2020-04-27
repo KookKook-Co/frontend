@@ -1,3 +1,5 @@
+import * as moment from 'moment-timezone';
+
 import React, { useContext, useState } from 'react';
 
 import Col from 'react-bootstrap/Col';
@@ -9,12 +11,11 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
-import moment from 'moment';
 import styles from './index.module.scss';
 
 const DailyData = () => {
     const { state } = useContext(Context);
-    const [date, setDate] = useState(moment());
+    const [date, setDate] = useState(moment().tz('Asia/Bangkok'));
     const [currentTag, setCurrentTag] = useState(1);
 
     return (
@@ -30,7 +31,9 @@ const DailyData = () => {
                             type="date"
                             defaultValue={date.format('YYYY-MM-DD')}
                             onChange={(e) => {
-                                setDate(moment(e.target.value, 'YYYY-MM-DD'));
+                                setDate(
+                                    moment(e.target.value).tz('Asia/Bangkok'),
+                                );
                             }}
                         />
                     </Form.Group>

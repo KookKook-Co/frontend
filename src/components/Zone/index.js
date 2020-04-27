@@ -14,8 +14,6 @@ import windIcon from '../../static/icon/wind.svg';
 const Zone = ({ currentZone, onPropertySelected }) => {
     const { state } = useContext(Context);
     const zoneData = state.zones && state.zones[currentZone - 1];
-    console.log('+++++++zoneData++++++++');
-    console.log(currentZone);
     const enviData = zoneData && zoneData.environmentalData;
     const isIrregular = (property) => {
         return zoneData.irregularEnv.includes(property);

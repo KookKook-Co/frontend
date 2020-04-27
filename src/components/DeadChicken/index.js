@@ -30,7 +30,7 @@ const DeadChicken = () => {
             }, cameraData);
     }, []);
 
-    const { state, dispatch } = useContext(Context);
+    const { dispatch } = useContext(Context);
     const square = (amountChickenDead, x, y) => {
         return (
             <div
@@ -57,11 +57,6 @@ const DeadChicken = () => {
             },
         });
         setShow(true);
-        console.log('x : ' + x);
-        console.log('y : ' + y);
-        console.log(24 * (x - 1) + (y - 1));
-        // console.log(state.deadChickenMap);
-        // history.push('/dead-chicken-img');
     };
 
     const eachrow = (row, index) => {
@@ -195,14 +190,18 @@ const DeadChicken = () => {
     };
 
     return (
-        <Container>
-            {show && <ImgModal isShow={show} handleClose={handleClose} />}
-            <div className={styles.textLabelCh} style={{ marginTop: '2.5rem' }}>
-                <p>Please select on dead chicken location</p>
-            </div>
-            <div className={styles.map}>
-                {chars.map((char, index) => colLabel(char, index))}
-                {zoneStatus().map((row, index) => eachrow(row, index + 1))}
+        <Container className={`p-0 ${styles.bgLightBlue}`}>
+            <div className="d-flex flex-column justify-content-center">
+                {show && <ImgModal isShow={show} handleClose={handleClose} />}
+                <div className={`mx-auto ${styles.textLabelCh} mt-4`}>
+                    <p>Please select on dead chicken location</p>
+                    <div className={` ${styles.map}`}>
+                        {chars.map((char, index) => colLabel(char, index))}
+                        {zoneStatus().map((row, index) =>
+                            eachrow(row, index + 1),
+                        )}
+                    </div>
+                </div>
             </div>
         </Container>
     );

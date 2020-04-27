@@ -33,6 +33,8 @@ const WeeklyChart = ({ property, zone }) => {
                     .toISOString()}`,
             );
 
+            const maxTimeStamp = res.data.map((each) => each.maxTS);
+            const minTimeStamp = res.data.map((each) => each.minTS);
             const maxData = res.data.map((each) => each.max);
             const minData = res.data.map((each) => each.min);
 

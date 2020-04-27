@@ -13,9 +13,6 @@
 .map {
     width: 20rem;
     height: 32rem;
-    margin-top: 1.5rem;
-    margin-left: 1rem;
-    // text-align: center;
 }
 
 .mapLabel {
@@ -67,4 +64,8 @@
 
 .dropdownItem {
     padding: 0;
+}
+
+.bgLightBlue {
+    background-color: $theme-light-blue;
 }

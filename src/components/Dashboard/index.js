@@ -5,10 +5,7 @@ import Container from 'react-bootstrap/Container';
 import { Context } from '../../Store';
 import WeeklyChart from '../WeeklyChart';
 import Zone from '../Zone';
-import io from 'socket.io-client';
 import styles from './index.module.scss';
-
-const socket = io('128.199.211.41:4000/');
 
 const ZonePicker = ({ isSelect, zone, onSelectZone, isIrregular }) => {
     return (
@@ -34,7 +31,7 @@ const ZonePicker = ({ isSelect, zone, onSelectZone, isIrregular }) => {
 };
 
 const Dashboard = () => {
-    const { state, dispatch } = useContext(Context);
+    const { state } = useContext(Context);
     const [currentZone, setCurrentZone] = useState(1);
     const [currentProperty, setCurrentProperty] = useState('temperature');
     const history = useHistory();
@@ -43,21 +40,6 @@ const Dashboard = () => {
         if (localStorage.getItem('token') === null) {
             history.push('/login');
         }
-    }, []);
-
-    useEffect(() => {
-        socket.on('pipeRealTimeData', (result) => {
-            const realtimeData = result;
-            dispatch({
-                type: 'update-zones',
-                payload: realtimeData,
-            });
-        });
-        return () => socket.off('pipeRealTimeData');
-    }, [dispatch]);
-
-    useEffect(() => {
-        socket.emit('getRealTimeData');
     }, []);
 
     return (

@@ -30,13 +30,27 @@ svg {
 }
 
 .line {
-    stroke: #bdbdbd;
-    stroke-opacity: 0.6;
-    stroke-width: 2;
+    border: 1px solid #bdbdbd;
 }
 
 .lineHover {
-    stroke: $theme-blue-green-color;
-    stroke-width: 2;
-    padding-left: 0;
+    border: 1px solid #2e86ab;
+}
+
+.textTitle {
+    color: rgba(189, 189, 189, 0.6);
+    font-size: 0.4375rem;
+    font-weight: $font-weight-book;
+    line-height: 9px;
+    text-align: center;
+    letter-spacing: 0.02em;
+}
+
+.textTitleHover {
+    color: $theme-blue-green-color;
+    font-size: 0.4375rem;
+    font-weight: $font-weight-book;
+    line-height: 9px;
+    text-align: center;
+    letter-spacing: 0.02em;
 }
