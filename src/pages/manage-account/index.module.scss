@@ -43,3 +43,19 @@
     font-weight: $font-weight-regular;
     line-height: 22px;
 }
+
+a.dropdownItem {
+    padding: 0;
+}
+
+:global {
+    .dropdown-menu {
+        border: none;
+        min-width: 0;
+        padding-top: 0;
+    }
+    .dropdown-menu.show.dropdown-menu-right {
+        transform: translate3d(-71px, 22px, 0px) !important;
+        padding-bottom: 0;
+    }
+}
