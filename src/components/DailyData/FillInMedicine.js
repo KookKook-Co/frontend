@@ -30,7 +30,7 @@ export const FillInMedicine = ({
                             }
                         />
                         <label
-                            className={`form-check-label ${styles.textMedicineModal}`}
+                            className={`ml-1 form-check-label ${styles.textMedicineModal}`}
                         >
                             {eachVaccineType.medicineType}
                         </label>
@@ -59,7 +59,7 @@ export const FillInMedicine = ({
                             }
                         />
                         <label
-                            className={`form-check-label ${styles.textMedicineModal}`}
+                            className={`ml-1 form-check-label ${styles.textMedicineModal}`}
                         >
                             {eachVitaminType.medicineType}
                         </label>

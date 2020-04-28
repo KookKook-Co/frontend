@@ -8,7 +8,6 @@ import ammoniaIcon from '../../static/icon/fog.svg';
 import humidityIcon from '../../static/icon/humidity.svg';
 import styles from './index.module.scss';
 import tempIcon from '../../static/icon/temperature.svg';
-import upArrow from '../../static/icon/up_arrow.svg';
 import windIcon from '../../static/icon/wind.svg';
 
 const Zone = ({ currentZone, onPropertySelected }) => {
@@ -77,7 +76,7 @@ const Zone = ({ currentZone, onPropertySelected }) => {
 
     return (
         <div>
-            <Container className={`${styles.bgLightBlue} mt-4`}>
+            <Container className={`${styles.bgLightBlue} mt-4 pb-3`}>
                 <Row>
                     {data.map((data, index) => (
                         <Col

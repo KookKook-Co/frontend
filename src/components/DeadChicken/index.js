@@ -145,7 +145,10 @@ const DeadChicken = () => {
     };
 
     return (
-        <Container className={`p-0 ${styles.bgLightBlue}`}>
+        <Container
+            className={`p-0 ${styles.bgLightBlue}`}
+            style={{ height: 'calc(100vh - 56px)' }}
+        >
             <div className="d-flex flex-column justify-content-center">
                 {show && <ImgModal isShow={show} handleClose={handleClose} />}
                 <div className={`mx-auto ${styles.textLabelCh} mt-4`}>

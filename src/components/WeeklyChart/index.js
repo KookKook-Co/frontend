@@ -1,9 +1,10 @@
 import * as moment from 'moment-timezone';
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Bar } from 'react-chartjs-2';
 import Container from 'react-bootstrap/Container';
+import { Context } from '../../Store';
 import LeftArr from '../../static/icon/left_arr.svg';
 import RightArr from '../../static/icon/right_arr.svg';
 import axios from 'axios';
@@ -17,6 +18,8 @@ const WeeklyChart = ({ property, zone }) => {
     const [resData, setResData] = useState();
 
     const [chartData, setChartData] = useState({});
+
+    const { state } = useContext(Context);
 
     useEffect(() => {
         const getWeeklyChart = async () => {
@@ -55,7 +58,7 @@ const WeeklyChart = ({ property, zone }) => {
         };
 
         getWeeklyChart();
-    }, [day, zone]);
+    }, [day, zone, state.user.hno]);
 
     const canAddWeek = (day) => {
         return !(

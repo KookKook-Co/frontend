@@ -91,7 +91,7 @@ const CustomCard = ({ data, onDelete }) => {
                                 id="dropdown-custom-components"
                             ></Dropdown.Toggle>
 
-                            <Dropdown.Menu className={styles.dropdownMenu}>
+                            <Dropdown.Menu className={`dropdownContent`}>
                                 <Dropdown.Item className={styles.dropdownItem}>
                                     <div onClick={() => onDelete()}>
                                         {showDeleteBtn()}

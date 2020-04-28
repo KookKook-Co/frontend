@@ -16,7 +16,7 @@ function ImgModal(props) {
                         {'Zone ' + state.deadChickenLocation.Zone}
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="d-flex justify-content-center">
                     <img
                         src={
                             state.deadChickenMap[state.deadChickenLocation.cid]
