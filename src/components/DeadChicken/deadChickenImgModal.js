@@ -16,14 +16,15 @@ function ImgModal(props) {
                         {'Zone ' + state.deadChickenLocation.Zone}
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="d-flex justify-content-center">
+                <Modal.Body>
                     <img
                         src={
                             state.deadChickenMap[state.deadChickenLocation.cid]
                                 .url
                         }
+                        fluid
                         alt="DeadChicken"
-                        className={`img-fluid ${styles.img}`}
+                        className={`${styles.img}`}
                         // style={{ minWidth: '20rem', height: 'auto' }}
                     />
                 </Modal.Body>
